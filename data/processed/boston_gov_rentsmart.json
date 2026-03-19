@@ -1,0 +1,18 @@
+{
+  "doc_id": "boston_gov_rentsmart",
+  "source_url": "https://www.boston.gov/rentsmart",
+  "source_name": "boston_gov",
+  "title": "RentSmart Boston",
+  "section_headers": [
+    "RentSmart Boston",
+    "Search an address",
+    "Have questions?"
+  ],
+  "content": "# RentSmart Boston\n\nThrough our application, you can search an address in the City of Boston for information about a residential property.\n\nToggle\n\nPage Sections\n\n## Search an address\n\n## Have questions?\n\nHave questions about the RentSmart dashboard? You can contact the Analytics Team at the City of Boston.\n\n##### Contact information\n\n* 617-635-4783\n* analyticsteam@boston.gov",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T23:03:40.197032+00:00",
+  "legal_citations": [],
+  "parent_url": "https://www.boston.gov/renting-boston",
+  "content_hash": "3d739549cd9a8846d61e83960ddb7b5b64a1f51c20aad0a829b553571a938beb"
+}

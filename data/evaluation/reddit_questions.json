@@ -1,0 +1,1085 @@
+[
+  {
+    "id": "q001",
+    "source": "manual_reddit_style",
+    "question": "My landlord hasn't returned my security deposit and it's been over 30 days since I moved out. What are my rights in Massachusetts?",
+    "context": "I moved out of my Boston apartment on Feb 1st. It's now March 15th and my landlord hasn't returned my security deposit or given me any itemized list of damages. The apartment was in good condition when I left.",
+    "expected_answer": "In Massachusetts, your landlord is required to return your security deposit, plus interest, within 30 days after you move out, unless they provide an itemized receipt for any deductions due to damages beyond normal wear and tear (Source 1, Source 4). Since it has been over 30 days and you have not received your deposit or an itemized list, you may be entitled to take legal action, potentially seeking triple damages if the landlord's actions violate G. L. c. 186, s.15B (Source 3).",
+    "key_facts": [
+      "Landlord must return security deposit within 30 days after move-out (Source 1, Source 4).",
+      "Landlord must provide an itemized receipt for any deductions (Source 1, Source 4).",
+      "Potential for triple damages if landlord violates G. L. c. 186, s.15B (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_007",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_003",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      }
+    ]
+  },
+  {
+    "id": "q002",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord charge me first, last, security deposit AND a broker fee when I move in? (MA)",
+    "context": "I'm looking at apartments in Boston and a landlord is asking for first month, last month, security deposit, and a broker fee. That's like 4 months rent upfront. Is this legal in Massachusetts?",
+    "expected_answer": "In Massachusetts, a landlord can legally charge you for the first month's rent, last month's rent, a security deposit, and the actual cost of a new lock and key. However, they cannot charge you a broker's fee unless they are a licensed realtor with a signed agreement with you.",
+    "key_facts": [
+      "Landlords may charge first and last month's rent, security deposit, and lock fee (Source 5).",
+      "It is illegal for landlords to charge a broker's fee unless they are licensed realtors with a signed agreement (Source 3).",
+      "Landlords cannot charge up-front broker fees at the start of tenancy (Source 5)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_008",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_018",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      }
+    ]
+  },
+  {
+    "id": "q003",
+    "source": "manual_reddit_style",
+    "question": "My landlord entered my apartment without notice while I was at work. Is this legal in Massachusetts?",
+    "context": "I came home and found that my landlord had been in my apartment. He said he needed to check the pipes. He didn't give me any notice. I'm in Boston.",
+    "expected_answer": "In Massachusetts, it is generally not legal for a landlord to enter your apartment without giving you advance notice and obtaining your permission, unless there is an emergency or it appears that the tenant has abandoned the apartment.",
+    "key_facts": [
+      "Landlords must provide at least one day's notice (24 hours) before entering a tenant's apartment, except in emergencies. (Source 1, Source 2)",
+      "The landlord may enter without approval only if there is a mechanical/repair emergency that could damage the whole building or if the tenant has abandoned the apartment. (Source 3)",
+      "Landlords should arrange a convenient time with the tenant to access the unit. (Source 1, Source 2)"
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_005",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      }
+    ]
+  },
+  {
+    "id": "q004",
+    "source": "manual_reddit_style",
+    "question": "How much notice does my landlord need to give me to end my month-to-month tenancy in MA?",
+    "context": "I'm on a month-to-month lease in Cambridge, MA. My landlord just told me verbally that I need to leave by the end of the month. Is this enough notice?",
+    "expected_answer": "Your landlord must provide you with a proper 30-day written notice to end your month-to-month tenancy.",
+    "key_facts": [
+      "A tenancy-at-will agreement allows the landlord to ask you to leave with a proper 30-day written notice. (Source 1)",
+      "A verbal notice is not sufficient; it must be written. (Source 1)",
+      "The requirement for a 30-day written notice is consistent across sources. (Source 2)"
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_002",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_002",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q005",
+    "source": "manual_reddit_style",
+    "question": "My apartment has mold and my landlord won't fix it. What can I do? (Boston)",
+    "context": "There's black mold in my bathroom and kitchen. I've told my landlord multiple times but nothing happens. I have asthma and it's getting worse.",
+    "expected_answer": "You should contact the Inspectional Services Department in Boston to report the mold issue, as landlords are required to maintain safe and sanitary conditions in compliance with the Massachusetts Sanitary Code. If the landlord continues to be unresponsive, you can file a complaint with the department to ensure your landlord meets housing codes.",
+    "key_facts": [
+      "Landlords must provide safe and well-maintained apartments in compliance with the Massachusetts Sanitary Code (Source 1).",
+      "Tenants can file a complaint with the Inspectional Services Department if landlords aren't meeting housing codes (Source 4).",
+      "Contact the Inspectional Services Department for assistance with mold and unresponsive landlords (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "boston_gov_help_housing_chunk_002",
+        "title": "Help With Housing",
+        "source_url": "https://www.boston.gov/help-housing"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
+        "title": "Tenant Rights and Responsibilities",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_004",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q006",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord evict me in winter in Massachusetts?",
+    "context": "My landlord served me an eviction notice in January. I heard there's a law in MA that prevents winter evictions. Is that true?",
+    "expected_answer": "In Massachusetts, there is no law that prevents evictions during the winter season. However, if an eviction is not your fault or you cannot find suitable housing, you may request a 'Stay of Execution' for up to 6 months, or up to a year if you are elderly or have a disability (MGL c. 239).",
+    "key_facts": [
+      "There are no laws against evicting tenants during the winter season.",
+      "Tenants may request a 'Stay of Execution' for up to 6 months if an eviction is not their fault or they cannot find suitable housing.",
+      "Elderly tenants or those with disabilities may request a 'Stay of Execution' for up to a year."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_003",
+        "title": "Office of Housing Stability",
+        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      }
+    ]
+  },
+  {
+    "id": "q007",
+    "source": "manual_reddit_style",
+    "question": "My landlord is raising my rent by $500/month with only 2 weeks notice. Is this legal in MA?",
+    "context": "I'm on a month-to-month tenancy at will in Somerville. My landlord sent me an email saying rent goes up $500 starting in 2 weeks.",
+    "expected_answer": "In Massachusetts, for a month-to-month tenancy at will, a landlord must provide at least 30 days' notice in writing for any rent increase. Therefore, the landlord's attempt to raise your rent with only 2 weeks' notice is not legal.",
+    "key_facts": [
+      "MGL c.186 s.12 requires at least 30 days' notice for changes in rent for a tenancy at will.",
+      "The notice period must be equal to the interval between rent payments or 30 days, whichever is longer.",
+      "The landlord's notice of 2 weeks does not meet the legal requirement."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection12_chunk_000",
+        "title": "MGL c.186 s.12 - Notice to Determine Estate at Will",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section12"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_002",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_002",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000",
+        "title": "MGL c.40P - The Massachusetts Rent Control Prohibition Act",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P"
+      }
+    ]
+  },
+  {
+    "id": "q008",
+    "source": "manual_reddit_style",
+    "question": "Can I withhold rent if my landlord won't make repairs in Massachusetts?",
+    "context": "My heat has been broken for 2 weeks in the middle of winter. The landlord keeps saying he'll fix it but never does. Can I just stop paying rent?",
+    "expected_answer": "In Massachusetts, you may be able to withhold a portion of your rent if your landlord fails to make necessary repairs, such as fixing a broken heating system during winter. However, it is advised to consult with a private lawyer or legal services before proceeding with rent withholding.",
+    "key_facts": [
+      "Tenants may withhold rent if the landlord fails to make necessary repairs (Source 1).",
+      "Consulting a lawyer or legal services is recommended before withholding rent (Source 1).",
+      "Landlords must maintain a habitable living condition, including heating, as per the State Sanitary Code (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_006",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
+        "title": "Tenant Rights and Responsibilities",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+      }
+    ]
+  },
+  {
+    "id": "q009",
+    "source": "manual_reddit_style",
+    "question": "My landlord didn't put my security deposit in a separate bank account. Can I get triple damages?",
+    "context": "I found out my landlord in Massachusetts never put my security deposit in a separate interest-bearing account like the law requires.",
+    "expected_answer": "Yes, you may be entitled to triple damages if your landlord did not place your security deposit in a separate interest-bearing account and failed to return it, requiring you to go to court to recover the deposit. This is supported by the case Castenholz v. Caira, where the court ruled that such a failure by the landlord entitles the tenant to triple damages, interest, costs, and attorney's fees.",
+    "key_facts": [
+      "Massachusetts law requires landlords to deposit security deposits in a separate interest-bearing account in a Massachusetts bank (MGL c. 186, s.15B).",
+      "Failure to comply with the requirement to place the deposit in a separate account entitles the tenant to immediate return of the deposit (Source 2).",
+      "In Castenholz v. Caira, the court ruled that if a landlord fails to place the deposit in an escrow account and the tenant must go to court to recover it, the tenant is entitled to triple damages."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_003",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_002",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_017",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q010",
+    "source": "manual_reddit_style",
+    "question": "I want to break my lease early in Massachusetts. What are the consequences?",
+    "context": "I signed a 1-year lease in Boston but got a job offer in another state. I have 6 months left on my lease.",
+    "expected_answer": "Breaking a lease early in Massachusetts can result in the tenant being responsible for paying the remaining rent due under the lease unless the landlord is able to re-rent the apartment. The tenant should communicate with the landlord to discuss potential options such as subletting or negotiating an early termination agreement.",
+    "key_facts": [
+      "Tenants are generally responsible for rent until the end of the lease term unless the landlord re-rents the unit.",
+      "Communication with the landlord is crucial to explore options like subletting or negotiating an early termination.",
+      "There are no specific Massachusetts statutes that automatically allow tenants to break a lease without consequences."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_002",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      }
+    ]
+  },
+  {
+    "id": "q011",
+    "source": "manual_reddit_style",
+    "question": "My landlord is trying to charge me a late fee after 5 days. Is this allowed in MA?",
+    "context": "I paid my rent 5 days late this month and my landlord is charging me a $100 late fee. My lease says late fees apply after 5 days.",
+    "expected_answer": "In Massachusetts, a landlord cannot charge a late fee unless the rent is at least 30 days late, regardless of any lease agreement stating otherwise.",
+    "key_facts": [
+      "There is no 'grace period' for payment of rent.",
+      "A late fee can only be charged if the rent is at least 30 days late.",
+      "This rule applies even if there is a written agreement allowing for late fees."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_009",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_020",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      }
+    ]
+  },
+  {
+    "id": "q012",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord refuse to rent to me because I have kids? (Massachusetts)",
+    "context": "I applied for an apartment in Boston and the landlord said he doesn't want to rent to families with children because of lead paint concerns.",
+    "expected_answer": "No, your landlord cannot refuse to rent to you because you have children. This is considered discrimination based on familial status, which is a protected class under Massachusetts law.",
+    "key_facts": [
+      "Familial status, which includes having children, is a protected class under Massachusetts law (Source 1).",
+      "It is unlawful for a housing provider to discriminate against a prospective tenant based on familial status (Source 1).",
+      "Refusing to rent because of children due to lead paint concerns is considered unlawful discrimination (Source 2)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_overview_of_fair_housing_law_chunk_000",
+        "title": "Overview of Fair Housing Law - Massachusetts Attorney General",
+        "source_url": "https://www.mass.gov/info-details/overview-of-fair-housing-law"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_026",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      }
+    ]
+  },
+  {
+    "id": "q013",
+    "source": "manual_reddit_style",
+    "question": "My landlord changed the locks while I was away for a week. Is this an illegal eviction in MA?",
+    "context": "I went on vacation for a week and when I came back my key didn't work. My landlord says I abandoned the apartment. I'm current on rent.",
+    "expected_answer": "Yes, changing the locks without following the legal eviction process is considered an illegal eviction in Massachusetts. Landlords must obtain a court order to evict a tenant and cannot change the locks or shut off utilities to force a tenant out (Source 2, Source 3).",
+    "key_facts": [
+      "Landlords must follow the legal process and cannot force a tenant out by changing the locks or shutting off the utilities (Source 2).",
+      "A landlord cannot evict a tenant by physically removing the tenant or their personal property, or by changing the locks (Source 3).",
+      "To remove a tenant without the tenant's agreement, a landlord must get permission from the court (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_004",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_006",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_008",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      }
+    ]
+  },
+  {
+    "id": "q014",
+    "source": "manual_reddit_style",
+    "question": "What is the eviction process in Massachusetts? How long does it take?",
+    "context": "My landlord says he's going to evict me for non-payment of rent. I'm behind one month.",
+    "expected_answer": "In Massachusetts, the eviction process begins with the landlord serving a notice to quit for non-payment of rent. If the tenant does not pay or vacate, the landlord can file a summary process action in court under MGL c. 239. After a court hearing, if the judge rules in favor of the landlord, an execution for possession is granted, but the landlord must wait at least 10 days to obtain it.",
+    "key_facts": [
+      "The eviction process starts with a notice to quit for non-payment of rent.",
+      "The landlord can file a summary process action in court under MGL c. 239.",
+      "After a court decision, the landlord must wait at least 10 days to obtain an execution for possession."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_000",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_017",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q015",
+    "source": "manual_reddit_style",
+    "question": "My landlord shut off my hot water to try to get me to move out. What can I do? (MA)",
+    "context": "My landlord in Boston wants me to leave so he can renovate. Since I won't leave voluntarily, he shut off the hot water.",
+    "expected_answer": "Your landlord cannot legally shut off your hot water to force you to move out. This action is considered an illegal eviction tactic under Massachusetts law.",
+    "key_facts": [
+      "Landlords must follow the legal process and cannot force a tenant out by shutting off utilities. [Source 1]",
+      "Landlords who pay for heat and hot water must provide it unless there is a written agreement stating otherwise. [Source 3]",
+      "You can only be required to pay for utilities if there are separate meters for each service charged. [Source 3]"
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_004",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_002",
+        "title": "Housing code in Boston",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q016",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord make me pay for professional carpet cleaning when I move out in MA?",
+    "context": "My lease in Massachusetts says I have to have the carpets professionally cleaned when I move out.",
+    "expected_answer": "In Massachusetts, a lease cannot legally require a tenant to pay for the cost of repairing ordinary wear and tear, which includes professional carpet cleaning unless the carpet cleaning is needed due to damage beyond normal wear and tear.",
+    "key_facts": [
+      "The lease must not include illegal terms such as requiring the tenant to pay the cost of repairing ordinary wear and tear. (Source 1)",
+      "Tenants are responsible for damage beyond normal wear and tear. (Source 1)",
+      "Professional carpet cleaning is typically considered maintenance for ordinary wear and tear."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
+        "title": "Tenant Rights and Responsibilities",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_004",
+        "title": "Housing code in Boston",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+      }
+    ]
+  },
+  {
+    "id": "q017",
+    "source": "manual_reddit_style",
+    "question": "I reported code violations and now my landlord is trying to evict me. Is this retaliation? (MA)",
+    "context": "I called the Board of Health about mice and roaches in my Boston apartment. Two weeks later my landlord served me with a notice to quit.",
+    "expected_answer": "Yes, this could be considered retaliation. Under Massachusetts law, it is illegal for a landlord to retaliate against a tenant for reporting conditions to the local board of health, which is a protected activity. If the eviction notice was served within six months of your report, it creates a legal presumption of retaliation.",
+    "key_facts": [
+      "It is illegal for landlords to retaliate against tenants for engaging in protected activities, such as reporting conditions to the local board of health. [Source 2]",
+      "Retaliation can include starting an eviction proceeding. [Source 2]",
+      "Certain conduct by landlords will create a legal 'presumption' that the conduct was retaliatory if it occurs within six months of a tenant's protected activity. [Source 2]"
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_006",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_008",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_007",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_006",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q018",
+    "source": "manual_reddit_style",
+    "question": "What is the Section 8 housing program and how do I apply in Boston?",
+    "context": "I'm struggling to afford rent in Boston and heard about Section 8 vouchers.",
+    "expected_answer": "The Section 8 program, also known as the Housing Choice Voucher Program, provides rent subsidies to eligible low-income families to help them afford housing in privately owned properties. As of now, the Section 8 tenant-based voucher program waiting list is closed, but you can apply to other programs like public housing, Project-Based vouchers, and Mod Rehab if you qualify for Priority One status.",
+    "key_facts": [
+      "Section 8 provides rent subsidies for low-income families to afford housing (Source 1).",
+      "The Section 8 tenant-based voucher program waiting list is currently closed (Source 5).",
+      "Applicants can apply to public housing, Project-Based vouchers, and Mod Rehab programs if eligible (Source 5)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "bostonhousing_faq_016_what_is_the_section_8_program_chunk_000",
+        "title": "[Housing Options & Eligibility] What is the Section 8 program?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_004",
+        "title": "Office of Housing Stability",
+        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability"
+      },
+      {
+        "chunk_id": "bostonhousing_faq_014_what_housing_options_can_i_apply_to_chunk_000",
+        "title": "[Housing Options & Eligibility] What housing options can I apply to?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      }
+    ]
+  },
+  {
+    "id": "q019",
+    "source": "manual_reddit_style",
+    "question": "My landlord never gave me a statement of condition for my security deposit. Does this matter? (MA)",
+    "context": "When I moved in my landlord collected a security deposit but never gave me a written statement of the apartment's condition.",
+    "expected_answer": "Yes, it matters that your landlord did not provide a statement of condition. According to Massachusetts law, the landlord must give the tenant a statement of condition within 10 days of the tenancy beginning or upon receipt of the security deposit, whichever is later. This document describes the apartment's condition and any pre-existing damage, and its absence could affect any claims on the security deposit at the end of the tenancy.",
+    "key_facts": [
+      "The landlord must provide a statement of condition within 10 days of the tenancy start or receipt of the security deposit (Source 1, Source 2).",
+      "The statement of condition describes the apartment's condition and any existing damage (Source 1, Source 2).",
+      "Failure to provide this document could affect claims on the security deposit (Source 1, Source 2)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_003",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_017",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q020",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord charge me for bed bug treatment in Massachusetts?",
+    "context": "My apartment in Boston has bed bugs. My landlord says it's my fault and wants me to pay for the exterminator.",
+    "expected_answer": "In Massachusetts, landlords are generally responsible for maintaining a habitable living environment, which includes addressing pest infestations such as bed bugs. According to the Massachusetts Sanitary Code, landlords must ensure that the property is free from pests, and they cannot charge tenants for extermination unless the tenant caused the infestation through negligence or improper behavior.",
+    "key_facts": [
+      "Landlords must provide a habitable living environment, including pest control (Massachusetts Sanitary Code).",
+      "Tenants cannot be charged for extermination unless they caused the infestation.",
+      "The landlord's responsibility includes ensuring the property is free from pests."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_008",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_003",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      }
+    ]
+  },
+  {
+    "id": "q021",
+    "source": "manual_reddit_style",
+    "question": "How do I request a reasonable accommodation for my disability from my landlord in Boston?",
+    "context": "I have a mobility disability and need a grab bar installed in my bathroom. My landlord says he doesn't have to make modifications.",
+    "expected_answer": "To request a reasonable accommodation for your disability, such as installing a grab bar, you must submit a written request specifying the accommodation needed and the reasons for it. This request can be delivered to the appropriate BHA department, such as the Department of Grievances and Appeals, and the BHA will engage in an interactive process to review your request. You may also contact the Office of Civil Rights’ Reasonable Accommodation Coordinator for assistance.",
+    "key_facts": [
+      "Requests for reasonable accommodations must be made in writing, specifying the accommodation needed and the reasons (Source 2).",
+      "The BHA engages in an interactive process to review and decide upon accommodation requests (Source 1).",
+      "Forms for requesting accommodations can be obtained from various BHA offices or by contacting the Office of Civil Rights (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "bostonhousing_faq_039_how_does_the_bha_address_reasonable_accommodation_requests_chunk_000",
+        "title": "[Reasonable Accommodation] How does the BHA address Reasonable Accommodation Requests?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      },
+      {
+        "chunk_id": "bostonhousing_faq_011_what_if_my_disability_relates_to_the_action_s_taken_against_chunk_000",
+        "title": "[Grievances and Appeals] What if my disability relates to the action(s) taken against my application?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      },
+      {
+        "chunk_id": "bostonhousing_faq_036_where_can_i_get_the_forms_other_than_on_this_website_chunk_000",
+        "title": "[Reasonable Accommodation] Where can I get the forms other than on this website?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      },
+      {
+        "chunk_id": "bostonhousing_faq_009_what_if_my_disability_would_prevent_me_from_coming_to_the_he_chunk_000",
+        "title": "[Grievances and Appeals] What if my disability would prevent me from coming to the hearing or fully participating in the hearing?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      },
+      {
+        "chunk_id": "bostonhousing_faq_037_when_are_requests_for_reasonable_accommodations_granted_chunk_000",
+        "title": "[Reasonable Accommodation] When are Requests for Reasonable Accommodations Granted?",
+        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+      }
+    ]
+  },
+  {
+    "id": "q022",
+    "source": "manual_reddit_style",
+    "question": "My apartment doesn't have working smoke detectors. Is my landlord required to install them? (MA)",
+    "context": "I noticed my apartment in Boston doesn't have any working smoke detectors.",
+    "expected_answer": "Yes, your landlord is required to install and maintain smoke detectors in operable condition in your apartment. This is mandated by 105 CMR 410.330, which requires owners to provide smoke detectors in compliance with Massachusetts fire safety codes.",
+    "key_facts": [
+      "105 CMR 410.330 mandates the installation and maintenance of smoke detectors.",
+      "Smoke detectors must comply with Massachusetts fire safety codes.",
+      "The local fire department is notified of any violations regarding smoke detectors."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_045",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+      },
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_046",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+      },
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_034",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_001",
+        "title": "Housing code in Boston",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
+        "title": "Tenant Rights and Responsibilities",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+      }
+    ]
+  },
+  {
+    "id": "q023",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord keep my security deposit for normal wear and tear in Massachusetts?",
+    "context": "I lived in my apartment for 5 years and my landlord is keeping my security deposit for paint touch-ups and carpet wear.",
+    "expected_answer": "In Massachusetts, a landlord cannot keep a security deposit for normal wear and tear, such as paint touch-ups and carpet wear after a long tenancy. These are considered reasonable wear and tear, which the landlord cannot deduct from your security deposit.",
+    "key_facts": [
+      "A landlord may only deduct from a security deposit for damage beyond normal wear and tear (Source 1).",
+      "The lease must not include terms requiring the tenant to pay for ordinary wear and tear (Source 3).",
+      "Landlords should not deduct for reasonable wear and tear when returning a security deposit (Source 4)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_007",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q024",
+    "source": "manual_reddit_style",
+    "question": "I'm a domestic violence survivor. Can I break my lease in Massachusetts?",
+    "context": "I need to leave my apartment immediately because of domestic violence. My lease doesn't have an early termination clause.",
+    "expected_answer": "Yes, as a domestic violence survivor, you can terminate your lease in Massachusetts by providing written notification to your landlord within 3 months of the most recent incident or if you are in reasonable fear of imminent serious physical harm.",
+    "key_facts": [
+      "MGL c.186 s.24 allows tenants to terminate a lease due to domestic violence.",
+      "Notification must be given within 3 months of the incident.",
+      "Landlords may request proof of the status as a victim."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection24_chunk_001",
+        "title": "MGL c.186 s.24 - DV survivor lease termination",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section24"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_017",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q025",
+    "source": "manual_reddit_style",
+    "question": "What happens to my lease if my landlord sells the building in Massachusetts?",
+    "context": "My landlord just told me he's selling the building. I have 8 months left on my lease.",
+    "expected_answer": "In Massachusetts, if your landlord sells the building, your lease remains in effect under the new owner. The new owner assumes the responsibilities of the landlord as outlined in your existing lease agreement.",
+    "key_facts": [
+      "The tenant's lease remains in effect even if the property is sold.",
+      "The new owner assumes the responsibilities of the landlord under the existing lease."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_002",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_how_register_rental_property_chunk_004",
+        "title": "How to register a rental property",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/how-register-rental-property"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_003",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q026",
+    "source": "manual_reddit_style",
+    "question": "Can my landlord prohibit me from having a pet in Massachusetts?",
+    "context": "My lease says no pets but I want to get a dog. Also, I have anxiety - can I get an emotional support animal?",
+    "expected_answer": "Your landlord can generally prohibit pets if your lease specifies a 'no pets' policy. However, under Massachusetts law, landlords must make reasonable accommodations for tenants with disabilities, which can include allowing an emotional support animal despite a 'no pets' policy. You may need to provide documentation of your disability and the need for an emotional support animal to request this accommodation.",
+    "key_facts": [
+      "Landlords can enforce 'no pets' policies as per lease agreements (Source 2).",
+      "Landlords must make reasonable accommodations for tenants with disabilities, such as allowing an emotional support animal (Source 1)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_overview_of_fair_housing_law_chunk_000",
+        "title": "Overview of Fair Housing Law - Massachusetts Attorney General",
+        "source_url": "https://www.mass.gov/info-details/overview-of-fair-housing-law"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000",
+        "title": "MGL c.40P - The Massachusetts Rent Control Prohibition Act",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P"
+      }
+    ]
+  },
+  {
+    "id": "q027",
+    "source": "manual_reddit_style",
+    "question": "My landlord is deducting my security deposit for things that were broken when I moved in. What can I do? (MA)",
+    "context": "I took photos when I moved in showing existing damage. My landlord is now trying to deduct from my security deposit for that same damage.",
+    "expected_answer": "If your landlord is deducting from your security deposit for damages that existed when you moved in, you should refer to the 'statement of condition' that should have been provided within 10 days of your tenancy start or upon receipt of the security deposit. You had 15 days to amend this statement to include any pre-existing damages. If you documented the damage with photos and amended the statement of condition, you can dispute the deductions as they should not charge for pre-existing damages.",
+    "key_facts": [
+      "Landlords must provide a 'statement of condition' within 10 days of tenancy start or upon receipt of the security deposit (Source 3).",
+      "Tenants have 15 days to add to or amend the 'statement of condition' (Source 3).",
+      "Landlords cannot deduct for damages listed in the 'statement of condition' (Source 5)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_007",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      }
+    ]
+  },
+  {
+    "id": "q028",
+    "source": "manual_reddit_style",
+    "question": "How do I file a complaint about housing code violations in Boston?",
+    "context": "My apartment has multiple issues - broken windows, no heat in one room, and cockroaches. My landlord ignores my complaints.",
+    "expected_answer": "To file a complaint about housing code violations in Boston, you should contact the local health authority, such as the Board of Health or the Inspectional Services Department. They are responsible for inspecting and enforcing the state housing code, 105 CMR 410, to ensure violations are corrected.",
+    "key_facts": [
+      "Complaints regarding housing violations must be addressed to the local health authority (Source 1).",
+      "The local health authority is responsible for conducting inspections and enforcement (Source 1).",
+      "In Boston, you can file a complaint if your landlord isn't meeting housing codes (Source 3)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_006",
+        "title": "Massachusetts law about landlord and tenant | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+      },
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection18_chunk_000",
+        "title": "MGL c.186 s.18 - Anti-Retaliation Protection for Tenants",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
+        "title": "Tenant Rights and Responsibilities",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+      },
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_000",
+        "title": "Housing code in Boston",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "q029",
+    "source": "manual_reddit_style",
+    "question": "Is my landlord required to provide heat in Massachusetts? What temperature?",
+    "context": "It's winter and my apartment is freezing. My landlord says the heating system is old and can't keep up.",
+    "expected_answer": "Yes, your landlord is required to provide heat in Massachusetts between September 15 and May 31. The heating system must be capable of heating every habitable room to the temperature required by 105 CMR 410.180.",
+    "key_facts": [
+      "Landlords must provide heat between September 15 and May 31 (Source 2).",
+      "The heating system must be in good operating condition and capable of heating every habitable room (105 CMR 410.160).",
+      "The landlord must pay for heat unless there is a written agreement stating otherwise (Source 2)."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_024",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  },
+  {
+    "id": "q030",
+    "source": "manual_reddit_style",
+    "question": "Can I sue my landlord in small claims court for not returning my security deposit in MA?",
+    "context": "My landlord in Boston owes me $2,400 for my security deposit that he never returned.",
+    "expected_answer": "Yes, you can sue your landlord in small claims court for not returning your security deposit in Massachusetts. According to G. L. c. 186, s.15B, if a landlord fails to return the security deposit within 30 days of the end of the tenancy, the tenant is entitled to the return of the deposit, plus interest. If the landlord did not comply with the security deposit law, such as not placing the deposit in an escrow account, you may also be entitled to triple damages, costs, and attorney's fees (Castenholz v. Caira, 21 Mass. App. Ct. 758 (1986)).",
+    "key_facts": [
+      "G. L. c. 186, s.15B requires landlords to return security deposits within 30 days.",
+      "Failure to comply with security deposit laws can result in triple damages (Castenholz v. Caira).",
+      "Security deposits must be held in an escrow account in a Massachusetts bank."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_003",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_007",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      }
+    ]
+  }
+]

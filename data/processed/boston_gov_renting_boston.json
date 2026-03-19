@@ -1,0 +1,31 @@
+{
+  "doc_id": "boston_gov_renting_boston",
+  "source_url": "https://311.boston.gov/",
+  "source_name": "boston_gov",
+  "title": "Boston",
+  "section_headers": [
+    "BOS:311",
+    "Featured News",
+    "Tow lot",
+    "Parking meters",
+    "Street Cleaning",
+    "Trash and recycling",
+    "Recent Reports",
+    "Other",
+    "Requests for Street Cleaning",
+    "Other",
+    "Frequently Reported",
+    "Illegal Parking",
+    "Snow Plowing/Salting",
+    "Sidewalk Not Shoveled",
+    "Start Reporting",
+    "Resources"
+  ],
+  "content": "# BOS:311\n\nHelp keep our city beautiful.\n\nCircle plus\n\nNew Report\n\nDiagonal strip\n\nDiagonal strip\n\n## Featured News\n\n* ### Tow lot\n\nThe tow lot is only open Monday through Friday, from 7 a.m. - 10:30 p.m. Automated kiosks are available 24 hours a day, seven days a week for vehicle releases. More Information: https://www.boston.gov/departments/transportation/how-get-your-towed-car-back\n\nChevron right\n* ### Parking meters\n\nParking meters are running on their normal schedules today. More Information: https://www.boston.gov/departments/parking-clerk/how-do-parking-meters-work\n\nChevron right\n* ### Street Cleaning\n\nOvernight street cleaning has been canceled. More Information: https://www.boston.gov/departments/public-works/street-sweeping-city\n\nChevron right\n* ### Trash and recycling\n\nDue to the storm, trash and recycling pickups are delayed in all neighborhoods this week. Please check your schedule.\n\nChevron right\n\nShow all\n\n## Recent Reports\n\n* ## Other\n\n197 Cambridge St, Allston, Ma, 02134\n\nStrong gas smell\n\nOPEN\n\n7m ago\n#101006573257\n\nChevron right\n* ## Requests for Street Cleaning\n\n18 22 Wayland St, Dorchester, Ma, 02125\n\nDresser\n\nOPEN\n\n7m ago\n#101006573256\n\nChevron right\n* ## Other\n\n47 Keystone St, West Roxbury, Ma, 02132\n\nHi. Can I have a tree planted in the sidewalk in front of my house. There is currently not a cut out in the sidewalk for a tree. Thanks.\n\nOPEN\n\n7m ago\n#101006573255\n\nChevron right\n\nShow all\n\n## Frequently Reported\n\n* ## Illegal Parking\n\nChevron right\n* ## Snow Plowing/Salting\n\nChevron right\n* ## Sidewalk Not Shoveled\n\nChevron right\n\nSelect from all categories\n\n## Start Reporting\n\nApple app store\n\nAndroid play store\n\n## Resources\n\n* How are we doing?\n* Schedule a Mattress Pickup\n* Schedule a Special Item Pickup\n* Schools\n* Emergency Alert Sign Up\n* Move-In Guide\n* Trash and Recycling\n* Parking Meters\n* White Stadium Project\n* Events\n* Open311",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T23:01:56.905741+00:00",
+  "legal_citations": [],
+  "parent_url": "https://www.boston.gov/renting-boston",
+  "content_hash": "915ebd97b024ca90d732c949452ff1c28faa40b56d54b31069d2cc53cd219863"
+}
