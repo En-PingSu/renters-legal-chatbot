@@ -90,10 +90,14 @@ data/
     golden_qa.json      # 20 curated Q&A pairs with key facts
     reddit_questions.json  # 30 Reddit-style questions
     results/            # Evaluation run outputs (JSON)
-    results/figures/    # Charts + evaluation_report.txt
+    results/figures/    # Legacy charts (see docs/figures/ for current)
+scripts/
+  generate_charts.py          # Generates 11 evaluation charts to docs/figures/
 docs/
+  evaluation_report.md  # Full evaluation report (Markdown, with charts)
   literature_review.md  # RAG literature review (12 papers)
   scraped_pages.md      # Index of all scraped source pages
+  figures/              # Generated evaluation charts (PNGs)
 ```
 
 ## Setup
@@ -198,7 +202,7 @@ Runs all 9 configurations (3 models x 3 retriever settings) against the test set
 | Hybrid | 0.738 | 1.000 | 0.229 | 0.314 |
 | Rerank | 0.762 | 1.000 | 0.243 | 0.328 |
 
-Full results and analysis: [`data/evaluation/results/figures/evaluation_report.txt`](data/evaluation/results/figures/evaluation_report.txt)
+Full results and analysis: [`docs/evaluation_report.md`](docs/evaluation_report.md)
 
 ## Corpus
 
