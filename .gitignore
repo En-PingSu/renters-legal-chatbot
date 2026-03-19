@@ -24,6 +24,9 @@ data/chroma_db_llamaindex/
 .idea/
 *.swp
 
+# Claude
+CLAUDE.md
+
 # OS
 .DS_Store
 Thumbs.db
