@@ -1,0 +1,34 @@
+{
+  "doc_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_discrimination",
+  "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-discrimination",
+  "source_name": "mass_gov",
+  "title": "Massachusetts Law About Discrimination - Law Library Guide",
+  "section_headers": [
+    "Key Massachusetts Anti-Discrimination Laws",
+    "Massachusetts Regulations",
+    "Housing Discrimination Resources",
+    "Filing Complaints"
+  ],
+  "content": "Massachusetts Law About Discrimination\n\nLaws, regulations, cases and web sources on discrimination law in Massachusetts.\n\n## Key Massachusetts Anti-Discrimination Laws\n\n- MGL c. 4, § 7: Definitions of statutory terms including protective hairstyles historically associated with race (CROWN Act, St. 2022, c.117)\n- MGL c. 12, § 11H(b): Right to bias-free professional policing\n- MGL c. 93, § 102 & § 103: Massachusetts Equal Rights Act (MERA)\n- MGL c. 149, §§ 105A-105C: Discriminatory wage rates based on sex\n- MGL c. 151B: Unlawful discrimination because of race, color, religious creed, national origin, ancestry or sex (includes disability discrimination)\n- MGL c. 151B, § 4(1E): Pregnant Workers Fairness Act\n- MGL c. 272, § 92A: Discrimination in places of public accommodation\n- MGL c. 272, § 98: Discrimination in admission to or treatment in place of public accommodation\n\n## Massachusetts Regulations\n- 804 CMR: Massachusetts Commission Against Discrimination\n\n## Housing Discrimination Resources\n- The Attorney General's guide to landlord and tenant rights: Discrimination in housing is against the law\n- Fair housing law, Mass. Attorney General: Includes guidance on preventing housing discrimination based on source of income\n\n## Filing Complaints\n\nMassachusetts agencies:\n- Massachusetts Commission Against Discrimination (MCAD): One Ashburton Place, Suite 601, Boston, MA 02108. Main: (617) 994-6000. TTY: (617) 994-6196. MCAD is the state agency responsible for enforcing and investigating violations of MGL 151B, including discrimination in housing.\n- Massachusetts Attorney General's Civil Rights Division: Main: (617) 963-2917. Responds to complaints related to civil rights and civil liberties.\n\nFederal agencies:\n- U.S. Department of Housing and Urban Development: Report housing discrimination at 202-402-3815\n- U.S. Equal Employment Opportunity Commission (Boston): JFK Building, 15 New Sudbury St., Room 475, Boston, MA 02203. Main: (800) 669-4000\n",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T03:04:01.117460+00:00",
+  "legal_citations": [
+    "GL c. 12, § 11H",
+    "GL c. 149",
+    "GL c. 151B",
+    "GL c. 151B, § 4",
+    "GL c. 272, § 92A",
+    "GL c. 272, § 98",
+    "GL c. 4, § 7",
+    "GL c. 93, § 102",
+    "MGL c. 12, § 11H",
+    "MGL c. 151B, § 4",
+    "MGL c. 272, § 92A",
+    "MGL c. 272, § 98",
+    "MGL c. 4, § 7",
+    "MGL c. 93, § 102"
+  ],
+  "parent_url": "https://www.mass.gov/info-details/massachusetts-law-about-discrimination",
+  "content_hash": "6926ff7259724d67ccf17d326b7543e0ea4cebafd1f81f9f4fcfc9866cf6b757"
+}

@@ -1,0 +1,18 @@
+{
+  "doc_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_public_subsidized_and_emergency_housing",
+  "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-public-subsidized-and-emergency-housing",
+  "source_name": "mass_gov",
+  "title": "Massachusetts law about public, subsidized, and emergency housing",
+  "section_headers": [],
+  "content": "Massachusetts law about public, subsidized, and emergency housing\n\nLaws, regulations, cases and web sources on public, subsidized, and emergency housing.\n\nTypes of Housing Covered:\n- Public housing: state or federally funded housing administered through a local housing authority\n- Voucher: rental assistance to help people find an apartment in the private market\n- Multifamily subsidized housing: owned by a private landlord or corporation that has received government subsidies\n- Emergency Assistance (EA): shelter programs and related services for individuals and families seeking emergency housing\n\nKey Massachusetts Laws:\n- MGL c. 23B, ss. 25-27 - Executive Office of Housing and Livable Communities\n- MGL c. 121B - Housing and urban renewal (main public housing statute)\n- MGL c. 23B, s. 30 - Emergency housing assistance program\n\nKey Massachusetts Regulations:\n- 760 CMR - Executive Office of Housing and Livable Communities regulations\n- 760 CMR 65 - Massachusetts Short-Term Housing Transition Program\n- 760 CMR 67 - Eligibility for Emergency Assistance (EA)\n\nKey Federal Laws:\n- 42 USC 1401-1440 - Low-income housing\n- 42 USC 13601-13664 - Residency and service requirements in federally assisted housing\n\nKey Federal Regulations:\n- 24 CFR s. 5 - General HUD program requirements\n- 24 CFR ss. 5.850 et seq. - Denying admission and terminating tenancy for criminal activity or alcohol abuse\n- 24 CFR s. 247 - Evictions from certain subsidized and HUD-owned projects\n- 24 CFR ss. 800-899 - Section 8 Housing Assistance Programs\n- 24 CFR ss. 965.651-653 - Smoke-free public housing\n\nKey Cases:\n- Boston Housing Authority v. Garcia, 449 Mass. App. Ct. 727 (2007): HUD policy encourages individualized consideration rather than automatic eviction for household member drug activity.\n- Carter v. Lynn Housing Authority, 450 Mass. 626 (2008): A tenant's interest in public housing tenancy is a protected interest entitling her to fair procedures before termination.\n- Costa v. Fall River Housing Authority, 453 Mass. 614 (2009): Hearsay evidence may form the basis of a PHA's decision to terminate Section 8 assistance if it contains substantial indicia of reliability.\n\nEmergency Assistance:\n- St. 2025, c. 1, s. 8: Total capacity of EA program shall not exceed 4,000 families through December 31, 2026\n- St. 2024, c. 88, s. 3: Families can stay in EA Family Shelter for 9 months\n- RAFT program provides short-term emergency funding for eviction, foreclosure, loss of utilities",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T02:24:58.585584+00:00",
+  "legal_citations": [
+    "GL c. 121B",
+    "GL c. 23B",
+    "MGL c. 23B, s. 30"
+  ],
+  "parent_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant",
+  "content_hash": "d8f4c9fecacd3ddc4311157976679a737abf0686e2ef56ee6a866d9eb49d929f"
+}

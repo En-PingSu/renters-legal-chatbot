@@ -1,0 +1,394 @@
+[
+  {
+    "question": "What role does the Mayor's Office of Housing play in managing the City’s real estate in Massachusetts?",
+    "ground_truth_chunk_id": "STALE_boston_gov_contact_housing_chunk_000",
+    "source_title": "Housing",
+    "ground_truth_chunk_ids": []
+  },
+  {
+    "question": "What is the role of the Mayor's Office of Housing in Massachusetts regarding tenant support?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_chunk_000",
+    "source_title": "Housing",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_chunk_000"
+    ]
+  },
+  {
+    "question": "What information is provided in the Massachusetts tenant law text about eviction sealing?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_001",
+    "source_title": "Office of Housing Stability",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_office_housing_stability_chunk_001"
+    ]
+  },
+  {
+    "question": "Can a landlord require a tenant to pay for heat and hot water if there is no written agreement in Massachusetts?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
+    "source_title": "Top Ten Things Tenants and Landlords Need to Know",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006"
+    ]
+  },
+  {
+    "question": "What fees are landlords in Massachusetts legally prohibited from charging tenants?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_018",
+    "source_title": "Top Ten Things Tenants and Landlords Need to Know",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_018"
+    ]
+  },
+  {
+    "question": "What information does the text provide regarding the tenant's response deadline in a Massachusetts tenant law case?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_006",
+    "source_title": "What Happens During an Eviction",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_what_happens_during_eviction_chunk_006"
+    ]
+  },
+  {
+    "question": "What type of program is available in Boston Housing Court to provide legal assistance for housing cases?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_018",
+    "source_title": "What Happens During an Eviction",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_what_happens_during_eviction_chunk_018"
+    ]
+  },
+  {
+    "question": "What information will the decision indicate after a trial according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_030",
+    "source_title": "What Happens During an Eviction",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_what_happens_during_eviction_chunk_030"
+    ]
+  },
+  {
+    "question": "What is the time frame after which a warehouse may sell stored property according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
+    "source_title": "What Happens During an Eviction",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_housing_what_happens_during_eviction_chunk_033"
+    ]
+  },
+  {
+    "question": "What is the maximum registration fee you would have to pay for a building you own in Boston under Massachusetts tenant law?",
+    "ground_truth_chunk_id": "boston_gov_departments_inspectional_services_how_register_rental_property_chunk_008",
+    "source_title": "How to register a rental property",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_inspectional_services_how_register_rental_property_chunk_008"
+    ]
+  },
+  {
+    "question": "What are the conditions under which a Massachusetts homeowner must repay the loan in full?",
+    "ground_truth_chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002",
+    "source_title": "Get Financial Help to Remove Lead From Your Home",
+    "ground_truth_chunk_ids": [
+      "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002"
+    ]
+  },
+  {
+    "question": "What is the purpose of the Access to Counsel Program in Massachusetts for households with school-aged children?",
+    "ground_truth_chunk_id": "STALE_boston_gov_departments_neighborhood_development_office_housing_stability_chunk_003",
+    "source_title": "Office of Housing Stability",
+    "ground_truth_chunk_ids": []
+  },
+  {
+    "question": "What is the purpose of the Boston Acquisition Fund mentioned in the Massachusetts tenant law text?",
+    "ground_truth_chunk_id": "boston_gov_help_housing_chunk_006",
+    "source_title": "Help With Housing",
+    "ground_truth_chunk_ids": [
+      "boston_gov_help_housing_chunk_006"
+    ]
+  },
+  {
+    "question": "What must a landlord provide if they want to deduct money from a tenant's security deposit in Massachusetts?",
+    "ground_truth_chunk_id": "STALE_boston_gov_top_ten_things_tenants_and_landlords_need_know_chunk_007",
+    "source_title": "Top Ten Things Tenants and Landlords Need to Know",
+    "ground_truth_chunk_ids": []
+  },
+  {
+    "question": "What legal requirement must landlords in Massachusetts fulfill when re-renting their units to new occupants?",
+    "ground_truth_chunk_id": "STALE_boston_gov_top_ten_things_tenants_and_landlords_need_know_chunk_019",
+    "source_title": "Top Ten Things Tenants and Landlords Need to Know",
+    "ground_truth_chunk_ids": []
+  },
+  {
+    "question": "What types of documents should a tenant bring to a hearing if they are appealing a denial of homelessness priority status?",
+    "ground_truth_chunk_id": "bostonhousing_faq_007_what_should_i_bring_with_me_to_the_hearing_chunk_000",
+    "source_title": "[Grievances and Appeals] What should I bring with me to the hearing?",
+    "ground_truth_chunk_ids": [
+      "bostonhousing_faq_007_what_should_i_bring_with_me_to_the_hearing_chunk_000"
+    ]
+  },
+  {
+    "question": "What factors determine eligibility for family public housing in Massachusetts?",
+    "ground_truth_chunk_id": "bostonhousing_faq_019_who_is_eligible_for_family_public_housing_chunk_000",
+    "source_title": "[Housing Options & Eligibility] Who is eligible for Family Public Housing?",
+    "ground_truth_chunk_ids": [
+      "bostonhousing_faq_019_who_is_eligible_for_family_public_housing_chunk_000"
+    ]
+  },
+  {
+    "question": "What are examples of major life activities according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "bostonhousing_faq_031_what_are_major_life_activities_chunk_000",
+    "source_title": "[Reasonable Accommodation] What are “major life activities”?",
+    "ground_truth_chunk_ids": [
+      "bostonhousing_faq_031_what_are_major_life_activities_chunk_000"
+    ]
+  },
+  {
+    "question": "What is the deadline to submit a written request for an appeal if the BHA denies my reasonable accommodation request?",
+    "ground_truth_chunk_id": "bostonhousing_faq_043_what_if_i_disagree_with_the_bha_s_reasonable_accommodation_d_chunk_000",
+    "source_title": "[Reasonable Accommodation] What If I Disagree with the BHA's Reasonable Accommodation Decision?",
+    "ground_truth_chunk_ids": [
+      "bostonhousing_faq_043_what_if_i_disagree_with_the_bha_s_reasonable_accommodation_d_chunk_000"
+    ]
+  },
+  {
+    "question": "What are the consequences if a tenant in Massachusetts refuses a transfer offer without good cause or reasonable accommodation mitigation?",
+    "ground_truth_chunk_id": "bostonhousing_faq_055_what_if_i_refuse_the_transfer_chunk_000",
+    "source_title": "[Transfers] What if I refuse the transfer?",
+    "ground_truth_chunk_ids": [
+      "bostonhousing_faq_055_what_if_i_refuse_the_transfer_chunk_000"
+    ]
+  },
+  {
+    "question": "What is the required notice period an owner must provide an occupant before accessing a residence for non-emergency repairs according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_007",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_007"
+    ]
+  },
+  {
+    "question": "What are the requirements for a sanitary drainage system in a Massachusetts residence according to the text?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_019",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_019"
+    ]
+  },
+  {
+    "question": "What are the requirements for the shut-off mechanism of mechanical ventilation systems according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_031",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_031"
+    ]
+  },
+  {
+    "question": "What are the restrictions on the use of temporary wiring according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_043",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_043"
+    ]
+  },
+  {
+    "question": "What is the timeframe within which a property owner in Massachusetts must dry surfaces after being notified of leaks and flooding?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_055",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_055"
+    ]
+  },
+  {
+    "question": "Who is responsible for maintaining the sanitary condition of common stairways in a Massachusetts residence?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_067",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_067"
+    ]
+  },
+  {
+    "question": "What action might the board of health consider regarding a residence according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_079",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_079"
+    ]
+  },
+  {
+    "question": "What factors are considered at the hearing to determine if an order to secure and vacate should be issued in Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_091",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_091"
+    ]
+  },
+  {
+    "question": "What does 105 CMR 410.800(A) provide for Massachusetts tenants?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_093"
+    ]
+  },
+  {
+    "question": "What happens if a demolition order is issued one year after an order to secure compliance with 105 CMR in Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_093"
+    ]
+  },
+  {
+    "question": "What is the time frame within which a petition must be filed after an inspection report is received according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+    "source_title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_105_cmr_410_sanitary_code_chunk_093"
+    ]
+  },
+  {
+    "question": "What are the consumer protection regulations for tenants and landlords in Massachusetts under 940 CMR 3.17?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_000",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_000"
+    ]
+  },
+  {
+    "question": "What must a rental agreement in Massachusetts clearly and conspicuously state according to tenant law?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What are the requirements for handling a tenant's security deposit in Massachusetts?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What can be deducted from a security deposit according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What are tenants in Massachusetts responsible for regarding the cost of a key and lock?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What are the landlord's obligations regarding the condition of the premises under Massachusetts General Laws Chapter 186, Section 15B?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What happens if a landlord in Massachusetts fails to transfer a security deposit upon transferring their interest in a dwelling unit?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What actions are prohibited by Massachusetts tenant law in terms of tenant access to their dwelling unit?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What happens if a landlord in Massachusetts charges a tenant more than the damages they are legally entitled to?",
+    "ground_truth_chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+    "source_title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011"
+    ]
+  },
+  {
+    "question": "What actions by a tenant can result in the annulment of their lease according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter139_ection19_chunk_000",
+    "source_title": "MGL c.139 s.19 - Voiding of lease for illegal activity (common nuisance)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter139_ection19_chunk_000"
+    ]
+  },
+  {
+    "question": "What forms of discrimination are prohibited under Massachusetts tenant law according to the provided text?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_002",
+    "source_title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_002"
+    ]
+  },
+  {
+    "question": "What legal proceedings are required to recover possession of land or tenements in Massachusetts according to Section 18?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter184_ection18_chunk_000",
+    "source_title": "MGL c.184 s.18 - Forcible entry forbidden",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter184_ection18_chunk_000"
+    ]
+  },
+  {
+    "question": "What is the required notice period for a landlord to terminate an estate at will if the rent is payable monthly?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection12_chunk_000",
+    "source_title": "MGL c.186 s.12 - Notice to Determine Estate at Will",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection12_chunk_000"
+    ]
+  },
+  {
+    "question": "What happens if a tenant fails to vacate the premises within 3 months of notifying the owner to terminate the rental agreement due to domestic violence, rape, sexual assault, or stalking?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection24_chunk_002",
+    "source_title": "MGL c.186 s.24 - DV survivor lease termination",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection24_chunk_002"
+    ]
+  },
+  {
+    "question": "What are the grounds for rent withholding under Section 8A of Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_004",
+    "source_title": "MGL c.239 - Summary Process for Possession of Land (TOC)",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_004"
+    ]
+  },
+  {
+    "question": "How long must a person wait after a fault eviction action concludes before they can petition the court to seal the court record in Massachusetts?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection16_chunk_004",
+    "source_title": "MGL c.239 s.16 - Eviction record sealing",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection16_chunk_004"
+    ]
+  },
+  {
+    "question": "What must the owner or his agents have known about before the tenant or occupant was in arrears in rent according to Massachusetts tenant law?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection8_chunk_004",
+    "source_title": "MGL c.239 s.8A - Rent Withholding for Code Violations",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection8_chunk_004"
+    ]
+  },
+  {
+    "question": "What does Chapter 40P of the Massachusetts Rent Control Prohibition Act entail regarding rent control regulations?",
+    "ground_truth_chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000",
+    "source_title": "MGL c.40P - The Massachusetts Rent Control Prohibition Act",
+    "ground_truth_chunk_ids": [
+      "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000"
+    ]
+  },
+  {
+    "question": "What are some common defenses a tenant can raise during the eviction process in Massachusetts?",
+    "ground_truth_chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_007",
+    "source_title": "Attorney General's Guide to Landlord and Tenant Rights",
+    "ground_truth_chunk_ids": [
+      "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_007"
+    ]
+  }
+]

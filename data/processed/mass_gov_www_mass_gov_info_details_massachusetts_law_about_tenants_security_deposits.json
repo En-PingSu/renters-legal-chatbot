@@ -1,0 +1,33 @@
+{
+  "doc_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits",
+  "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits",
+  "source_name": "mass_gov",
+  "title": "Massachusetts law about tenants' security deposits",
+  "section_headers": [
+    "Best bet",
+    "Massachusetts laws and regulations",
+    "Laws",
+    "Regulations",
+    "Selected cases",
+    "Key rules for security deposits",
+    "What landlords can collect at start of tenancy",
+    "Holding requirements",
+    "Statement of condition",
+    "Interest on security deposit",
+    "Return of security deposit",
+    "Triple damages",
+    "Forms"
+  ],
+  "content": "Massachusetts law about tenants' security deposits\n\nLaws, regulations, case law, and web and print sources on residential tenants' security deposit law.\n\n## Best bet\n\nSecurity deposits and last month's rent, Mass. Legal Help, 2025. Chapter 3 of the eBook Legal tactics: Tenants' rights in Massachusetts. Provides detailed information for tenants on security deposit law.\n\n## Massachusetts laws and regulations\n\n### Laws\nMGL c. 186, s.15B Security deposits - Provides the detailed requirements for handling security deposits, interest rates, and security deposit violations where a tenant may be awarded triple damages.\n\nVacation rentals, see subsection (9): \"The provisions of this section shall not apply to any lease, rental, occupancy or tenancy of one hundred days or less in duration which lease or rental is for a vacation or recreational purpose.\"\n\n### Regulations\n940 CMR 3.00 General regulation (Consumer protection)\n940 CMR 3.17(4) Landlord-tenant: Security deposits and rent in advance\n\n## Selected cases\n\nCastenholz v. Caira, 21 Mass. App. Ct. 758 (1986) - If a landlord does not place a security deposit in an escrow account within 30 days of receipt, and fails to return the security deposit to the tenant, and the tenant must go to court to get the money back, the landlord must pay triple damages, interest, costs, and attorney's fees.\n\nKaraa v. Yim, 86 Mass. App. Ct. 714 (2014) - When the landlord did not return the security deposit within 30 days of the end of tenancy, the tenant was not entitled to triple damages because the tenants had offered the security deposit as compensation for breaching the lease.\n\nPeebles v. JRK Property Holdings, Inc., SJC-13702 (August 1, 2025) - The security deposit statute, G. L. c. 186, s.15B, does not permit deductions from a tenant's security deposit to repair reasonable wear and tear and that whether damage is considered \"reasonable wear and tear\" is fact-specific.\n\nPhillips v. Equity Residential Management, LLC, 478 Mass. 251 (2017) - Not all violations of the security deposit act call for triple damages. A tenant is only entitled to recover triple damages for those violations of the act that specifically call for an award of triple damages.\n\nTaylor v. Beaudry, 75 Mass. App. Ct. 411 (2009) - The tenant may still apply treble damages if the landlord returns the security deposit after the 30 days but before the beginning of legislation.\n\nTaylor v. Burke, 69 Mass. App. Ct. 77 (2007) - G. L. c. 186, s.15B, which governs the handling of a tenant's security deposit by a landlord, requires the landlord to hold the deposit in an account that has been opened in a bank in the Commonwealth.\n\n## Key rules for security deposits\n\n### What landlords can collect at start of tenancy\nA landlord may only ask a tenant for: first month's rent, last month's rent, a security deposit (max one month's rent), and cost of a new lock and key.\n\n### Holding requirements\n- Must be deposited in a Massachusetts bank in an interest-bearing account\n- Must be kept separate from landlord's money\n- Landlord must provide tenant with bank name, address, and account number within 30 days\n- Failure to comply entitles tenant to immediate return of deposit\n\n### Statement of condition\n- Must be provided within 10 days of tenancy start or receipt of deposit\n- Must list all existing damage\n- Tenant has 15 days to add or modify the statement\n\n### Interest on security deposit\n- Landlord must pay 5% annual interest or the actual bank interest (whichever is less)\n- Interest must be paid annually or tenant may deduct from rent\n- If not paid within 30 days of year end, tenant may deduct from next rent payment\n\n### Return of security deposit\n- Must be returned within 30 days after tenancy ends\n- Landlord may deduct: unpaid rent, unpaid water charges, tax escalation amounts, reasonable repair costs for tenant-caused damage (not normal wear and tear)\n- If deducting for damages: must provide itemized list sworn under penalty of perjury with repair estimates/receipts\n\n### Triple damages\n- Tenant entitled to 3x the deposit amount plus interest, court costs, and attorney's fees if landlord:\n  - Fails to deposit in proper bank account\n  - Fails to transfer deposit to successor\n  - Fails to return deposit within 30 days\n\n### Forms\nStatement of condition (sample) - This is a sample statement of the condition of the premises you have leased or rented.\nSecurity deposit demand letter - If your landlord does not follow the law, you can ask them to return your security deposit.\nSecurity deposit demand tenants - If 45 days pass and you have not heard from your landlord use this letter to demand return of your money plus interest.",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T01:51:00.472912+00:00",
+  "legal_citations": [
+    "940 CMR 3.00",
+    "940 CMR 3.17",
+    "GL c. 186",
+    "MGL c. 186, s.15B"
+  ],
+  "parent_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant",
+  "content_hash": "87e3fbf679f4bd1fc5530d125ed3c845a158e04cb66c89b34f7149ed2dca60a7"
+}

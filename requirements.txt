@@ -1,0 +1,25 @@
+# Scraping & parsing
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+pdfplumber>=0.10.0
+markdownify>=0.12.0
+
+# RAG pipeline
+chromadb>=0.5.0
+openai>=1.30.0
+
+# LlamaIndex RAG pipeline
+llama-index-core>=0.12.0
+llama-index-llms-openai>=0.4.0
+llama-index-vector-stores-chroma>=0.4.0
+llama-index-embeddings-huggingface>=0.5.0
+
+# Processing
+tiktoken>=0.7.0
+
+# Reddit data collection
+praw>=7.7.0
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.0

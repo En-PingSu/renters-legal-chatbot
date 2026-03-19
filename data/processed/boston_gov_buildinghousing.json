@@ -1,0 +1,19 @@
+{
+  "doc_id": "boston_gov_buildinghousing",
+  "source_url": "https://www.boston.gov/buildinghousing",
+  "source_name": "boston_gov",
+  "title": "Building Housing Map",
+  "section_headers": [
+    "Map of all Office of Housing projects",
+    "what’s included on the map?",
+    "ADDITIONAL RESOURCES",
+    "ADDITIONAL RESOURCES"
+  ],
+  "content": "## Map of all Office of Housing projects\n\nExplore what we’re building in your area.\n\nShow Map\n\nWelcome to the Mayor's Office of Housing community engagement platform.\n\n## what’s included on the map?\n\n##### Mayor's Office of Housing PROJECTS\n\nThe map is a full inventory of projects and parcels managed by the Mayor's Office of Housing.\n\nCan't find your project on the Mayor's Office of Housing map? Search for it on the Boston Planning & Development Agency (BPDA) map.\n\n##### ACTIVE DEVELOPMENT PROJECTS\n\nBrowse all active Housing, Open Space, Commercial, and To Be Decided (TBD) projects. Click on a project to view goals, timeline, photos, meetings and more.\n\n##### CITY-OWNED LAND\n\nBrowse all inactive Office of Housing land by clicking the small gray dots.\n\n##### LAND FOR SALE\n\nBrowse all land that we’re selling for revenue to fund additional affordable housing. Most of these are small pieces of land right next to another property.\n\n## ADDITIONAL RESOURCES\n\n###\n\nFor home seekers...\n\nSearch Boston Metrolist\n\nFind available income-restricted units.\n\nNeighborhood Homes initiative\n\nApply for homeownership opportunities.\n\n## ADDITIONAL RESOURCES\n\n###\n\nFor residents curious about the process...\n\nHow the city creates affordable housing\n\nExplore the Request for Proposal process.\n\nHow we sell the city’s land and buildings\n\nLearn how to develop projects with the Mayor's Office of Housing.\n\ngrassroots and open space development\n\nFind out how to build parks, community farms, and more with the Mayor's Office of Housing.\n\nMayor's Office of Housing Homepage\n\nLearn about the Office of Housing\n\nView our plans and reports\n\nCheck out our latest newsletter",
+  "content_type": "guide",
+  "crawl_depth": 1,
+  "scraped_at": "2026-03-17T23:04:04.029137+00:00",
+  "legal_citations": [],
+  "parent_url": "https://www.boston.gov/how-mayors-office-housing-can-help",
+  "content_hash": "b9dbcd8e93e1e8dbad10f50ff2cdf5795fe5781981681e76a2b448421e75f157"
+}
