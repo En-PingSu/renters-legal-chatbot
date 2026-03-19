@@ -27,6 +27,9 @@ data/chroma_db_llamaindex/
 # Claude
 CLAUDE.md
 
+# Project-internal docs
+docs/TODO.md
+
 # OS
 .DS_Store
 Thumbs.db
