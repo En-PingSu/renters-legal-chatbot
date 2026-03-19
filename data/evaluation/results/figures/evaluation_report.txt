@@ -1410,12 +1410,46 @@ Corpus: 967 chunks, 249 documents
      evidence and analysis sections let users verify the answer against
      sources, which builds trust — critical for a legal information tool.
 
-  Best configuration summary (project-wide):
+  Multi-model results (structured prompt + rerank + k=10):
 
-    Config                          Faith   Correct  Use case
-    ─────────────────────────────── ─────── ───────  ──────────────────
-    structured + rerank + k=10      0.929   0.321    Max faithfulness
-    old prompt + rerank + k=10      0.857   0.464    Max correctness
-    structured + rerank + k=5       0.893   0.321    Balanced (lower cost)
+    Config                             Faith   Relev  Correct
+    ──────────────────────────────── ─────── ─────── ───────
+    GPT-4o struct k=10                 0.929   1.000   0.321
+    Llama 3.3 struct k=10              0.821   1.000   0.321
+    Mistral Small struct k=10          0.929   1.000   0.357
+
+  Cost: $1.94 (Llama + Mistral generation + Claude Sonnet 4 judging)
+
+  Cumulative improvement from all changes (old prompt k=5 → struct k=10):
+
+    Model          Old k=5   Struct k=10   Δ Faith   Improvement
+    ─────────────  ───────   ───────────   ───────   ───────────
+    GPT-4o         0.857     0.929         +0.072    +8%
+    Llama 3.3      0.500     0.821         +0.321    +64%
+    Mistral Small  0.643     0.929         +0.286    +44%
+
+  The structured prompt is most impactful for weaker models:
+  - Mistral Small (24B) now matches GPT-4o on faithfulness (0.929)
+    at 7x lower generation cost ($0.35/1M vs $2.50/1M input tokens).
+  - Llama 3.3 improves dramatically (+64%) but still trails at 0.821,
+    suggesting its instruction-following is less suited to structured
+    output than Mistral's.
+  - The structured prompt effectively levels the playing field between
+    models by providing explicit grounding instructions that compensate
+    for weaker instruction tuning.
+
+  Best configuration summary (project-wide, all experiments):
+
+    Config                          Model     Faith  Correct  Cost/1M in
+    ─────────────────────────────── ───────── ────── ───────  ──────────
+    structured + rerank + k=10      GPT-4o    0.929  0.321    $2.50
+    structured + rerank + k=10      Mistral   0.929  0.357    $0.35
+    old prompt + rerank + k=10      GPT-4o    0.857  0.464    $2.50
+    structured + rerank + k=10      Llama     0.821  0.321    $0.10
+    structured + rerank + k=5       GPT-4o    0.893  0.321    $2.50
+
+  For production: Mistral Small + structured prompt + rerank + k=10
+  achieves the same faithfulness as GPT-4o at 7x lower cost, with
+  slightly better correctness (0.357 vs 0.321).
 
 ======================================================================
