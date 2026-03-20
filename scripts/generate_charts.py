@@ -645,6 +645,132 @@ def chart13():
 
 
 # ======================================================================
+# Chart 14: Prompt Completeness Experiment (Section 7.16) — Negative Result
+# ======================================================================
+def chart14():
+    questions_changed = [
+        "golden_017", "golden_025", "golden_026",
+        "golden_039", "golden_041", "golden_047", "golden_050", "reddit_q026",
+    ]
+    base_gen = [0.500, 0.333, 0.333, 0.333, 0.667, 1.000, 1.000, 0.000]
+    new_gen  = [1.000, 0.667, 0.667, 0.000, 0.333, 0.500, 0.667, 0.500]
+
+    x = np.arange(len(questions_changed))
+    width = 0.35
+
+    fig, ax = plt.subplots(figsize=(12, 5.5))
+    b1 = ax.bar(x - width/2, base_gen, width, label="Baseline prompt", color=BLUE, alpha=0.8)
+    b2 = ax.bar(x + width/2, new_gen, width, label="Completeness prompt", color=ORANGE, alpha=0.8)
+
+    for bars in [b1, b2]:
+        for bar in bars:
+            h = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2, h + 0.02,
+                    f"{h:.2f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
+
+    # Mark improved vs regressed
+    for i in range(len(questions_changed)):
+        delta = new_gen[i] - base_gen[i]
+        if delta > 0:
+            ax.annotate("▲", (x[i], 1.08), ha="center", fontsize=10, color=GREEN, fontweight="bold")
+        elif delta < 0:
+            ax.annotate("▼", (x[i], 1.08), ha="center", fontsize=10, color=RED, fontweight="bold")
+
+    ax.set_ylabel("Generation Correctness")
+    ax.set_title("Chart 14 — Prompt Completeness Experiment: Per-Question Deltas\n"
+                 "(only 8/28 questions changed; 4 improved ▲, 4 regressed ▼ — net zero)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(questions_changed, fontsize=8, rotation=30, ha="right")
+    ax.set_ylim(0, 1.2)
+    ax.legend(loc="upper right")
+    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+    fig.tight_layout()
+    save(fig, "chart14_prompt_completeness.png")
+
+
+# ======================================================================
+# Chart 15: Multi-Model Retrieval-Aware Correctness (Section 7.17)
+# ======================================================================
+def chart15():
+    models = ["GPT-4o", "Mistral Small\n(24B)", "Llama 3.3\n(70B)"]
+    colors = [BLUE, GREEN, ORANGE]
+
+    # Coverage metrics
+    ret_cov =   [0.757, 0.757, 0.743]
+    gen_cov =   [0.554, 0.595, 0.541]
+    gen_ret =   [0.714, 0.768, 0.655]
+
+    # Attribution counts
+    covered =  [40, 43, 36]
+    gen_miss = [16, 13, 19]
+    ret_miss = [17, 17, 15]
+    halluc =   [1, 1, 4]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+
+    # Left panel: coverage metrics grouped bars
+    x = np.arange(len(models))
+    width = 0.22
+
+    b1 = ax1.bar(x - width, ret_cov, width, label="Retrieval coverage", color=[c for c in colors], alpha=0.5)
+    b2 = ax1.bar(x, gen_cov, width, label="Generation coverage", color=colors, alpha=0.75)
+    b3 = ax1.bar(x + width, gen_ret, width, label="Gen coverage | retrieved", color=colors)
+
+    for bars in [b1, b2, b3]:
+        for bar in bars:
+            h = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2, h + 0.01,
+                     f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
+
+    ax1.set_ylabel("Score")
+    ax1.set_title("Coverage Metrics by Model")
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(models, fontsize=10)
+    ax1.set_ylim(0, 1.05)
+    ax1.legend(fontsize=8.5, loc="lower left")
+
+    # Right panel: stacked bar — fact attribution
+    x2 = np.arange(len(models))
+    width2 = 0.5
+
+    p1 = ax2.bar(x2, covered, width2, label="Covered", color=GREEN, edgecolor="white")
+    p2 = ax2.bar(x2, gen_miss, width2, bottom=covered, label="Generation miss", color=ORANGE, edgecolor="white")
+    bottoms2 = [c + g for c, g in zip(covered, gen_miss)]
+    p3 = ax2.bar(x2, ret_miss, width2, bottom=bottoms2, label="Retrieval miss", color=RED, alpha=0.7, edgecolor="white")
+    bottoms3 = [b + r for b, r in zip(bottoms2, ret_miss)]
+    p4 = ax2.bar(x2, halluc, width2, bottom=bottoms3, label="Hallucinated", color=DARK, edgecolor="white")
+
+    # Add count labels inside bars
+    for i in range(len(models)):
+        # Covered
+        ax2.text(i, covered[i] / 2, str(covered[i]),
+                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
+        # Gen miss
+        ax2.text(i, covered[i] + gen_miss[i] / 2, str(gen_miss[i]),
+                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
+        # Ret miss
+        ax2.text(i, bottoms2[i] + ret_miss[i] / 2, str(ret_miss[i]),
+                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
+        # Hallucinated (only if > 1 for readability)
+        if halluc[i] > 1:
+            ax2.text(i, bottoms3[i] + halluc[i] / 2, str(halluc[i]),
+                     ha="center", va="center", fontsize=10, fontweight="bold", color="white")
+
+    ax2.set_ylabel("Number of Facts (out of 74)")
+    ax2.set_title("Fact Attribution by Model")
+    ax2.set_xticks(x2)
+    ax2.set_xticklabels(["GPT-4o", "Mistral\n(24B)", "Llama\n(70B)"], fontsize=10)
+    ax2.set_ylim(0, 82)
+    ax2.legend(loc="upper right", fontsize=9)
+
+    fig.suptitle("Chart 15 — Multi-Model Retrieval-Aware Correctness\n"
+                 "(rerank + k=10 + structured prompt, 28 questions, Claude S4 judge)",
+                 fontsize=13, fontweight="bold", y=1.04)
+    fig.tight_layout()
+    save(fig, "chart15_multimodel_fact_attribution.png")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 if __name__ == "__main__":
@@ -662,4 +788,6 @@ if __name__ == "__main__":
     chart11()
     chart12()
     chart13()
-    print(f"\nAll 13 charts saved to {OUTPUT_DIR}/")
+    chart14()
+    chart15()
+    print(f"\nAll 15 charts saved to {OUTPUT_DIR}/")

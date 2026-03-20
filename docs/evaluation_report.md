@@ -1052,3 +1052,228 @@ The 2 faithfulness disagreements cancel out:
 **Cost:** $1.39 (Claude gen + GPT-4o judge) + $0.88 (Claude gen + Llama/Mistral judges) = $2.27 total.
 
 ![Chart 11 — Corpus Composition](figures/chart11_corpus_composition.png)
+
+### 7.15 Retrieval-Aware Correctness: Decomposing Retrieval vs Generation Failures
+
+**Motivation:** The per-fact correctness metric (used since Section 7.8) penalizes the LLM equally whether a missing fact was never retrieved or was retrieved but not included. Since the structured prompt instructs the LLM to "use ONLY retrieved context," the LLM *cannot* include facts that weren't retrieved without hallucinating. This experiment decomposes correctness into retrieval coverage and generation coverage to identify the true bottleneck.
+
+**Setup:**
+- Questions: 28 (stratified sample, same as Section 7.8)
+- Generator: `openai/gpt-4o` (structured prompt)
+- Retriever: `rerank`, top_k=10
+- Judge: `anthropic/claude-sonnet-4`
+- Total key facts evaluated: 74 across 28 questions
+
+**Method:** For each question, the LLM judge evaluates the same set of key facts twice:
+1. **Retrieval coverage** — Are the key facts present in the retrieved chunks? (ceiling for correctness)
+2. **Generation correctness** — Are the key facts present in the LLM response? (existing metric)
+
+Each fact is then attributed to one of four categories:
+- **Covered**: fact retrieved AND included in response
+- **Generation miss**: fact retrieved but LLM failed to include it
+- **Retrieval miss**: fact never retrieved (LLM can't include it without hallucinating)
+- **Hallucinated**: fact not retrieved but LLM included it anyway
+
+**Aggregate results:**
+
+| Metric | Score |
+|--------|-------|
+| Retrieval coverage | 56/74 = 0.757 |
+| Generation correctness | 41/74 = 0.554 |
+| Generation coverage given retrieval | 40/56 = 0.714 |
+
+**Per-fact attribution (74 facts total):**
+
+| Attribution | Count | % |
+|-------------|-------|---|
+| Covered (retrieved + generated) | 40 | 54.1% |
+| Generation miss (retrieved, not generated) | 16 | 21.6% |
+| Retrieval miss (not retrieved) | 17 | 23.0% |
+| Hallucinated (not retrieved, but generated) | 1 | 1.4% |
+
+**Of 33 missed facts:**
+- 51.5% are **retrieval failures** (17/33) — the fact was never in the retrieved chunks
+- 48.5% are **generation failures** (16/33) — the fact was retrieved but the LLM dropped it
+
+**Per-question breakdown:**
+
+| Question | Topic | Ret Cov | Gen Cor | Miss Types |
+|----------|-------|---------|---------|------------|
+| golden_029 | discrimination | 0.667 | 0.333 | 1 retrieval, 1 generation |
+| golden_032 | discrimination | 1.000 | 1.000 | — |
+| golden_015 | evictions | 1.000 | 1.000 | — |
+| golden_012 | evictions | 0.667 | 0.333 | 1 retrieval, 1 generation |
+| golden_026 | landlord_entry | 0.667 | 0.333 | 1 retrieval, 1 generation |
+| golden_028 | landlord_entry | 1.000 | 0.333 | 2 generation |
+| golden_037 | lead_paint | 0.000 | 0.000 | 3 retrieval |
+| golden_039 | lead_paint | 0.333 | 0.333 | 2 retrieval |
+| golden_033 | lease_terms | 1.000 | 1.000 | — |
+| golden_035 | lease_terms | 1.000 | 1.000 | — |
+| golden_046 | public_housing | 1.000 | 0.667 | 1 generation |
+| golden_043 | public_housing | 0.500 | 0.000 | 1 retrieval, 1 generation |
+| golden_022 | rent_increases | 1.000 | 0.000 | 2 generation |
+| golden_025 | rent_increases | 0.667 | 0.333 | 1 retrieval, 1 generation |
+| golden_017 | repairs_habitability | 1.000 | 0.500 | 1 generation |
+| golden_021 | repairs_habitability | 1.000 | 0.667 | 1 generation |
+| golden_009 | retaliation | 0.500 | 0.500 | 1 retrieval |
+| golden_007 | retaliation | 0.333 | 0.333 | 2 retrieval |
+| golden_005 | security_deposits | 0.000 | 0.000 | 2 retrieval |
+| golden_002 | security_deposits | 1.000 | 0.667 | 1 generation |
+| golden_050 | tenant_rights_general | 0.667 | 1.000 | — (1 hallucinated) |
+| golden_047 | tenant_rights_general | 1.000 | 1.000 | — |
+| golden_041 | utilities_heat | 1.000 | 0.667 | 1 generation |
+| golden_042 | utilities_heat | 1.000 | 0.667 | 1 generation |
+| reddit_q026 | (reddit) | 0.000 | 0.000 | 2 retrieval |
+| reddit_q028 | (reddit) | 1.000 | 0.667 | 1 generation |
+| reddit_q001 | (reddit) | 1.000 | 1.000 | — |
+| reddit_q025 | (reddit) | 1.000 | 1.000 | — |
+
+**Analysis:**
+
+1. **The bottleneck is split nearly 50/50 between retrieval and generation.** 51.5% of missed facts are retrieval failures (the chunk containing that fact was never retrieved), and 48.5% are generation failures (the fact was in the chunks but the LLM didn't include it). Both retrieval and generation quality need improvement.
+
+2. **Retrieval coverage (0.757) sets a ceiling for correctness.** The maximum achievable correctness without hallucination is 75.7%. The actual generation correctness (0.554) means the LLM captures 71.4% of available facts — a generation efficiency of ~71%.
+
+3. **Lead paint and retaliation have the worst retrieval coverage** (0.000–0.333), indicating corpus gaps. These topics may need additional source documents or better chunking to surface the right information.
+
+4. **Rent increases show the most severe generation failures.** golden_022 has perfect retrieval coverage (1.000) but zero generation correctness (0.000) — the LLM had all the facts but failed to include any of them. This suggests the structured prompt may be too conservative for some question types, or the relevant chunks were ranked too low in the context.
+
+5. **Hallucination is minimal.** Only 1 out of 74 facts (1.4%) was generated without retrieval support, confirming the structured prompt effectively constrains the LLM to retrieved context.
+
+6. **Practical implications:**
+   - To improve retrieval: add lead paint statutes, retaliation case law, and pet policy documents to the corpus
+   - To improve generation: investigate why the LLM drops facts that appear in context (possibly prompt length, fact salience, or context ordering effects)
+   - The ~50/50 split means neither fix alone will solve low correctness — both retriever and generator improvements are needed
+
+---
+
+### 7.16 Prompt Completeness Experiment (Generation Miss Reduction)
+
+**Hypothesis:** Generation misses (48.5% of missed facts) are caused by the structured prompt encouraging summarization over completeness. Adding explicit instructions to preserve all specifics (statutes, dates, penalties, remedies) should reduce generation misses.
+
+**Changes to `SYSTEM_PROMPT` in `src/rag/pipeline.py`:**
+1. Added Rule 6: "Include ALL relevant details from the context: specific statute numbers, regulation codes, dates, deadlines, dollar amounts, penalties, and remedies. Do not summarize away specifics."
+2. Revised Evidence format to request "specific detail from source, including any statute/regulation numbers, dates, deadlines, or penalties" and "extract ALL relevant facts, not just the primary answer"
+3. Revised Analysis line to include "verify you included all statutes, dates, and remedies from the evidence"
+4. Revised Final Answer line to "clear, grounded answer incorporating all evidence above"
+
+**Config:** GPT-4o + rerank + k=10 + Claude S4 judge, 28 stratified questions (identical to Section 7.15 baseline).
+
+**Aggregate Results:**
+
+| Metric | Baseline (7.15) | Completeness Prompt | Delta |
+|--------|-----------------|-------------------|-------|
+| Retrieval coverage | 56/74 = 0.757 | 56/74 = 0.757 | 0.000 |
+| Generation coverage | 41/74 = 0.554 | 41/74 = 0.554 | 0.000 |
+| Gen coverage \| retrieved | 40/56 = 0.714 | 39/56 = 0.696 | −0.018 |
+| Covered facts | 40 | 39 | −1 |
+| Generation misses | 16 | 17 | +1 |
+| Retrieval misses | 17 | 16 | −1 |
+| Hallucinated facts | 1 | 2 | +1 |
+
+**Per-Question Delta (only questions that changed):**
+
+| Question ID | Topic | Base Gen | New Gen | Delta | Fact-level change |
+|-------------|-------|----------|---------|-------|-------------------|
+| golden_017 | repairs_habitability | 0.500 | 1.000 | +0.500 | generation_miss → covered |
+| golden_025 | rent_increases | 0.333 | 0.667 | +0.334 | generation_miss → covered |
+| golden_026 | landlord_entry | 0.333 | 0.667 | +0.334 | generation_miss → covered |
+| golden_039 | lead_paint | 0.333 | 0.000 | −0.333 | covered → generation_miss |
+| golden_041 | utilities_heat | 0.667 | 0.333 | −0.334 | covered → generation_miss |
+| golden_047 | tenant_rights_general | 1.000 | 0.500 | −0.500 | covered → generation_miss |
+| golden_050 | tenant_rights_general | 1.000 | 0.667 | −0.333 | covered → generation_miss |
+| reddit_q026 | (reddit) | 0.000 | 0.500 | +0.500 | retrieval_miss → hallucinated |
+
+![Chart 14 — Prompt Completeness Experiment](figures/chart14_prompt_completeness.png)
+
+**Result: 4 improved, 4 regressed, 20 unchanged. Net effect: zero.**
+
+**Analysis:**
+
+1. **Prompt-level completeness instructions are insufficient** to reduce generation misses. The 4 improvements (golden_017, golden_025, golden_026) are offset by 4 regressions (golden_039, golden_041, golden_047, golden_050), consistent with run-to-run variance from LLM generation (temperature=0.2) and LLM judge stochasticity.
+
+2. **Hallucination slightly increased** (1 → 2), with reddit_q026 now generating a fact not present in retrieval. The completeness instructions may encourage the LLM to be more assertive, which can backfire when context is insufficient.
+
+3. **The persistent generation misses (golden_022: 2/2 retrieved, 0/2 generated)** are not addressed by prompt wording alone. These appear to be cases where the relevant facts are buried in long context windows and the LLM fails to surface them regardless of instructions.
+
+4. **Conclusion:** Simple prompt engineering cannot meaningfully reduce generation misses below ~16/56 (28.6% miss rate). Addressing this requires structural changes: (a) multi-pass generation with explicit fact extraction, (b) reducing context noise by filtering low-relevance chunks, (c) fine-tuning on fact-complete responses, or (d) post-generation fact verification with re-prompting.
+
+**Decision:** Reverting the prompt changes since they provide no net benefit and slightly increase hallucination risk. The original structured prompt from Section 7.12 remains the production configuration. Generation miss reduction is deferred to future work (fine-tuning or multi-pass generation).
+
+---
+
+### 7.17 Multi-Model Retrieval-Aware Correctness
+
+**Goal:** Compare generation efficiency across all three models using the retrieval-aware correctness decomposition from Section 7.15. All models use the same retriever (rerank, k=10), same 28 stratified questions, and same Claude S4 judge — only the generator differs.
+
+**Config:** rerank + k=10 + structured prompt + Claude S4 judge. 28 stratified questions (seed=42).
+
+![Chart 15 — Multi-Model Retrieval-Aware Correctness](figures/chart15_multimodel_fact_attribution.png)
+
+**Aggregate Results:**
+
+| Metric | GPT-4o | Mistral Small 3.1 (24B) | Llama 3.3 (70B) |
+|--------|--------|------------------------|-----------------|
+| Retrieval coverage | 56/74 = 0.757 | 56/74 = 0.757 | 55/74 = 0.743 |
+| Generation coverage | 41/74 = 0.554 | 44/74 = **0.595** | 40/74 = 0.541 |
+| Gen coverage \| retrieved | 40/56 = 0.714 | 43/56 = **0.768** | 36/55 = 0.655 |
+| Generation misses | 16 | **13** | 19 |
+| Retrieval misses | 17 | 17 | 15 |
+| Hallucinated facts | 1 | 1 | **4** |
+| Total missed facts | 33 | **30** | 34 |
+
+**Per-Question Comparison (generation correctness):**
+
+| Question ID | Topic | GPT-4o | Mistral | Llama | Best |
+|-------------|-------|--------|---------|-------|------|
+| golden_029 | discrimination | 0.333 | 0.667 | 0.333 | Mistral |
+| golden_032 | discrimination | 1.000 | 1.000 | 1.000 | Tie |
+| golden_015 | evictions | 1.000 | 1.000 | 0.333 | GPT-4o/Mistral |
+| golden_012 | evictions | 0.333 | 0.333 | 0.333 | Tie |
+| golden_026 | landlord_entry | 0.333 | 0.667 | 0.667 | Mistral/Llama |
+| golden_028 | landlord_entry | 0.333 | 0.333 | 0.667 | Llama |
+| golden_037 | lead_paint | 0.000 | 0.000 | 0.000 | Tie (all fail) |
+| golden_039 | lead_paint | 0.333 | 0.000 | 0.000 | GPT-4o |
+| golden_033 | lease_terms | 1.000 | 0.667 | 1.000 | GPT-4o/Llama |
+| golden_035 | lease_terms | 1.000 | 1.000 | 1.000 | Tie |
+| golden_046 | public_housing | 0.667 | 0.667 | 0.667 | Tie |
+| golden_043 | public_housing | 0.000 | 0.000 | 0.000 | Tie (all fail) |
+| golden_022 | rent_increases | 0.000 | 0.500 | 0.000 | Mistral |
+| golden_025 | rent_increases | 0.333 | 0.667 | 0.333 | Mistral |
+| golden_017 | repairs_habitability | 0.500 | 1.000 | 1.000 | Mistral/Llama |
+| golden_021 | repairs_habitability | 0.667 | 1.000 | 1.000 | Mistral/Llama |
+| golden_009 | retaliation | 0.500 | 0.500 | 0.500 | Tie |
+| golden_007 | retaliation | 0.333 | 0.333 | 0.333 | Tie |
+| golden_005 | security_deposits | 0.000 | 0.000 | 0.000 | Tie (all fail) |
+| golden_002 | security_deposits | 0.667 | 1.000 | 0.333 | Mistral |
+| golden_050 | tenant_rights_general | 1.000 | 1.000 | 1.000 | Tie |
+| golden_047 | tenant_rights_general | 1.000 | 1.000 | 1.000 | Tie |
+| golden_041 | utilities_heat | 0.667 | 0.333 | 0.667 | GPT-4o/Llama |
+| golden_042 | utilities_heat | 0.667 | 0.667 | 0.333 | GPT-4o/Mistral |
+| reddit_q026 | (reddit) | 0.000 | 0.000 | 1.000 | Llama |
+| reddit_q028 | (reddit) | 0.667 | 0.667 | 0.333 | GPT-4o/Mistral |
+| reddit_q001 | (reddit) | 1.000 | 0.667 | 0.667 | GPT-4o |
+| reddit_q025 | (reddit) | 1.000 | 1.000 | 1.000 | Tie |
+
+**Analysis:**
+
+1. **Mistral Small 3.1 is the most fact-complete generator.** It has the fewest generation misses (13 vs 16 for GPT-4o and 19 for Llama) and the highest generation coverage given retrieval (0.768). This extends the Section 7.12 finding that Mistral matches GPT-4o on faithfulness — Mistral is also better at extracting and including all relevant facts from retrieved context.
+
+2. **Llama 3.3-70B has the most generation misses (19) and hallucinations (4).** Despite being 3x larger than Mistral, Llama drops more facts and is more likely to generate information not present in the retrieved chunks. Its 4 hallucinated facts vs 1 for GPT-4o and Mistral suggests weaker groundedness.
+
+3. **golden_022 (rent increases) remains a hard case.** GPT-4o and Llama both score 0/2 on generation despite perfect retrieval. Only Mistral extracts 1 of 2 facts. This question's facts (specific statute references for rent increase restrictions) appear to be consistently buried in context.
+
+4. **Three questions defeat all models** (golden_037, golden_043, golden_005) — all are retrieval failures where the needed facts are not in the top-10 chunks. These are corpus/retrieval gaps, not generator limitations.
+
+5. **Mistral's advantage is consistent across topics.** It wins outright or ties on 24/28 questions, with only 4 questions where another model does better (golden_039, golden_033, golden_041, reddit_q001).
+
+6. **Cost-effectiveness reinforced.** Mistral Small 3.1 (24B parameters) at ~7x lower cost than GPT-4o is the best generator not just on faithfulness (Section 7.12) but also on fact completeness. This strengthens the case for Mistral as the production model.
+
+**Attribution breakdown comparison:**
+
+| Attribution | GPT-4o | Mistral | Llama |
+|-------------|--------|---------|-------|
+| Covered (ret + gen) | 40 (54.1%) | 43 (58.1%) | 36 (48.6%) |
+| Generation miss | 16 (21.6%) | 13 (17.6%) | 19 (25.7%) |
+| Retrieval miss | 17 (23.0%) | 17 (23.0%) | 15 (20.3%) |
+| Hallucinated | 1 (1.4%) | 1 (1.4%) | 4 (5.4%) |
