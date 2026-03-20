@@ -1,0 +1,831 @@
+{
+  "config": {
+    "gen_model": "openai/gpt-4o",
+    "judge_model": "anthropic/claude-sonnet-4",
+    "retriever": "rerank",
+    "top_k": 10,
+    "num_questions": 28
+  },
+  "aggregate": {
+    "total_facts": 74,
+    "retrieval_coverage": 0.757,
+    "generation_coverage": 0.554,
+    "generation_coverage_given_retrieval": 0.696,
+    "attribution": {
+      "covered": 39,
+      "generation_miss": 17,
+      "retrieval_miss": 16,
+      "hallucinated": 2
+    }
+  },
+  "results": [
+    {
+      "question_id": "golden_029",
+      "question": "Can my landlord in Boston deny me housing because of my religion?",
+      "topic": "discrimination",
+      "retrieval_coverage": 0.667,
+      "retrieval_hits": 2,
+      "retrieval_total": 3,
+      "generation_correctness": 0.333,
+      "generation_hits": 1,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "MGL Chapter 151B prohibits discrimination in housing based on religious creed.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Landlords cannot legally deny housing based on religion in Massachusetts.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Unlawful discrimination includes factors like race, color, and national origin.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_032",
+      "question": "Can my landlord refuse to rent to me because I have a service dog?",
+      "topic": "discrimination",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 1.0,
+      "generation_hits": 2,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts law prohibits housing discrimination based on the need for a service dog.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "MGL c.151B s.4 outlines unlawful housing discrimination practices.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_015",
+      "question": "I'm struggling to pay my rent in a Boston public housing unit. Is there any way I can get an exemption or reduction due to my financial situation?",
+      "topic": "evictions",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 1.0,
+      "generation_hits": 3,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "MGL c.121B s.32 outlines the conditions under which a tenant can be exempt from the minimum rent due to severe financial hardship.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "The exemption can be applied if the tenant is awaiting eligibility for assistance programs or has experienced a significant change in income.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "The housing authority is responsible for determining eligibility for the hardship exemption.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_012",
+      "question": "Can I withhold rent if my apartment in Boston has serious code violations?",
+      "topic": "evictions",
+      "retrieval_coverage": 0.667,
+      "retrieval_hits": 2,
+      "retrieval_total": 3,
+      "generation_correctness": 0.333,
+      "generation_hits": 1,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts law allows rent withholding for code violations.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "MGL c.239 s.8A outlines tenant rights regarding rent withholding.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Tenants can claim the difference between agreed rent and fair value of the premises.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_026",
+      "question": "Can my landlord shut off my electricity if I’m behind on rent payments in Boston?",
+      "topic": "landlord_entry",
+      "retrieval_coverage": 0.667,
+      "retrieval_hits": 2,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlords cannot willfully interrupt utilities to enforce rent payment.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "MGL c.186 s.14 prohibits landlords from shutting off electricity as a form of penalty.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Penalties can be imposed on landlords for interrupting utilities.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_028",
+      "question": "Can my landlord shut off my water if I am behind on rent in Boston?",
+      "topic": "landlord_entry",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.333,
+      "generation_hits": 1,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "MGL c.186 s.14 prohibits landlords from shutting off utilities like water as it constitutes a wrongful act.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Tenants have a right to quiet enjoyment, which includes access to essential services.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "Violations may result in penalties and remedies for the tenant.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_037",
+      "question": "I'm renting an apartment in Boston with lead paint, and I'm concerned about safety for my child. How can I get help to address this issue?",
+      "topic": "lead_paint",
+      "retrieval_coverage": 0.0,
+      "retrieval_hits": 0,
+      "retrieval_total": 3,
+      "generation_correctness": 0.0,
+      "generation_hits": 0,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "The Lead Safe Boston program offers financial help for lead removal in homes.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "The program includes a lead inspection to assess needed work and costs.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Assistance is provided to find a contractor and set up a project timeline.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_039",
+      "question": "I'm renting an apartment in Boston with peeling paint, and I suspect it has lead. How can I address this issue?",
+      "topic": "lead_paint",
+      "retrieval_coverage": 0.333,
+      "retrieval_hits": 1,
+      "retrieval_total": 3,
+      "generation_correctness": 0.0,
+      "generation_hits": 0,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "The Lead Safe Boston program helps cover costs for lead removal.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "A lead inspection will determine the extent of work needed.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "The program assists in finding a contractor to handle the lead removal project.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_033",
+      "question": "I heard Boston has some new rules about affordable housing requirements for developers. Can someone explain what these are?",
+      "topic": "lease_terms",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 1.0,
+      "generation_hits": 3,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Inclusionary Zoning requires 15 to 17 percent of units in new developments to be income-restricted.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "An additional three percent of units must be for voucher holders in large projects.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Developers can contribute to a fund instead of building these units.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_035",
+      "question": "Can my landlord make me pay a broker fee if I'm renting an apartment in Boston?",
+      "topic": "lease_terms",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 1.0,
+      "generation_hits": 2,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "A new law went into effect on August 1, 2025, prohibiting brokers from charging fees to tenants when they primarily provide services to the landlord.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "A landlord may not charge a tenant or prospective tenant a fee for services that a broker provided to the landlord.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_046",
+      "question": "I'm on the waiting list for a BHA apartment in Boston. Can I change the development choices I've selected?",
+      "topic": "public_housing",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Applicants may add or remove developments choices at any time prior to entering the final eligibility screening process.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Once the applicant is contacted by the BHA to schedule the personal interview appointment no changes in development choice(s) shall be accepted.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Applicants are encouraged to visit the public housing developments before applying or before entering the final screening process.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_043",
+      "question": "Can I ask for a modification to my lease terms due to my disability if I'm struggling to meet certain requirements?",
+      "topic": "public_housing",
+      "retrieval_coverage": 0.5,
+      "retrieval_hits": 1,
+      "retrieval_total": 2,
+      "generation_correctness": 0.0,
+      "generation_hits": 0,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "An 'otherwise qualified' individual with a disability can meet program eligibility and requirements with or without a reasonable accommodation.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Clients may request BHA to consider their disability and work with them if they're struggling with program obligations due to their disability.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_022",
+      "question": "My landlord in Boston is trying to keep my entire security deposit after I accidentally damaged a wall. Is this allowed?",
+      "topic": "rent_increases",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 0.0,
+      "generation_hits": 0,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlords cannot retain more of the security deposit than the amount that corresponds to actual damages (940 CMR 3.17).",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "The regulation prevents landlords from keeping an excessive amount of the security deposit beyond what's necessary for repairs.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_025",
+      "question": "Can my landlord in Boston charge me a late fee if I'm only a few days late on rent?",
+      "topic": "rent_increases",
+      "retrieval_coverage": 0.667,
+      "retrieval_hits": 2,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts landlords cannot charge a late fee until rent is 30 days overdue.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "This rule is specified in 940 CMR 3.17(3)(a).",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Late fees imposed before 30 days are considered illegal.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_017",
+      "question": "Can my landlord enter my apartment without notice to make repairs?",
+      "topic": "repairs_habitability",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 1.0,
+      "generation_hits": 2,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "The landlord should provide at least one day’s notice (24 hours) and attempt to arrange a convenient time to access the unit.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Unless there is an emergency, the landlord should never enter your apartment without advance notice and your permission.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_021",
+      "question": "My landlord mentioned my building might have asbestos. What are they required to do about it?",
+      "topic": "repairs_habitability",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlords must maintain asbestos-containing materials in good repair (105 CMR 410.250).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Materials must be free from any defects that could release asbestos dust (105 CMR 410.250).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Violations must be corrected according to accepted standards (105 CMR 410.010).",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_009",
+      "question": "Can my landlord evict me because I reported a health violation to the city?",
+      "topic": "retaliation",
+      "retrieval_coverage": 0.5,
+      "retrieval_hits": 1,
+      "retrieval_total": 2,
+      "generation_correctness": 0.5,
+      "generation_hits": 1,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "The Eviction Notice is Retaliatory: Landlords can’t retaliate against a tenant because they exercise their legal rights.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "MGL c.239, Section 2A: Reprisal for reporting violations of law is a defense.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_007",
+      "question": "Can my landlord in Boston legally turn off my heat during the winter if I'm late on rent?",
+      "topic": "retaliation",
+      "retrieval_coverage": 0.333,
+      "retrieval_hits": 1,
+      "retrieval_total": 3,
+      "generation_correctness": 0.333,
+      "generation_hits": 1,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts law requires landlords to provide essential services like heat.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Willfully failing to provide heat is a violation of MGL c.186 s.14.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Violations can lead to fines or imprisonment for the landlord.",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_005",
+      "question": "I just found out my landlord is selling the building. What happens to my security deposit?",
+      "topic": "security_deposits",
+      "retrieval_coverage": 0.0,
+      "retrieval_hits": 0,
+      "retrieval_total": 2,
+      "generation_correctness": 0.0,
+      "generation_hits": 0,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "940 CMR 3.17",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "M.G.L. c. 186, § 15B",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_002",
+      "question": "My landlord stopped paying the electric bill, and I'm worried about losing service. What can I do according to Massachusetts law?",
+      "topic": "security_deposits",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "It is an unfair practice for a landlord to fail to provide required gas or electric services.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "The landlord must pay gas or electric bills when due to prevent service loss.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "Tenants are protected from losing services due to landlord's failure to pay utility bills.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_050",
+      "question": "Do I need to get renters insurance for my apartment in Boston?",
+      "topic": "tenant_rights_general",
+      "retrieval_coverage": 0.667,
+      "retrieval_hits": 2,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Renters insurance is not legally required by Massachusetts law.",
+          "in_retrieval": false,
+          "in_generation": true,
+          "attribution": "hallucinated"
+        },
+        {
+          "fact": "Renters insurance is recommended by the City of Boston for tenant protection.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "Renters insurance can cover damages or losses in case of unexpected events.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_047",
+      "question": "Is my landlord required to provide a refrigerator in my Boston apartment?",
+      "topic": "tenant_rights_general",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 0.5,
+      "generation_hits": 1,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlords are not required to provide refrigerators.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "If a refrigerator is provided, it must be maintained by the landlord.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_041",
+      "question": "I'm renting an apartment in Boston and my landlord wants me to pay for heat and hot water. Is this allowed?",
+      "topic": "utilities_heat",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.333,
+      "generation_hits": 1,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "A tenant can only be required to pay for utilities if there are separate meters for each service charged.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        },
+        {
+          "fact": "Your landlord must pay for heat and hot water unless you have signed a written agreement that says you must pay.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Landlords who pay for heat must provide it between September 15 and May 31.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "golden_042",
+      "question": "Can my landlord in Boston make me pay for heat if there's no separate meter?",
+      "topic": "utilities_heat",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "A tenant can only be required to pay for utilities if there are separate meters for each service charged.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Your landlord must pay for heat and hot water unless you have signed a written agreement that says you must pay.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Landlords who pay for heat must provide it between September 15 and May 31.",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "reddit_q026",
+      "question": "Can my landlord prohibit me from having a pet in Massachusetts?",
+      "topic": "",
+      "retrieval_coverage": 0.0,
+      "retrieval_hits": 0,
+      "retrieval_total": 2,
+      "generation_correctness": 0.5,
+      "generation_hits": 1,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlords can enforce 'no pets' policies as per lease agreements (Source 2).",
+          "in_retrieval": false,
+          "in_generation": false,
+          "attribution": "retrieval_miss"
+        },
+        {
+          "fact": "Landlords must make reasonable accommodations for tenants with disabilities, such as allowing an emotional support animal (Source 1).",
+          "in_retrieval": false,
+          "in_generation": true,
+          "attribution": "hallucinated"
+        }
+      ]
+    },
+    {
+      "question_id": "reddit_q028",
+      "question": "How do I file a complaint about housing code violations in Boston?",
+      "topic": "",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 0.667,
+      "generation_hits": 2,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Complaints regarding housing violations must be addressed to the local health authority (Source 1).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "The local health authority is responsible for conducting inspections and enforcement (Source 1).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "In Boston, you can file a complaint if your landlord isn't meeting housing codes (Source 3).",
+          "in_retrieval": true,
+          "in_generation": false,
+          "attribution": "generation_miss"
+        }
+      ]
+    },
+    {
+      "question_id": "reddit_q001",
+      "question": "My landlord hasn't returned my security deposit and it's been over 30 days since I moved out. What are my rights in Massachusetts?",
+      "topic": "",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 3,
+      "retrieval_total": 3,
+      "generation_correctness": 1.0,
+      "generation_hits": 3,
+      "generation_total": 3,
+      "per_fact_attribution": [
+        {
+          "fact": "Landlord must return security deposit within 30 days after move-out (Source 1, Source 4).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Landlord must provide an itemized receipt for any deductions (Source 1, Source 4).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "Potential for triple damages if landlord violates G. L. c. 186, s.15B (Source 3).",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    },
+    {
+      "question_id": "reddit_q025",
+      "question": "What happens to my lease if my landlord sells the building in Massachusetts?",
+      "topic": "",
+      "retrieval_coverage": 1.0,
+      "retrieval_hits": 2,
+      "retrieval_total": 2,
+      "generation_correctness": 1.0,
+      "generation_hits": 2,
+      "generation_total": 2,
+      "per_fact_attribution": [
+        {
+          "fact": "The tenant's lease remains in effect even if the property is sold.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        },
+        {
+          "fact": "The new owner assumes the responsibilities of the landlord under the existing lease.",
+          "in_retrieval": true,
+          "in_generation": true,
+          "attribution": "covered"
+        }
+      ]
+    }
+  ]
+}

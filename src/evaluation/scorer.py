@@ -68,17 +68,22 @@ RESPONSE: {response}
 Is this response relevant to the question? Answer with ONLY "YES" or "NO", followed by a brief explanation.
 Format: YES/NO: <explanation>"""
 
-CORRECTNESS_PROMPT = """You are evaluating whether a response contains the correct key facts.
+CORRECTNESS_PROMPT = """You are evaluating whether a response contains specific expected facts.
 
 QUESTION: {question}
 
-EXPECTED KEY FACTS:
-{key_facts}
-
 RESPONSE: {response}
 
-Does the response contain the key facts listed above? Answer YES or NO, then explain which facts are present/missing.
-Format: YES/NO: <explanation>"""
+For each expected fact below, determine whether it is present (supported) in the response.
+A fact counts as present if the response conveys the same information, even if worded differently.
+A fact counts as absent if the response does not mention it or contradicts it.
+
+{numbered_facts}
+
+For each fact, answer on its own line in this exact format:
+FACT 1: YES or NO — brief explanation
+FACT 2: YES or NO — brief explanation
+...and so on for all facts."""
 
 
 def get_openrouter_client() -> OpenAI:
@@ -224,29 +229,115 @@ def judge_relevancy(question: str, response: str,
         return {"score": -1.0, "reasoning": str(e)}
 
 
-def judge_correctness(question: str, response: str, key_facts: list[str],
-                      client: OpenAI, judge_model: str) -> dict:
-    """Binary correctness evaluation against expected key facts (1.0 = pass, 0.0 = fail)."""
-    if not key_facts:
-        return {"score": -1.0, "reasoning": "No key facts to evaluate against"}
+def judge_retrieval_coverage(question: str, retrieved_context: str,
+                              key_facts: list[str], client, judge_model: str) -> dict:
+    """Per-fact check: which key facts appear in the retrieved chunks?
 
-    facts_str = "\n".join(f"- {f}" for f in key_facts)
+    Reuses the CORRECTNESS_PROMPT but evaluates the retrieved context instead of
+    the LLM response.  This gives a retrieval ceiling — the max correctness
+    achievable without hallucination.
+
+    Returns {score, hits, total, per_fact} with the same structure as
+    judge_correctness().
+    """
+    if not key_facts:
+        return {"score": -1.0, "reasoning": "No key facts to evaluate against",
+                "per_fact": [], "hits": 0, "total": 0}
+
+    numbered = "\n".join(f"FACT {i+1}: {f}" for i, f in enumerate(key_facts))
     prompt = CORRECTNESS_PROMPT.format(
-        question=question, response=response, key_facts=facts_str
+        question=question, response=retrieved_context, numbered_facts=numbered
     )
     try:
         result = client.chat.completions.create(
             model=judge_model,
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
-            max_tokens=300,
+            max_tokens=500,
         )
         text = result.choices[0].message.content.strip()
-        passing = text.upper().startswith("YES")
-        return {"score": 1.0 if passing else 0.0, "reasoning": text}
+
+        # Parse per-fact YES/NO judgments (same logic as judge_correctness)
+        hits = 0
+        per_fact = []
+        for i, fact in enumerate(key_facts):
+            fact_found = False
+            for line in text.splitlines():
+                line_upper = line.strip().upper()
+                if line_upper.startswith(f"FACT {i+1}:") or \
+                   line_upper.startswith(f"FACT {i+1} :"):
+                    present = "YES" in line_upper.split(":", 1)[1].split("—")[0].split("-")[0]
+                    per_fact.append({"fact": fact, "present": present,
+                                    "judgment": line.strip()})
+                    if present:
+                        hits += 1
+                    fact_found = True
+                    break
+            if not fact_found:
+                per_fact.append({"fact": fact, "present": False,
+                                 "judgment": "(not found in judge output)"})
+
+        score = round(hits / len(key_facts), 3)
+        return {"score": score, "reasoning": text, "per_fact": per_fact,
+                "hits": hits, "total": len(key_facts)}
+    except Exception as e:
+        print(f"  [ERROR] Retrieval coverage judge failed: {e}")
+        return {"score": -1.0, "reasoning": str(e), "per_fact": [],
+                "hits": 0, "total": 0}
+
+
+def judge_correctness(question: str, response: str, key_facts: list[str],
+                      client: OpenAI, judge_model: str) -> dict:
+    """Per-fact claim recall: fraction of expected key facts present in the response.
+
+    Returns a score in [0.0, 1.0] representing the proportion of key facts
+    covered by the response, along with per-fact judgments.
+    """
+    if not key_facts:
+        return {"score": -1.0, "reasoning": "No key facts to evaluate against",
+                "per_fact": []}
+
+    numbered = "\n".join(f"FACT {i+1}: {f}" for i, f in enumerate(key_facts))
+    prompt = CORRECTNESS_PROMPT.format(
+        question=question, response=response, numbered_facts=numbered
+    )
+    try:
+        result = client.chat.completions.create(
+            model=judge_model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+            max_tokens=500,
+        )
+        text = result.choices[0].message.content.strip()
+
+        # Parse per-fact YES/NO judgments
+        hits = 0
+        per_fact = []
+        for i, fact in enumerate(key_facts):
+            # Look for "FACT N: YES" or "FACT N: NO" patterns
+            fact_found = False
+            for line in text.splitlines():
+                line_upper = line.strip().upper()
+                if line_upper.startswith(f"FACT {i+1}:") or \
+                   line_upper.startswith(f"FACT {i+1} :"):
+                    present = "YES" in line_upper.split(":", 1)[1].split("—")[0].split("-")[0]
+                    per_fact.append({"fact": fact, "present": present,
+                                    "judgment": line.strip()})
+                    if present:
+                        hits += 1
+                    fact_found = True
+                    break
+            if not fact_found:
+                # Fallback: count as absent if not parseable
+                per_fact.append({"fact": fact, "present": False,
+                                 "judgment": "(not found in judge output)"})
+
+        score = round(hits / len(key_facts), 3)
+        return {"score": score, "reasoning": text, "per_fact": per_fact,
+                "hits": hits, "total": len(key_facts)}
     except Exception as e:
         print(f"  [ERROR] Correctness judge failed: {e}")
-        return {"score": -1.0, "reasoning": str(e)}
+        return {"score": -1.0, "reasoning": str(e), "per_fact": []}
 
 
 def score_all(results: list[dict], questions: list[dict] | None = None,
@@ -281,7 +372,7 @@ def score_all(results: list[dict], questions: list[dict] | None = None,
             "relevancy_reasoning": relev["reasoning"],
         }
 
-        # Correctness scoring for golden QA pairs with key_facts
+        # Correctness scoring (per-fact claim recall) for golden QA pairs
         key_facts = key_facts_map.get(r["question_id"], [])
         if key_facts:
             correct = judge_correctness(
@@ -290,6 +381,9 @@ def score_all(results: list[dict], questions: list[dict] | None = None,
             )
             scores["correctness"] = correct["score"]
             scores["correctness_reasoning"] = correct["reasoning"]
+            scores["correctness_per_fact"] = correct.get("per_fact", [])
+            scores["correctness_hits"] = correct.get("hits", 0)
+            scores["correctness_total"] = correct.get("total", 0)
 
         scored.append({**r, "scores": scores})
     return scored
@@ -406,7 +500,7 @@ def compute_summary(scored_results: list[dict]) -> dict:
             ),
         }
 
-        # Correctness (only for golden QA pairs that have key_facts)
+        # Correctness / claim recall (only for golden QA pairs that have key_facts)
         correctness_results = [
             r for r in valid if r["scores"].get("correctness", -1) >= 0
         ]
@@ -416,6 +510,17 @@ def compute_summary(scored_results: list[dict]) -> dict:
                 / len(correctness_results), 3
             )
             stats["correctness_count"] = len(correctness_results)
+            # Aggregate per-fact hits/total if available
+            total_hits = sum(
+                r["scores"].get("correctness_hits", 0) for r in correctness_results
+            )
+            total_facts = sum(
+                r["scores"].get("correctness_total", 0) for r in correctness_results
+            )
+            if total_facts > 0:
+                stats["correctness_claim_recall"] = round(total_hits / total_facts, 3)
+                stats["correctness_facts_hit"] = total_hits
+                stats["correctness_facts_total"] = total_facts
 
         summary[config] = stats
 
