@@ -523,6 +523,62 @@ def chart11():
 
 
 # ======================================================================
+# Chart 12: Judge Methodology Validation (Custom vs LlamaIndex)
+# ======================================================================
+def chart12():
+    methods = ["Our Method\n(single-call)", "LlamaIndex-style\n(iterative refine)"]
+    faith = [0.964, 0.964]
+    relev = [1.000, 1.000]
+
+    x = np.arange(len(methods))
+    width = 0.28
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw={"width_ratios": [1.2, 1]})
+
+    # Left panel: score comparison
+    b1 = ax1.bar(x - width/2, faith, width, label="Faithfulness", color=BLUE)
+    b2 = ax1.bar(x + width/2, relev, width, label="Relevancy", color=GREEN)
+
+    for bars in [b1, b2]:
+        for bar in bars:
+            h = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2, h + 0.01,
+                     f"{h:.3f}", ha="center", va="bottom", fontsize=11, fontweight="bold")
+
+    ax1.set_ylabel("Score")
+    ax1.set_title("Aggregate Scores")
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(methods, fontsize=10)
+    ax1.set_ylim(0, 1.15)
+    ax1.legend(loc="lower right")
+    ax1.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+
+    # Right panel: agreement + cost comparison
+    categories = ["Faithfulness\nAgreement", "Relevancy\nAgreement"]
+    agreement = [93, 100]
+    bar_colors = [BLUE, GREEN]
+
+    bars = ax2.bar(categories, agreement, color=bar_colors, width=0.5, alpha=0.8)
+    for bar, val in zip(bars, agreement):
+        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1,
+                 f"{val}%", ha="center", va="bottom", fontsize=12, fontweight="bold")
+
+    # Add cost annotation
+    ax2.annotate("Our method: 2 API calls/question\nLlamaIndex: ~10 API calls/question\n→ 5x cheaper, same quality",
+                 xy=(0.5, 50), fontsize=9, ha="center",
+                 bbox=dict(boxstyle="round,pad=0.5", facecolor="#f0f8ff", edgecolor=BLUE, alpha=0.8))
+
+    ax2.set_ylabel("Per-Question Agreement (%)")
+    ax2.set_title("Per-Question Agreement")
+    ax2.set_ylim(0, 115)
+
+    fig.suptitle("Chart 12 — Judge Methodology Validation: Custom vs LlamaIndex Evaluators\n(28 questions, GPT-4o structured prompt, Claude Sonnet 4 judge)",
+                 fontsize=12, fontweight="bold", y=1.04)
+    fig.tight_layout()
+    save(fig, "chart12_judge_methodology.png")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 if __name__ == "__main__":
@@ -538,4 +594,5 @@ if __name__ == "__main__":
     chart9()
     chart10()
     chart11()
-    print(f"\nAll 11 charts saved to {OUTPUT_DIR}/")
+    chart12()
+    print(f"\nAll 12 charts saved to {OUTPUT_DIR}/")
