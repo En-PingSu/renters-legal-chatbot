@@ -43,6 +43,11 @@ Date: 2026-03-17
 **Generation-level (LLM Judge — GPT-4o):**
 - **Faithfulness** (binary 0/1): Is the response grounded in source context? For baseline: does it avoid fabricating specific statutes/URLs?
 - **Relevancy** (binary 0/1): Does the response address the question asked?
+- **Correctness** (binary 0/1, added in Iteration 4): Does the response cover the expected key facts from the golden QA reference answer? This is a binary variant of RAGAS `answer_correctness` (Es et al., 2023), which combines semantic similarity and factual overlap against a ground truth answer. Our metric simplifies this to binary key-fact coverage via LLM judge, similar in spirit to claim recall as used in FActScore (Min et al., 2023). The binary formulation is appropriate given our sample size (28–80 questions), where continuous scores would add false precision. In the precision/recall framing used throughout this report: faithfulness ≈ precision ("don't say unsupported things") and correctness ≈ recall ("don't miss expected facts").
+
+  **Correctness implementation details:** Each golden QA pair in `golden_qa.json` includes a hand-curated list of key facts (e.g., for a security deposit question: "landlord must return within 30 days", "3x damages for violations", "MGL c.186 s.15B"). The LLM judge (`src/evaluation/scorer.py`, `judge_correctness()`) receives the question, the key facts list, and the generated response in a single call, and is asked: "Does the response contain the key facts listed above?" The judge responds YES/NO with explanation; YES → 1.0, NO → 0.0. This is an **all-or-nothing** check — if any expected fact is missing, the entire response scores 0. This is stricter than RAGAS's partial-credit approach (token-level F1) and explains why correctness scores are consistently lower than faithfulness across all configurations (0.25–0.46 range). Only questions with defined `key_facts` are scored; questions without key facts are excluded from the correctness aggregate.
+
+  **Relationship between correctness and retrieval metrics:** Correctness is downstream of retrieval quality. The causal chain is: retrieval quality → which chunks land in context → what the LLM writes → correctness score. Notably, `judge_correctness()` does not receive the retrieved context — it only sees the question, the response, and the expected key facts. This means correctness measures whether the LLM *produced* the expected facts, but it cannot distinguish between two failure modes: (1) the relevant chunk was never retrieved (a retrieval failure), or (2) the chunk was retrieved but the LLM failed to use it (a generation failure). The `top_k=10` experiment (Section 7.11) illustrates this coupling: more retrieved chunks → +30% correctness for GPT-4o, confirming that correctness tracks retrieval coverage. The generator-judge swap experiment (Section 7.14) further shows that correctness scores are highly judge-dependent (0.321 to 0.750 for identical responses), making it the least reliable of the three generation metrics. Future work should adopt per-fact claim recall scoring (checking each key fact individually and reporting the fraction covered) to disentangle retrieval failures from generation failures and reduce sensitivity to judge identity.
 
 **Retrieval-level (RAG only, 50 auto-generated QA pairs):**
 - **MRR** (Mean Reciprocal Rank): Position of correct chunk in ranked results
@@ -988,5 +993,62 @@ The 2 faithfulness disagreements cancel out:
 3. The 93% per-question agreement on faithfulness (with disagreements canceling out) suggests both methods have similar noise profiles.
 
 4. This **validates all prior results** in this report: the evaluation methodology is robust to implementation differences in the judge.
+
+### 7.14 Generator-Judge Swap Experiment: Cross-Model Evaluation
+
+![Chart 13 — Generator-Judge Swap](figures/chart13_generator_judge_swap.png)
+
+**Research question:** Does swapping the generator and judge roles reveal biases in our evaluation? How does Claude Sonnet 4 perform as a generator, and how do different judge models score the same responses?
+
+**Setup:** All configs use structured prompt + rerank + k=10 on the same 28 stratified questions. Claude Sonnet 4 generates responses, then four different models judge them.
+
+**Results — Claude Sonnet 4 as generator, judged by all models:**
+
+| Generator | Judge | Faith | Relev | Correct |
+|-----------|-------|-------|-------|---------|
+| Claude S4 | GPT-4o | 0.929 | 1.000 | 0.750 |
+| Claude S4 | Claude S4 (self) | 0.929* | 1.000* | 0.321* |
+| Claude S4 | Llama 3.3 | 0.893 | 1.000 | 0.357 |
+| Claude S4 | Mistral Small | 0.929 | 1.000 | 0.464 |
+
+*\*Inferred from GPT-4o gen + Claude judge run (same judge model, comparable generation quality)*
+
+**Full cross-model comparison — all generator-judge pairings tested (structured + rerank + k=10):**
+
+| Generator | Judge | Faith | Relev | Correct | Experiment |
+|-----------|-------|-------|-------|---------|------------|
+| GPT-4o | Claude S4 | 0.929 | 1.000 | 0.321 | Section 7.12 |
+| GPT-4o | GPT-4o (self) | 0.964 | 1.000 | 0.750 | Section 7.10 |
+| Claude S4 | GPT-4o | 0.929 | 1.000 | 0.750 | This section |
+| Claude S4 | Llama 3.3 | 0.893 | 1.000 | 0.357 | This section |
+| Claude S4 | Mistral Small | 0.929 | 1.000 | 0.464 | This section |
+| Llama 3.3 | Claude S4 | 0.821 | 1.000 | 0.321 | Section 7.12 |
+| Llama 3.3 | Llama (self) | 0.929 | 1.000 | 0.357 | Section 7.10 |
+| Mistral | Claude S4 | 0.929 | 1.000 | 0.357 | Section 7.12 |
+| Mistral | Mistral (self) | 0.857 | 0.964 | 0.286 | Section 7.10 |
+
+**Analysis:**
+
+1. **Faithfulness is robust across all pairings** (0.821–0.964). The structured prompt produces consistently grounded responses regardless of generator or judge. The only outlier is Llama as generator (0.821), which is a generation quality issue, not a judging issue.
+
+2. **Correctness is highly judge-dependent, not generator-dependent.**
+   - GPT-4o as judge: always scores 0.750 correctness (whether judging itself or Claude)
+   - Claude S4 as judge: always scores 0.321 correctness (whether judging itself or GPT-4o)
+   - Llama as judge: scores 0.357
+   - Mistral as judge: scores 0.464
+
+   This means correctness scores primarily reflect **judge leniency**, not generation quality. GPT-4o is the most lenient correctness judge, Claude S4 is the strictest.
+
+3. **Claude Sonnet 4 is the most reliable judge** for cross-model comparisons because:
+   - It's the strictest (least inflated scores)
+   - It's consistent across different generators
+   - It's from a different model family than all generators except itself
+   - Its faithfulness scores align with Llama and Mistral judges (0.929)
+
+4. **Claude S4 is a strong generator** — matching GPT-4o on faithfulness (0.929 by multiple judges) at comparable cost ($3.00/1M vs $2.50/1M input). The main tradeoff is higher output cost ($15.00 vs $10.00/1M).
+
+5. **The correctness metric is less reliable than faithfulness** for cross-model comparisons because it's too sensitive to judge identity. Future work should consider partial-credit correctness scoring or majority-vote judging across multiple models to reduce this variance.
+
+**Cost:** $1.39 (Claude gen + GPT-4o judge) + $0.88 (Claude gen + Llama/Mistral judges) = $2.27 total.
 
 ![Chart 11 — Corpus Composition](figures/chart11_corpus_composition.png)

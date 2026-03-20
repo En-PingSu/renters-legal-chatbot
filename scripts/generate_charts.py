@@ -579,6 +579,72 @@ def chart12():
 
 
 # ======================================================================
+# Chart 13: Generator-Judge Swap — Cross-Model Heatmaps
+# ======================================================================
+def chart13():
+    generators = ["GPT-4o", "Claude S4", "Llama 3.3", "Mistral"]
+    judges = ["Claude S4", "GPT-4o", "Llama 3.3", "Mistral"]
+
+    # Faithfulness matrix [generator x judge] — NaN where not tested
+    faith = np.array([
+        [0.929, 0.964, np.nan, np.nan],   # GPT-4o gen
+        [np.nan, 0.929, 0.893, 0.929],     # Claude S4 gen (Claude self inferred)
+        [0.821, np.nan, 0.929, np.nan],    # Llama gen
+        [0.929, np.nan, np.nan, 0.857],    # Mistral gen
+    ])
+
+    # Correctness matrix [generator x judge]
+    correct = np.array([
+        [0.321, 0.750, np.nan, np.nan],
+        [np.nan, 0.750, 0.357, 0.464],
+        [0.321, np.nan, 0.357, np.nan],
+        [0.357, np.nan, np.nan, 0.286],
+    ])
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+
+    for ax, data, title, cmap, vmin in [
+        (ax1, faith, "Faithfulness", "Blues", 0.8),
+        (ax2, correct, "Correctness", "Oranges", 0.2),
+    ]:
+        masked = np.ma.masked_invalid(data)
+        im = ax.imshow(masked, cmap=cmap, vmin=vmin, vmax=1.0, aspect="auto")
+
+        ax.set_xticks(range(len(judges)))
+        ax.set_xticklabels(judges, fontsize=10)
+        ax.set_yticks(range(len(generators)))
+        ax.set_yticklabels(generators, fontsize=10)
+        ax.set_xlabel("Judge Model")
+        ax.set_ylabel("Generator Model")
+        ax.set_title(title, fontweight="bold")
+
+        # Annotate cells
+        for i in range(len(generators)):
+            for j in range(len(judges)):
+                val = data[i, j]
+                if not np.isnan(val):
+                    # Bold diagonal (self-judge)
+                    is_self = (generators[i] == judges[j]) or \
+                              (generators[i] == "Claude S4" and judges[j] == "Claude S4")
+                    color = "white" if val > (vmin + (1.0 - vmin) * 0.6) else "black"
+                    ax.text(j, i, f"{val:.3f}",
+                            ha="center", va="center", fontsize=11,
+                            fontweight="bold" if is_self else "normal",
+                            color=color)
+                else:
+                    ax.text(j, i, "—", ha="center", va="center",
+                            fontsize=11, color="#ccc")
+
+        fig.colorbar(im, ax=ax, shrink=0.8)
+
+    fig.suptitle("Chart 13 — Generator-Judge Swap: Cross-Model Evaluation\n"
+                 "(structured prompt + rerank + k=10, 28 questions)",
+                 fontsize=13, fontweight="bold", y=1.04)
+    fig.tight_layout()
+    save(fig, "chart13_generator_judge_swap.png")
+
+
+# ======================================================================
 # Main
 # ======================================================================
 if __name__ == "__main__":
@@ -595,4 +661,5 @@ if __name__ == "__main__":
     chart10()
     chart11()
     chart12()
-    print(f"\nAll 12 charts saved to {OUTPUT_DIR}/")
+    chart13()
+    print(f"\nAll 13 charts saved to {OUTPUT_DIR}/")
