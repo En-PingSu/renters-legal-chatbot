@@ -908,6 +908,59 @@ The structured prompt is most impactful for weaker models:
 | API calls per question | 1 (faithfulness) + 1 (relevancy) = 2 total | N (one per chunk, typically 5) = ~10 total |
 | Response parsing | `startswith("YES")` | `"yes" in lower()` |
 
+**LlamaIndex-style iterative refine implementation (reimplemented for this experiment):**
+
+```python
+# --- LlamaIndex faithfulness prompt (with few-shot examples) ---
+LI_FAITH_EVAL = """Please tell if a given piece of information is supported by the context.
+You need to answer with either YES or NO.
+Answer YES if any of the context supports the information, even if most of the context is unrelated.
+
+Information: Apple pie is generally double-crusted.
+Context: An apple pie is a fruit pie in which the principal filling ingredient is apples.
+Apple pie is often served with whipped cream, ice cream, custard or cheddar cheese.
+It is generally double-crusted, with pastry both above and below the filling.
+Answer: YES
+Information: Apple pies tastes bad.
+Context: [same apple pie context]
+Answer: NO
+Information: {response}
+Context: {context}
+Answer: """
+
+# --- Refine prompt (used for chunks 2..N) ---
+LI_FAITH_REFINE = """We want to understand if the following information is present
+in the context information: {response}
+We have provided an existing YES/NO answer: {existing_answer}
+We have the opportunity to refine the existing answer (only if needed)
+with some more context below.
+------------
+{context}
+------------
+If the existing answer was already YES, still answer YES.
+If the information is present in the new context, answer YES.
+Otherwise answer NO."""
+
+def llamaindex_judge_faithfulness(question, response, contexts, client, model):
+    """Replicate LlamaIndex FaithfulnessEvaluator:
+    evaluate with first chunk, then refine with each subsequent chunk."""
+    answer = None
+    for i, ctx in enumerate(contexts):
+        if i == 0:
+            prompt = LI_FAITH_EVAL.format(response=response, context=ctx)
+        else:
+            prompt = LI_FAITH_REFINE.format(
+                response=response, existing_answer=answer, context=ctx)
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0, max_tokens=100)
+        answer = resp.choices[0].message.content.strip()
+    return 1.0 if answer and "yes" in answer.lower() else 0.0
+```
+
+The key difference is the **iterative refine loop**: LlamaIndex processes each retrieved chunk in a separate LLM call, carrying forward the previous YES/NO answer. Once any chunk triggers YES, subsequent chunks preserve it ("If the existing answer was already YES, still answer YES"). Our single-call approach concatenates all chunks into one prompt and makes a single judgment.
+
 **Experiment:** Generated 28 responses (GPT-4o, structured prompt, rerank, k=5) and judged each with both methods using Claude Sonnet 4.
 
 **Results:**
