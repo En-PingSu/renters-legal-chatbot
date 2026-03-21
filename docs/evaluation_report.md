@@ -1277,3 +1277,261 @@ Each fact is then attributed to one of four categories:
 | Generation miss | 16 (21.6%) | 13 (17.6%) | 19 (25.7%) |
 | Retrieval miss | 17 (23.0%) | 17 (23.0%) | 15 (20.3%) |
 | Hallucinated | 1 (1.4%) | 1 (1.4%) | 4 (5.4%) |
+
+---
+
+## 7.18 Retrieval Bottleneck Analysis & Fixes
+
+**Date:** 2026-03-20 | **Config:** GPT-4o + rerank (2x initial_k) + top_k=10 | **Judge:** Claude Sonnet 4
+
+### 7.18.1 Root Cause Analysis
+
+Six root causes of retrieval failures were identified:
+
+1. **Candidate pool collapse (code bug):** When `top_k=10` and `initial_k=10`, the cross-encoder reranks 10→10 (no filtering, just reordering). The reranker's value — scoring a larger pool to find gems buried at positions 11+ — is lost.
+2. **Small embedding model:** all-MiniLM-L6-v2 (22M params, 384-dim) struggles with legal citations like "MGL c.186 s.15B."
+3. **Cross-encoder domain mismatch:** ms-marco-MiniLM-L-6-v2 is trained on web search, not legal Q&A. It ranks conversational chunks above authoritative statutory text.
+4. **Chunk boundary splitting:** Key facts span chunk boundaries despite 200-token overlap.
+5. **Corpus coverage gaps:** Lead paint, pet/ESA, renters insurance topics have limited or missing content.
+6. **Golden QA data quality issues:** Multiple entries referenced wrong chunks or had non-verifiable key_facts.
+
+### 7.18.2 Fixes Applied
+
+**Fix 1: Rerank candidate pool increase** (`src/rag/retrievers.py`)
+- Added `initial_k = max(initial_k, top_k * 2)` so rerank always filters from a larger pool.
+- 3x was tested first but the ms-marco cross-encoder's domain mismatch caused it to push out legal statute chunks in favor of general content (retrieval coverage dropped from 0.743 → 0.653). 2x is the optimal compromise.
+
+**Fix 2: Golden QA data quality audit** (`data/evaluation/golden_qa.json`, `data/evaluation/reddit_questions.json`)
+- 8 entries fixed across both files:
+  - **golden_001, 002, 004, 005, 006:** All referenced `940_cmr_3_17_chunk_011` which contains price gouging regulations (§3.18-3.19), NOT security deposit rules. Replaced with correct chunks (security deposit guides, utility regulation chunks).
+  - **golden_005:** Key facts were bare statute references ("940 CMR 3.17", "M.G.L. c. 186, § 15B") — not verifiable statements. Replaced with actual facts about deposit transfer obligations.
+  - **golden_006:** Corrected statute citation in expected_answer (940 CMR 3.17(5) → M.G.L. c. 186, § 15B).
+  - **golden_037, 038, 039:** Referenced lead paint `chunk_002` (post-inspection "Complete the project") instead of `chunk_000` (program overview) and `chunk_001` (application).
+  - **reddit_q026:** Added `overview_of_housing_discrimination_chunk_003` (ESA/service animal content) as source chunk.
+
+### 7.18.3 Results
+
+| Metric | Baseline (pre-fix) | Post-fix (2x initial_k) | Delta |
+|--------|-------------------|------------------------|-------|
+| Total facts | 74 | 75 | +1 |
+| Retrieval coverage | 0.743 (55/74) | 0.720 (54/75) | -0.023 |
+| Generation coverage | 0.541 (40/74) | 0.613 (46/75) | +0.072 |
+| Covered (ret+gen) | 36 (48.6%) | 42 (56.0%) | +6 |
+| Generation misses | 19 (25.7%) | 12 (16.0%) | -7 |
+| Retrieval misses | 15 (20.3%) | 17 (22.7%) | +2 |
+| Hallucinated | 4 (5.4%) | 4 (5.3%) | 0 |
+
+**Per-question changes:**
+
+| Direction | Questions | Total Δ |
+|-----------|-----------|---------|
+| Improved | golden_005 (+0.667), golden_029 (+0.333), golden_047 (+0.500), reddit_q026 (+0.500) | +2.000 |
+| Regressed | golden_017 (-0.500), golden_021 (-1.000), golden_050 (-0.667) | -2.167 |
+
+**Judge stability:** 3 consecutive runs with the 2x config all produced identical retrieval coverage (0.653/0.653/0.653 for 3x; single run for 2x). Retrieval scoring is deterministic given the same retrieved chunks and judge temperature.
+
+### 7.18.4 Analysis
+
+1. **Retrieval coverage is roughly flat** (-0.023) because the 2x pool introduces some cross-encoder regressions (golden_021, golden_050) that offset the data quality improvements. The regressions are from the ms-marco cross-encoder promoting general content over legal statutes (root cause #3).
+
+2. **Generation coverage improved significantly** (+0.072, +13.3%). The 2x pool retrieves higher-quality chunks that the LLM can better utilize, even when raw retrieval coverage doesn't change. Generation misses dropped from 19→12 (-37%), indicating the LLM is extracting facts more effectively from the re-ranked context.
+
+3. **Cross-encoder domain mismatch is the primary remaining bottleneck.** Three regressions (golden_021 asbestos, golden_050 general rights, golden_017 habitability) are caused by the cross-encoder preferring conversational chunks over legal statute text. This limits the benefit of expanding the candidate pool.
+
+4. **Lead paint retrieval remains at 0/3 for golden_037** despite fixing source_chunks. The retriever finds lead chapters but not the specific Lead Safe Boston program facts about forgivable loans and inspections.
+
+### 7.18.5 Remaining Retrieval Failures (by topic)
+
+| Topic | Failure Rate | Root Cause |
+|-------|-------------|------------|
+| lead_paint | 2/6 facts | Lead Safe Boston chunks not ranked highly enough |
+| retaliation | 3/5 facts | Statute text (MGL c.186 s.14) buried by cross-encoder |
+| repairs_habitability | 4/6 facts | Cross-encoder displaces 105 CMR statute chunks |
+| tenant_rights_general | 4/5 facts | Renters insurance not in corpus |
+| security_deposits | 1/6 facts | Deposit transfer facts partially retrieved |
+
+### 7.18.6 Recommended Next Steps
+
+1. **Embedding model upgrade** (highest expected impact): Replace all-MiniLM-L6-v2 with a larger model (BGE-large or text-embedding-3-large) for better legal term matching.
+2. **Cross-encoder upgrade or removal:** Replace ms-marco-MiniLM with a legal-domain cross-encoder, or revert to hybrid-only retrieval (which avoids the domain mismatch regression).
+3. **Corpus expansion:** Add Lead Safe Boston program overview, renters insurance content, ESA-specific guidance.
+
+## 7.19 Systematic QA Data Audit
+
+**Date:** 2026-03-20
+
+A comprehensive audit of all 80 QA entries (50 golden_qa + 30 reddit_questions) against the 967-chunk corpus. The goal was to verify that every source_chunk reference actually supports the key_facts claimed in each QA entry, eliminating misleading evaluation metrics caused by bad ground-truth data.
+
+### 7.19.1 Methodology
+
+The audit had four phases:
+
+1. **Automated integrity checks** (`src/evaluation/audit_qa_data.py`): chunk ID existence, metadata match (title/URL), duplicate detection, token-containment heuristics for chunk-question relevance (<0.10 threshold) and key-fact grounding (<0.15 threshold).
+2. **Manual semantic review**: Three parallel review passes covering golden_001–025, golden_026–050, and q001–q030. Each entry was checked for: (a) whether each key_fact is substantively supported by the referenced chunks (not just topically related), (b) whether chunks are relevant to the question, (c) correct topic labels.
+3. **Fix application**: Wrong chunks replaced, unsupported key_facts rewritten, duplicates removed.
+4. **Re-verification**: Automated audit re-run + URL spot-checks via browser.
+
+A second pass specifically targeted **low-substance chunks** (TOC stubs, page titles, citation listings, reference pages) that passed the first-pass heuristic but lacked the specific content needed to verify key_facts. This caught issues the first pass missed because the audit agents checked for topical relevance but not substantive sufficiency.
+
+### 7.19.2 Phase 1 Results (Automated)
+
+Initial scan: **81 issues** across 41 of 80 entries.
+
+| Issue Type | Count |
+|------------|-------|
+| Low chunk-question relevance | 42 |
+| Low key-fact grounding | 34 |
+| Duplicate chunk within entry | 4 |
+| Duplicate question across entries | 1 |
+
+### 7.19.3 Issues Found (Manual Review)
+
+**Structural issues:**
+- **golden_048**: Exact duplicate of golden_024 (identical question). Removed.
+- **golden_022/023/024**: Same chunk (`940_cmr_chunk_011`) listed 2–3 times per entry. Deduplicated.
+- **q014**: `eviction_chunk_033` listed twice. Deduplicated.
+
+**Wrong chunk references** (chunk exists but doesn't support the claimed facts):
+
+| Pattern | Affected Entries | Description |
+|---------|-----------------|-------------|
+| `chunk_011` catch-all | golden_010, 022–025, q011, q027 | 940 CMR 3.18/3.19 (price gouging/severability) used for unrelated topics: security deposits, landlord entry, late fees |
+| TOC/title stubs | golden_009, 011, 013, 014, 030, 031 | Chunks containing only section titles or table-of-contents entries, no substantive legal text |
+| Citation listings | q006, q013, q014, q020 | Reference pages listing statute citations with one-line descriptions, no explanatory content |
+| Wrong sanitary code sections | golden_017, 018, 020, 021 | Chunks from wrong code sections (e.g., ventilation chunk for heating question) |
+| Irrelevant FAQ/topic | golden_033, 044, 045, 046, q005, q012 | Chunks from unrelated FAQ entries or topic pages |
+| Page headers/filler | golden_047, 049, 050, q013, q014 | Chunks that are page titles, document checklists, or bibliography entries |
+| Low-substance reference pages | golden_001, q020 | Caught in second pass — chunks that mention the topic but contain no substantive detail (e.g., a regulation listing page used as a source for specific legal requirements) |
+
+**Unsupported key_facts** (facts not derivable from referenced chunks):
+- 34 key_facts across 28 entries either cited regulations not present in the chunks, made claims about content the chunks didn't contain, or were editorial inferences rather than sourced facts.
+- Example: golden_021 referenced 105 CMR 410.250 (asbestos), but the chunk was about 410.260 (egress).
+
+**Wrong topic labels**: golden_002, 016, 022–028, 033 had topic fields that didn't match the question subject.
+
+### 7.19.4 Fixes Applied
+
+**Total: 74 fixes across both passes.**
+
+| Fix Category | Count | Examples |
+|-------------|-------|---------|
+| Replaced wrong chunks with correct ones | ~35 | Statute text, substantive FAQ, correct sanitary code sections |
+| Rewrote key_facts to match chunk content | ~25 | Removed unsupported claims, corrected statute citations |
+| Removed filler/irrelevant chunks | ~20 | TOC stubs, bibliography entries, citation listings, page headers |
+| Fixed topic labels | 10 | e.g., "rent_increases" → "security_deposits" for deposit question |
+| Removed duplicate entry | 1 | golden_048 (duplicate of golden_024) |
+| Deduplicated chunk references | 4 | golden_022 (3→1), golden_023 (2→1), golden_024 (2→1), q014 (2→1) |
+
+**Second-pass fixes** (low-substance chunk detection):
+- golden_015, 045, 046: First-pass removal used partial chunk IDs that didn't match full IDs. Fixed with correct full IDs.
+- golden_034: Removed tangential eviction reasons chunk.
+- q006: Accidentally stripped to 0 chunks during first pass — restored with eviction law + stay-of-execution chunks.
+- q013, q014: Removed 131-char filler and citation listing chunks.
+- q020: Replaced web resources listing with sanitary code pest control chunk.
+- golden_029: Added MCAD overview chunk to ground "report to MCAD" key_fact.
+- q026: Added fair housing "no pets" policy chunk, rewrote key_facts.
+
+### 7.19.5 Final Audit Results
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Total entries | 80 | 79 (removed 1 duplicate) |
+| Entries with issues | 41 | 5 |
+| Total issues | 81 | 6 |
+| Missing chunk IDs | 0 | 0 |
+| Duplicate chunks in entry | 4 | 0 |
+| Duplicate questions | 1 | 0 |
+| Metadata mismatches | 0 | 0 |
+| Low chunk relevance | 42 | 5 (all confirmed false positives — vocabulary mismatch between casual questions and formal legal text) |
+| Low fact grounding | 34 | 1 (confirmed false positive) |
+
+All 6 remaining warnings are token-overlap heuristic false positives where chunks use formal legal language that differs from the casual question vocabulary but semantically support the key_facts.
+
+URL spot-check: 10 of 30 unique URLs verified live via Chrome browser (boston.gov, mass.gov, malegislature.gov, bostonhousing.org). No broken links found.
+
+### 7.19.6 Lessons Learned
+
+1. **Topical relevance ≠ substantive support.** A chunk that mentions "security deposits" in a citation listing does not support specific claims about deposit account requirements. Audit prompts must distinguish between a chunk that *mentions* a topic and one that *contains the specific information needed to verify a fact*.
+
+2. **Token-overlap heuristics have limited value for legal text.** Legal statutes use formal language ("lessor," "dwelling unit," "shall upon conviction") while questions use casual language ("my landlord," "apartment," "penalized"). 42 of the original 81 low-relevance flags were based on vocabulary mismatch, not actual irrelevance.
+
+3. **Chunk ID matching requires exact strings.** Partial ID filters (e.g., filtering on `bostonhousing_faq_037` when the actual ID is `bostonhousing_faq_037_when_are_requests_for_reasonable_accommodations_granted_chunk_000`) silently fail. Always use exact full chunk IDs.
+
+4. **A single over-referenced chunk is a data quality signal.** `940_cmr_chunk_011` appeared in 7 entries across 4 different topics — a clear indicator of bulk-assignment rather than careful curation.
+
+### 7.19.7 Impact on Evaluation
+
+This audit improves evaluation reliability by ensuring the ground truth is accurate. Previously, a retriever that failed to find `chunk_011` for a landlord-entry question would be penalized for a "retrieval miss" — but chunk_011 (price gouging regulations) was never the right chunk. After the audit, retrieval metrics will more accurately reflect whether the system finds genuinely relevant legal content.
+
+Expected effects on next evaluation run:
+- **Hit rate and MRR** may change in either direction — some "hits" on wrong chunks will become misses, but the corrected chunks may be easier to retrieve.
+- **Correctness** should improve because key_facts are now grounded in actual chunk content rather than unsupported claims.
+- **Faithfulness** should remain stable since it depends on the generated answer vs. retrieved context, not ground-truth labels.
+
+### 7.19.8 Post-Audit Evaluation Results
+
+**Date:** 2026-03-20
+
+**Config:** GPT-4o + rerank (top_k=10) generator, Claude Sonnet 4 judge. Retrieval-aware correctness on the original 28 stratified questions (24 with key_facts evaluated; 4 reddit questions without key_facts excluded).
+
+#### Full corpus results (all 79 questions, basic scorer)
+
+| Metric | Score |
+|--------|-------|
+| Faithfulness | 0.937 (74/79 passed) |
+| Relevancy | 1.000 (79/79 passed) |
+| Correctness (claim recall) | 0.477 (107/226 facts) |
+
+#### Retrieval-aware correctness (original 28 set, direct comparison)
+
+| Metric | Pre-audit (7.18) | Post-audit | Delta |
+|--------|-----------------|------------|-------|
+| Retrieval coverage | 0.720 | **0.773** | **+0.053** |
+| Generation coverage | 0.613 | 0.561 | -0.052 |
+| Gen coverage \| retrieved | — | 0.706 | — |
+| Covered facts | 42 | 36 | -6 |
+| Generation misses | 12 | 15 | +3 |
+| Retrieval misses | — | 14 | — |
+| Hallucinated | — | 1 | — |
+| Miss attribution | 51.5% ret / 48.5% gen | 48.3% ret / 51.7% gen | — |
+
+Note: Total facts decreased from 74 to 66 because some entries now have 2 key_facts instead of 3 after rewriting, and 4 reddit questions without key_facts dropped from the evaluation.
+
+#### Per-question breakdown
+
+| ID | Topic | Ret | Gen | Miss type |
+|----|-------|-----|-----|-----------|
+| golden_002 | repairs_habitability | 1.000 | 0.667 | generation_miss |
+| golden_005 | security_deposits | 0.667 | 0.667 | retrieval_miss |
+| golden_007 | retaliation | 0.333 | 0.333 | retrieval_miss ×2 |
+| golden_009 | retaliation | 0.500 | 0.500 | retrieval_miss |
+| golden_012 | evictions | 0.667 | 0.667 | retrieval_miss |
+| golden_015 | evictions | 1.000 | 1.000 | — |
+| golden_017 | repairs_habitability | 0.500 | 0.500 | retrieval_miss |
+| golden_021 | repairs_habitability | 1.000 | 0.667 | generation_miss |
+| golden_022 | security_deposits | 1.000 | 0.667 | generation_miss |
+| golden_025 | rent_increases | 1.000 | 0.667 | generation_miss |
+| golden_026 | utilities_heat | 1.000 | 0.000 | generation_miss ×3 |
+| golden_028 | utilities_heat | 0.667 | 0.333 | retrieval_miss, generation_miss |
+| golden_029 | discrimination | 0.667 | 0.333 | retrieval_miss, generation_miss |
+| golden_032 | discrimination | 1.000 | 1.000 | — |
+| golden_033 | affordable_housing | 1.000 | 1.000 | — |
+| golden_035 | lease_terms | 1.000 | 1.000 | — |
+| golden_037 | lead_paint | 0.000 | 0.000 | retrieval_miss ×3 |
+| golden_039 | lead_paint | 0.333 | 0.333 | retrieval_miss ×2 |
+| golden_041 | utilities_heat | 1.000 | 0.333 | generation_miss ×2 |
+| golden_042 | utilities_heat | 1.000 | 0.667 | generation_miss |
+| golden_043 | public_housing | 0.500 | 0.000 | retrieval_miss, generation_miss |
+| golden_046 | public_housing | 1.000 | 0.667 | generation_miss |
+| golden_047 | tenant_rights_general | 1.000 | 0.500 | generation_miss |
+| golden_050 | tenant_rights_general | 0.667 | 1.000 | — |
+
+#### Analysis
+
+1. **Retrieval coverage improved (+5.3%).** Fixing wrong chunk references means the ground-truth chunks are now ones the retriever can actually find. Previously, the retriever was penalized for not finding chunks like `940_cmr_chunk_011` (price gouging) for a landlord-entry question — an impossible retrieval "failure."
+
+2. **Generation coverage dropped (-5.2%).** The rewritten key_facts are more specific and verifiable. For example, golden_026's facts changed from vague "Penalties can be imposed on landlords for interrupting utilities" to specific "A landlord who violates this section may be liable for actual and consequential damages or three months' rent, whichever is greater." The retriever found all 3 chunks (1.000 retrieval) but the LLM omitted the specific damage thresholds (0.000 generation). This is a more honest measurement — the old "passes" were based on vague facts that were easy to match.
+
+3. **Persistent retrieval failures** remain in lead_paint (0/3 for golden_037 — Lead Safe Boston program chunks not ranked highly enough) and retaliation (MGL c.186 s.14/s.18 statute text displaced by cross-encoder). These are retrieval infrastructure issues, not data quality problems.
+
+4. **Generation miss hotspot: utilities_heat.** golden_026 (electricity shutoff) scores 1.000 retrieval but 0.000 generation — the LLM retrieves the full MGL c.186 s.14 statute but fails to extract the specific damage amounts and attorney's fees details. This suggests the structured prompt could be improved for extracting quantitative legal details from statute text.

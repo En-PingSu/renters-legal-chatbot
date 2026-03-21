@@ -51,11 +51,6 @@
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_018",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
@@ -83,16 +78,6 @@
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       }
     ]
   },
@@ -103,30 +88,20 @@
     "context": "I'm on a month-to-month lease in Cambridge, MA. My landlord just told me verbally that I need to leave by the end of the month. Is this enough notice?",
     "expected_answer": "Your landlord must provide you with a proper 30-day written notice to end your month-to-month tenancy.",
     "key_facts": [
-      "A tenancy-at-will agreement allows the landlord to ask you to leave with a proper 30-day written notice. (Source 1)",
-      "A verbal notice is not sufficient; it must be written. (Source 1)",
-      "The requirement for a 30-day written notice is consistent across sources. (Source 2)"
+      "A tenancy-at-will can be terminated by either party with 30 days' written notice or one full rental period, whichever is longer.",
+      "A lease for a specific term ends on its stated date; the landlord must provide proper notice before any changes.",
+      "The notice requirement applies to both landlords and tenants."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_002",
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_001",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_002",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_002",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       }
     ]
   },
@@ -153,11 +128,6 @@
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       },
       {
-        "chunk_id": "boston_gov_help_housing_chunk_002",
-        "title": "Help With Housing",
-        "source_url": "https://www.boston.gov/help-housing"
-      },
-      {
         "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
         "title": "Tenant Rights and Responsibilities",
         "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
@@ -182,19 +152,14 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
         "title": "Massachusetts law about eviction",
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_003",
-        "title": "Office of Housing Stability",
-        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "mass_gov_info_details_tenants_guide_to_eviction_chunk_005",
+        "title": "Tenants' Guide to Eviction | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/tenants-guide-to-eviction"
       }
     ]
   },
@@ -214,21 +179,6 @@
         "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection12_chunk_000",
         "title": "MGL c.186 s.12 - Notice to Determine Estate at Will",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section12"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_002",
-        "title": "Massachusetts law about tenants' security deposits",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_002",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       },
       {
         "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000",
@@ -263,11 +213,6 @@
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       },
       {
         "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
@@ -307,11 +252,6 @@
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_017",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
     ]
   },
@@ -322,35 +262,20 @@
     "context": "I signed a 1-year lease in Boston but got a job offer in another state. I have 6 months left on my lease.",
     "expected_answer": "Breaking a lease early in Massachusetts can result in the tenant being responsible for paying the remaining rent due under the lease unless the landlord is able to re-rent the apartment. The tenant should communicate with the landlord to discuss potential options such as subletting or negotiating an early termination agreement.",
     "key_facts": [
-      "Tenants are generally responsible for rent until the end of the lease term unless the landlord re-rents the unit.",
-      "Communication with the landlord is crucial to explore options like subletting or negotiating an early termination.",
-      "There are no specific Massachusetts statutes that automatically allow tenants to break a lease without consequences."
+      "A tenant with a lease is generally responsible for rent until the lease term ends.",
+      "If the landlord fails to maintain habitable conditions, the tenant may have grounds to break the lease and move out within a reasonable time.",
+      "The landlord has a duty to mitigate damages by trying to find a new tenant after the original tenant vacates."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_002",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_002",
-        "title": "Massachusetts law about tenants' security deposits",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+        "chunk_id": "masslegalhelp_ch11_moving_out_chunk_005",
+        "title": "Legal Tactics Ch. 11: Moving Out",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/11%20Moving%20Out%202025.pdf"
       }
     ]
   },
@@ -375,11 +300,6 @@
         "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_020",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
     ]
   },
@@ -390,35 +310,20 @@
     "context": "I applied for an apartment in Boston and the landlord said he doesn't want to rent to families with children because of lead paint concerns.",
     "expected_answer": "No, your landlord cannot refuse to rent to you because you have children. This is considered discrimination based on familial status, which is a protected class under Massachusetts law.",
     "key_facts": [
-      "Familial status, which includes having children, is a protected class under Massachusetts law (Source 1).",
-      "It is unlawful for a housing provider to discriminate against a prospective tenant based on familial status (Source 1).",
-      "Refusing to rent because of children due to lead paint concerns is considered unlawful discrimination (Source 2)."
+      "Under Massachusetts fair housing law, refusing to rent to someone because they have children is unlawful discrimination.",
+      "Lead paint concerns do not justify refusing to rent to families with children; landlords must comply with deleading requirements.",
+      "Tenants who experience housing discrimination can file a complaint with the Boston Fair Housing Commission, MCAD, or HUD."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_overview_of_fair_housing_law_chunk_000",
-        "title": "Overview of Fair Housing Law - Massachusetts Attorney General",
-        "source_url": "https://www.mass.gov/info-details/overview-of-fair-housing-law"
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_004",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_026",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_000",
+        "title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B/Section4"
       }
     ]
   },
@@ -435,16 +340,6 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_004",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_006",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
@@ -453,11 +348,6 @@
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_008",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_001",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       }
     ]
   },
@@ -474,29 +364,14 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_000",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
         "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
         "title": "What Happens During an Eviction",
         "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_017",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       }
     ]
   },
@@ -507,28 +382,18 @@
     "context": "My landlord in Boston wants me to leave so he can renovate. Since I won't leave voluntarily, he shut off the hot water.",
     "expected_answer": "Your landlord cannot legally shut off your hot water to force you to move out. This action is considered an illegal eviction tactic under Massachusetts law.",
     "key_facts": [
-      "Landlords must follow the legal process and cannot force a tenant out by shutting off utilities. [Source 1]",
-      "Landlords who pay for heat and hot water must provide it unless there is a written agreement stating otherwise. [Source 3]",
-      "You can only be required to pay for utilities if there are separate meters for each service charged. [Source 3]"
+      "Under MGL c.186 s.14, a landlord cannot willfully shut off or fail to furnish hot water or other required utilities.",
+      "A tenant can only be required to pay for utilities if there are separate meters for each service.",
+      "Landlords who violate the quiet enjoyment statute may be liable for three months' rent or actual damages, whichever is greater."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_004",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
-        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_002",
-        "title": "Housing code in Boston",
-        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_001",
+        "title": "MGL c.186 s.14 - Quiet enjoyment / wrongful acts of landlord",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14"
       },
       {
         "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
@@ -552,11 +417,6 @@
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
@@ -565,11 +425,6 @@
         "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
         "title": "Tenant Rights and Responsibilities",
         "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
-      },
-      {
-        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_004",
-        "title": "Housing code in Boston",
-        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
       }
     ]
   },
@@ -606,9 +461,9 @@
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection18_chunk_000",
+        "title": "MGL c.186 s.18 - Anti-Retaliation Protection for Tenants",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18"
       }
     ]
   },
@@ -628,11 +483,6 @@
         "chunk_id": "bostonhousing_faq_016_what_is_the_section_8_program_chunk_000",
         "title": "[Housing Options & Eligibility] What is the Section 8 program?",
         "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_004",
-        "title": "Office of Housing Stability",
-        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability"
       },
       {
         "chunk_id": "bostonhousing_faq_014_what_housing_options_can_i_apply_to_chunk_000",
@@ -672,11 +522,6 @@
         "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
         "title": "Massachusetts law about tenants' security deposits",
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_017",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
     ]
   },
@@ -693,9 +538,9 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_060",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
@@ -703,14 +548,9 @@
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_008",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_003",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_059",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
     ]
   },
@@ -760,35 +600,25 @@
     "context": "I noticed my apartment in Boston doesn't have any working smoke detectors.",
     "expected_answer": "Yes, your landlord is required to install and maintain smoke detectors in operable condition in your apartment. This is mandated by 105 CMR 410.330, which requires owners to provide smoke detectors in compliance with Massachusetts fire safety codes.",
     "key_facts": [
-      "105 CMR 410.330 mandates the installation and maintenance of smoke detectors.",
-      "Smoke detectors must comply with Massachusetts fire safety codes.",
-      "The local fire department is notified of any violations regarding smoke detectors."
+      "Under 105 CMR 410.330, the owner shall provide, install, and maintain smoke detectors and carbon monoxide alarms in every required residence.",
+      "Landlords are responsible for replacing or repairing non-functioning smoke detectors.",
+      "The local fire department and board of health enforce compliance with smoke detector requirements."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_045",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_043",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_046",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_044",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_034",
-        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
-        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
-      },
-      {
-        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_001",
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_003",
         "title": "Housing code in Boston",
         "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
-      },
-      {
-        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
-        "title": "Tenant Rights and Responsibilities",
-        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
       }
     ]
   },
@@ -839,29 +669,9 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
-      },
-      {
         "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection24_chunk_001",
         "title": "MGL c.186 s.24 - DV survivor lease termination",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section24"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_017",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       }
     ]
   },
@@ -872,34 +682,19 @@
     "context": "My landlord just told me he's selling the building. I have 8 months left on my lease.",
     "expected_answer": "In Massachusetts, if your landlord sells the building, your lease remains in effect under the new owner. The new owner assumes the responsibilities of the landlord as outlined in your existing lease agreement.",
     "key_facts": [
-      "The tenant's lease remains in effect even if the property is sold.",
-      "The new owner assumes the responsibilities of the landlord under the existing lease."
+      "A tenant's lease remains in effect when property ownership changes; the new owner assumes the landlord's obligations.",
+      "The tenant should not lose their security deposit or last month's rent if the property is sold or a new management company takes over."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_020",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_002",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_002",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "boston_gov_departments_inspectional_services_how_register_rental_property_chunk_004",
-        "title": "How to register a rental property",
-        "source_url": "https://www.boston.gov/departments/inspectional-services/how-register-rental-property"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_003",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_004",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       }
     ]
   },
@@ -910,8 +705,8 @@
     "context": "My lease says no pets but I want to get a dog. Also, I have anxiety - can I get an emotional support animal?",
     "expected_answer": "Your landlord can generally prohibit pets if your lease specifies a 'no pets' policy. However, under Massachusetts law, landlords must make reasonable accommodations for tenants with disabilities, which can include allowing an emotional support animal despite a 'no pets' policy. You may need to provide documentation of your disability and the need for an emotional support animal to request this accommodation.",
     "key_facts": [
-      "Landlords can enforce 'no pets' policies as per lease agreements (Source 2).",
-      "Landlords must make reasonable accommodations for tenants with disabilities, such as allowing an emotional support animal (Source 1)."
+      "Landlords may enforce a 'no pets' policy, but must make exceptions as a reasonable accommodation for tenants with disabilities who need service or emotional support animals.",
+      "In Massachusetts, there are no licensing or registration requirements for service animals or emotional support animals in housing."
     ],
     "source_chunks": [
       {
@@ -920,24 +715,14 @@
         "source_url": "https://www.mass.gov/info-details/overview-of-fair-housing-law"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+        "chunk_id": "mass_gov_info_details_overview_of_housing_discrimination_chunk_003",
+        "title": "Overview of Housing Discrimination | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/overview-of-housing-discrimination"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_007",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_000",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter40_chunk_000",
-        "title": "MGL c.40P - The Massachusetts Rent Control Prohibition Act",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P"
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_004",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
       }
     ]
   },
@@ -967,11 +752,6 @@
         "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
         "title": "Massachusetts law about tenants' security deposits",
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
-      },
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
     ]
   },
@@ -1006,11 +786,6 @@
         "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_000",
         "title": "Housing code in Boston",
         "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       }
     ]
   },
@@ -1037,9 +812,14 @@
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_022",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+      },
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_025",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
     ]
   },

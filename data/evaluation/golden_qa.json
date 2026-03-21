@@ -3,28 +3,28 @@
     "id": "golden_001",
     "topic": "security_deposits",
     "question": "I just moved into a new apartment in Boston and my landlord didn't put my security deposit into a separate account. Is that allowed?",
-    "expected_answer": "No, in Massachusetts, landlords are required to hold a tenant's security deposit in a separate interest-bearing account and provide notice to the tenant about the account details. This is outlined in 940 CMR 3.17.",
+    "expected_answer": "No, in Massachusetts, landlords are required to hold a tenant's security deposit in a separate interest-bearing account and provide notice to the tenant about the account details. This is outlined in M.G.L. c. 186, § 15B.",
     "key_facts": [
       "Landlords must hold security deposits in a separate interest-bearing account.",
       "Landlords must provide notice to tenants about the security deposit account.",
-      "This requirement is specified in 940 CMR 3.17."
+      "This requirement is specified in M.G.L. c. 186, § 15B."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_004",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
     ]
   },
   {
     "id": "golden_002",
-    "topic": "security_deposits",
+    "topic": "repairs_habitability",
     "question": "My landlord stopped paying the electric bill, and I'm worried about losing service. What can I do according to Massachusetts law?",
     "expected_answer": "Under Massachusetts law, it is considered an unfair practice for a landlord who is required to provide gas or electric service to fail to pay the bills, exposing tenants to the risk of losing such services. You may have legal grounds to take action if this obligation is not met.",
     "key_facts": [
@@ -34,12 +34,12 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_009",
         "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
         "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       },
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_010",
         "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
         "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
@@ -76,11 +76,11 @@
     "id": "golden_004",
     "topic": "security_deposits",
     "question": "I'm renting an apartment in Boston and my lease is for 12 months. What are my rights regarding the security deposit my landlord is holding?",
-    "expected_answer": "As a tenant in Boston with a lease longer than 100 days, your landlord must follow specific rules for handling your security deposit, including placing it in an interest-bearing account and providing you with a statement of the account's location and amount. If these requirements are violated, you may be entitled to triple damages. This is outlined in MGL c. 186, s.15B.",
+    "expected_answer": "As a tenant in Boston, your landlord must follow the rules in MGL c. 186, s.15B for handling your security deposit. This includes placing it in an interest-bearing account in a Massachusetts bank, providing you with the bank details within 30 days, and giving you a statement of condition. If the landlord fails to comply, you may be entitled to triple damages plus interest, court costs, and attorney's fees.",
     "key_facts": [
-      "MGL c. 186, s.15B outlines the handling of security deposits.",
-      "For leases longer than 100 days, landlords must place deposits in interest-bearing accounts.",
-      "Violation of deposit handling rules can result in triple damages for the tenant."
+      "MGL c. 186, s.15B outlines the requirements for handling security deposits.",
+      "Landlords must deposit the security deposit in an interest-bearing account in a Massachusetts bank and provide the tenant with the bank details within 30 days.",
+      "Failure to properly handle the deposit can result in triple damages for the tenant."
     ],
     "source_chunks": [
       {
@@ -89,9 +89,9 @@
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       },
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       }
     ]
   },
@@ -101,24 +101,20 @@
     "question": "I just found out my landlord is selling the building. What happens to my security deposit?",
     "expected_answer": "When a landlord transfers their interest in a dwelling unit, they must transfer any security deposit held to the new owner. The new owner is then responsible for the deposit in accordance with M.G.L. c. 186, § 15B.",
     "key_facts": [
-      "940 CMR 3.17",
-      "M.G.L. c. 186, § 15B"
+      "When a landlord sells a building, they must transfer the security deposit to the new owner.",
+      "The new owner has 45 days to send the tenant notice about the security deposit.",
+      "This requirement is specified in M.G.L. c. 186, § 15B."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_004",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_003",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
-      },
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       }
     ]
   },
@@ -126,17 +122,22 @@
     "id": "golden_006",
     "topic": "security_deposits",
     "question": "Can my landlord in Boston legally require me to pay for the cost of repairing normal wear and tear when I move out?",
-    "expected_answer": "No, under Massachusetts law, a landlord cannot deduct the cost of repairing normal wear and tear from your security deposit. 940 CMR 3.17(5) specifies that deductions from a security deposit are limited to unpaid rent, unpaid increase in real estate taxes, and damages beyond normal wear and tear.",
+    "expected_answer": "No, under Massachusetts law, a landlord cannot deduct the cost of repairing normal wear and tear from your security deposit. M.G.L. c. 186, § 15B specifies that deductions from a security deposit are limited to unpaid rent, unpaid increase in real estate taxes, and damages beyond normal wear and tear.",
     "key_facts": [
       "A landlord cannot charge tenants for normal wear and tear repairs.",
       "Deductions are only allowed for unpaid rent, unpaid increase in real estate taxes, and damages beyond normal wear and tear.",
-      "This is specified in 940 CMR 3.17(5)."
+      "This is specified in M.G.L. c. 186, § 15B."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_004",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
       }
     ]
   },
@@ -187,19 +188,19 @@
     "question": "Can my landlord evict me because I reported a health violation to the city?",
     "expected_answer": "No, your landlord cannot evict you for reporting a health violation to the city, as this would be considered retaliatory eviction, which is prohibited. Massachusetts law protects tenants from reprisals for reporting violations of law. If the eviction notice is retaliatory, it can be challenged.",
     "key_facts": [
-      "The Eviction Notice is Retaliatory: Landlords can’t retaliate against a tenant because they exercise their legal rights.",
-      "MGL c.239, Section 2A: Reprisal for reporting violations of law is a defense."
+      "Under MGL c.239 s.2A, it is a defense to eviction that the action was taken in reprisal for the tenant reporting code violations or exercising legal rights.",
+      "A landlord cannot evict a tenant by physically removing them or changing the locks; they must go through the court process."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_002",
-        "title": "MGL c.239 - Summary Process for Possession of Land (TOC)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection2_chunk_001",
+        "title": "MGL c.239 s.2A - Anti-Reprisal Defense in Eviction",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section2A"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       }
     ]
   },
@@ -214,11 +215,6 @@
       "This service is available only in Boston."
     ],
     "source_chunks": [
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
-      },
       {
         "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_002",
         "title": "Massachusetts law about eviction",
@@ -237,20 +233,20 @@
     "question": "What steps should I take to prepare for an eviction court hearing in Boston?",
     "expected_answer": "Before going to court for an eviction, it's important for tenants to gather all relevant documents, such as lease agreements, rent payment receipts, and any communication with the landlord. This preparation helps present a strong case. Tenants should also familiarize themselves with the eviction process as outlined in Chapter 239 of the Massachusetts General Laws.",
     "key_facts": [
-      "Tenants should gather relevant documents before going to court.",
-      "Preparation is crucial for presenting a strong case in eviction proceedings.",
-      "Refer to Chapter 239 of the Massachusetts General Laws for the eviction process."
+      "A landlord must file a case in court and obtain a summary process judgment to evict a tenant.",
+      "Tenants have the right to respond to an eviction case, present defenses and counterclaims, and bring documents and witnesses to trial.",
+      "If a tenant does not file an answer or appear, the court may enter a default judgment against them."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_021",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       },
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_000",
-        "title": "MGL c.239 - Summary Process for Possession of Land (TOC)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239"
+        "chunk_id": "mass_gov_info_details_respond_to_an_eviction_against_you_chunk_000",
+        "title": "Respond to an Eviction Against You | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/respond-to-an-eviction-against-you"
       }
     ]
   },
@@ -260,25 +256,20 @@
     "question": "Can I withhold rent if my apartment in Boston has serious code violations?",
     "expected_answer": "Yes, tenants in Massachusetts, including Boston, can withhold rent if there are serious code violations affecting health and safety. According to MGL c.239 s.8A, tenants may withhold rent to cover the difference between the agreed rent and the fair value of the premises, and any expenses incurred to rectify the violations.",
     "key_facts": [
-      "Massachusetts law allows rent withholding for code violations.",
-      "MGL c.239 s.8A outlines tenant rights regarding rent withholding.",
-      "Tenants can claim the difference between agreed rent and fair value of the premises."
+      "Massachusetts law allows tenants to withhold rent when there are housing code violations that endanger health or safety.",
+      "Under MGL c.239 s.8A, a tenant can claim the difference between the agreed rent and the fair value of the premises with defects.",
+      "The landlord must have knowledge of the conditions and fail to take reasonable steps to correct them."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_001",
-        "title": "Massachusetts law about eviction",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection8_chunk_002",
-        "title": "MGL c.239 s.8A - Rent Withholding for Code Violations",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section8A"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_007",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_006",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       }
     ]
   },
@@ -288,25 +279,20 @@
     "question": "Can I withhold rent in Boston if my landlord hasn't fixed the heating in my apartment?",
     "expected_answer": "Yes, you may withhold rent if your apartment has code violations like lack of heating, provided you meet certain conditions, such as notifying the landlord and allowing a reasonable time for repairs. The premises also must not be in a hotel, motel, or lodging house where you've stayed less than three months (MGL c.239 s.8A).",
     "key_facts": [
-      "Rent withholding is permissible for code violations under MGL c.239 s.8A.",
-      "The tenant must notify the landlord of the issues and allow time for repair.",
-      "The property must not be a hotel, motel, or a lodging room with less than three months of occupancy."
+      "Tenants must notify the landlord of housing code violations and give reasonable time to repair before withholding rent.",
+      "Rent withholding is permissible when conditions violate the sanitary code and impair health or safety.",
+      "The tenant should document the conditions and keep records of all communications with the landlord."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_004",
-        "title": "MGL c.239 - Summary Process for Possession of Land (TOC)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239"
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_office_housing_stability_chunk_004",
-        "title": "Office of Housing Stability",
-        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability"
-      },
-      {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_ection8_chunk_006",
-        "title": "MGL c.239 s.8A - Rent Withholding for Code Violations",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section8A"
+        "chunk_id": "masslegalhelp_ch08_getting_repairs_made_chunk_001",
+        "title": "Legal Tactics Ch. 8: Getting Repairs Made",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/08%20Getting%20Repairs%20Made%202025_0.pdf"
       }
     ]
   },
@@ -316,20 +302,20 @@
     "question": "I just got an eviction notice in Boston. When do I need to appear in court, and what happens if I don't respond in time?",
     "expected_answer": "You need to appear in court on the date specified in the summons, and it's crucial to respond by this date to avoid a default judgment against you. Your response, including any answer or counterclaims, must be filed before the court date. If you fail to respond or appear, you may lose the case by default, which can lead to eviction.",
     "key_facts": [
-      "Tenants must appear in court on the trial date specified in the summons.",
-      "Tenants must respond with any answer or counterclaims before the court date.",
-      "Failing to respond or appear can lead to a default judgment and eviction."
+      "Tenants must file an answer with the court before the answer date on the summons.",
+      "Tenants can raise defenses and counterclaims in response to an eviction.",
+      "If a tenant fails to file an answer or appear, the court may enter a default judgment and order eviction."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_006",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
+        "title": "Massachusetts law about eviction",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       },
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter239_chunk_004",
-        "title": "MGL c.239 - Summary Process for Possession of Land (TOC)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239"
+        "chunk_id": "mass_gov_info_details_respond_to_an_eviction_against_you_chunk_000",
+        "title": "Respond to an Eviction Against You | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/respond-to-an-eviction-against-you"
       }
     ]
   },
@@ -348,27 +334,22 @@
         "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter121_ection32_chunk_002",
         "title": "MGL c.121B s.32 - Public housing maintenance, operation, tenant selection and evictions",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter121B/Section32"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_003",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       }
     ]
   },
   {
     "id": "golden_016",
-    "topic": "repairs_habitability",
+    "topic": "rent_increases",
     "question": "Can my landlord increase my rent during a market emergency in Boston?",
     "expected_answer": "Under Massachusetts law, a landlord cannot unfairly increase rent during a market emergency, as this is considered an unfair or deceptive act under 940 CMR 3.17.",
     "key_facts": [
-      "940 CMR 3.17 prohibits unfair or deceptive acts by landlords.",
-      "A market emergency includes disruptions like shortages or price increases in essential goods.",
-      "Landlords are subject to consumer protection laws during such emergencies."
+      "940 CMR 3.17 makes it an unfair or deceptive practice for a landlord to rent a unit with conditions that violate law or endanger health and safety.",
+      "Landlords are prohibited from failing to maintain dwelling units in compliance with the sanitary code.",
+      "The regulation covers conditions at the inception of tenancy and ongoing maintenance obligations."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_005",
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_007",
         "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
         "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
@@ -385,9 +366,14 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_029",
-        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
-        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_005",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_009",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
     ]
   },
@@ -397,23 +383,18 @@
     "question": "My apartment in Boston has been unbearably hot this winter, constantly over 78°F. Is my landlord violating any regulations?",
     "expected_answer": "Yes, your landlord may be violating Massachusetts regulations. According to 105 CMR 410.180(B), the heating system during the heating season should not cause the temperature to exceed 78°F in any room.",
     "key_facts": [
-      "105 CMR 410.180(B) states that the heating system should not exceed 78°F during the heating season.",
-      "The temperature is measured at a height of five feet above floor level.",
-      "A board of health can alter the heating season dates, but the temperature limit remains."
+      "105 CMR 410.180 states the heating system must maintain at least 68F between 7AM-11PM and 64F between 11PM-7AM during heating season.",
+      "The heating system shall not cause the temperature to exceed 78F in any room (105 CMR 410.180(B)).",
+      "Temperature is measured at a height of five feet above floor level."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_028",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_025",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002",
-        "title": "Get Financial Help to Remove Lead From Your Home",
-        "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
-      },
-      {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_026",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
@@ -425,18 +406,18 @@
     "question": "Can my landlord in Boston be penalized if they don't fix a serious health code violation in my apartment after being ordered to?",
     "expected_answer": "Yes, if your landlord fails to comply with an order to correct a violation, they may face penalties. According to 105 CMR 410.920, a landlord who does not address the violation can be subject to legal action and fines.",
     "key_facts": [
-      "105 CMR 410.920 outlines penalties for failure to comply with an order to correct housing violations.",
-      "The regulation provides enforcement measures to ensure landlords address health and safety issues.",
-      "Landlords may face legal and financial consequences for non-compliance."
+      "Under 105 CMR 410.920, any person who fails to comply with an order shall be fined not less than $10 nor more than $500 per violation.",
+      "Each day's failure to comply with an order constitutes a separate violation.",
+      "The board of health can take enforcement action including ordering corrections and assessing penalties."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_001",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_090",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_003",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_092",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
@@ -448,18 +429,18 @@
     "question": "Can my landlord block the hallway with furniture in our apartment building in Boston?",
     "expected_answer": "No, your landlord cannot block the hallway with furniture in a multi-unit residence. The owner is responsible for maintaining all common areas, including hallways, free from obstruction to ensure safe passage for all residents.",
     "key_facts": [
-      "105 CMR 410.260(D)(1) states that the owner shall maintain free from obstruction every means of egress in common areas used by occupants of more than one dwelling unit.",
-      "Obstructions in hallways can impede safe passage and are prohibited.",
-      "Ensuring clear egress is part of the State Sanitary Code requirements for multi-unit residences."
+      "Under 105 CMR 410.260, every dwelling unit shall have means of exit allowing safe passage in accordance with the building code.",
+      "No person shall cause obstruction of any means of egress or passageway.",
+      "The owner shall maintain free from obstruction every means of egress in common areas used by occupants of more than one dwelling unit."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_037",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_035",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_036",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
@@ -471,18 +452,18 @@
     "question": "My landlord mentioned my building might have asbestos. What are they required to do about it?",
     "expected_answer": "Your landlord must maintain all asbestos-containing materials in good repair, ensuring they are free from defects like holes or cracks that could release asbestos dust. If there is any violation, they must correct it in compliance with accepted standards.",
     "key_facts": [
-      "Landlords must maintain asbestos-containing materials in good repair (105 CMR 410.250).",
-      "Materials must be free from any defects that could release asbestos dust (105 CMR 410.250).",
-      "Violations must be corrected according to accepted standards (105 CMR 410.010)."
+      "Under 105 CMR 410.250, the owner shall maintain all asbestos-containing materials in intact condition.",
+      "The sanitary code defines asbestos-containing material and requires owners to ensure it does not release fibers.",
+      "Occupants must maintain appliances and facilities in sanitary condition and report hazardous conditions to the owner."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_036",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_034",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_093",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_005",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
@@ -490,28 +471,24 @@
   },
   {
     "id": "golden_022",
-    "topic": "rent_increases",
+    "topic": "security_deposits",
     "question": "My landlord in Boston is trying to keep my entire security deposit after I accidentally damaged a wall. Is this allowed?",
     "expected_answer": "No, your landlord cannot retain your entire security deposit unless the damages exceed the deposit amount. The landlord is only entitled to keep an amount that corresponds to actual damages incurred.",
     "key_facts": [
-      "Landlords cannot retain more of the security deposit than the amount that corresponds to actual damages (940 CMR 3.17).",
-      "The regulation prevents landlords from keeping an excessive amount of the security deposit beyond what's necessary for repairs."
+      "A landlord can only deduct from a security deposit for damage beyond normal wear and tear.",
+      "The landlord must provide an itemized list of damages with cost estimates within 30 days after the tenancy ends.",
+      "If the landlord improperly withholds the deposit, the tenant may be entitled to triple damages under MGL c.186 s.15B."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_tenants_security_deposits_chunk_004",
+        "title": "Massachusetts law about tenants' security deposits",
+        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       },
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
-      },
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       }
     ]
   },
@@ -521,16 +498,11 @@
     "question": "Can my landlord charge me an exorbitant fee for emergency repairs during a declared state of emergency in Massachusetts?",
     "expected_answer": "No, your landlord cannot charge an unconscionably high fee for emergency repairs during a declared state of emergency. According to 940 CMR 3.17, a price is considered unconscionably high if there's a gross disparity between the charged price and the usual price before the emergency, or what other businesses charge, unless justified by increased costs.",
     "key_facts": [
-      "940 CMR 3.17 prohibits charging unconscionably high prices during emergencies.",
-      "A price is unconscionable if there's a gross disparity with pre-emergency prices or other businesses' prices.",
-      "The disparity must not be due to increased supplier prices or abnormal market disruptions."
+      "940 CMR 3.18 prohibits charging unconscionably high prices during a declared state of emergency.",
+      "A price is unconscionable if there is a gross disparity with pre-emergency prices or other businesses' prices.",
+      "The disparity must not be substantially attributable to increased supplier prices or abnormal market disruptions."
     ],
     "source_chunks": [
-      {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
-      },
       {
         "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
         "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
@@ -540,22 +512,22 @@
   },
   {
     "id": "golden_024",
-    "topic": "rent_increases",
+    "topic": "tenant_rights_general",
     "question": "Can my landlord enter my apartment without my permission in Boston?",
     "expected_answer": "Under Massachusetts law, a landlord can only enter a tenant's apartment with proper notice and for specific reasons, such as to inspect the premises, make repairs, or show the apartment to prospective tenants. They must provide reasonable notice, except in emergencies.",
     "key_facts": [
-      "Landlords must provide reasonable notice before entering a tenant's apartment.",
-      "Landlords can enter for specific reasons such as inspections, repairs, or showing the apartment.",
-      "Emergencies are an exception where prior notice is not required."
+      "The landlord should provide at least one day's notice (24 hours) before entering a tenant's apartment.",
+      "A landlord may enter to inspect the premises, make repairs, or show the unit to prospective tenants or purchasers.",
+      "Unless there is an emergency, the landlord should never enter without advance notice and the tenant's permission."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_005",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       },
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_009",
         "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
         "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
       }
@@ -567,31 +539,31 @@
     "question": "Can my landlord in Boston charge me a late fee if I'm only a few days late on rent?",
     "expected_answer": "Under Massachusetts law, a landlord cannot charge a late fee until the rent is 30 days overdue. This regulation is outlined in 940 CMR 3.17(3)(a). Therefore, if you are only a few days late, your landlord cannot legally impose a late fee.",
     "key_facts": [
-      "Massachusetts landlords cannot charge a late fee until rent is 30 days overdue.",
-      "This rule is specified in 940 CMR 3.17(3)(a).",
-      "Late fees imposed before 30 days are considered illegal."
+      "A late fee can only be charged if there is a written agreement that allows it.",
+      "Even with a written agreement, the late fee cannot be charged unless rent is at least 30 days late.",
+      "There is no grace period for payment of rent; rent is due on the date specified in the tenancy terms."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_011",
-        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
-        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_009",
+        "title": "Top Ten Things Tenants and Landlords Need to Know",
+        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
     ]
   },
   {
     "id": "golden_026",
-    "topic": "landlord_entry",
+    "topic": "utilities_heat",
     "question": "Can my landlord shut off my electricity if I’m behind on rent payments in Boston?",
     "expected_answer": "No, your landlord cannot shut off your electricity because you are behind on rent payments. According to MGL c.186 s.14, a landlord is prohibited from willfully or intentionally interrupting utilities to a tenant as a means to enforce payment of rent. Such actions can result in penalties against the landlord.",
     "key_facts": [
-      "Landlords cannot willfully interrupt utilities to enforce rent payment.",
-      "MGL c.186 s.14 prohibits landlords from shutting off electricity as a form of penalty.",
-      "Penalties can be imposed on landlords for interrupting utilities."
+      "Under MGL c.186 s.14, a landlord who is required to furnish utilities may not willfully fail to furnish them.",
+      "A landlord who violates this section may be liable for actual and consequential damages or three months' rent, whichever is greater.",
+      "The tenant may also recover costs and attorney's fees for such violations."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_000",
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_001",
         "title": "MGL c.186 s.14 - Quiet enjoyment / wrongful acts of landlord",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14"
       }
@@ -599,17 +571,17 @@
   },
   {
     "id": "golden_027",
-    "topic": "landlord_entry",
+    "topic": "utilities_heat",
     "question": "Can my landlord shut off my water if I am behind on rent?",
     "expected_answer": "No, your landlord cannot shut off your water even if you are behind on rent. This is considered a violation of your right to quiet enjoyment under Massachusetts law.",
     "key_facts": [
-      "MGL c.186 s.14 prohibits landlords from interfering with utilities.",
-      "Tenants are protected under this statute from any wrongful acts by landlords.",
-      "Interference with utilities like water is a violation of tenant rights."
+      "Under MGL c.186 s.14, it is unlawful for a landlord to willfully shut off or fail to provide water service.",
+      "Interference with utilities constitutes a violation of the tenant's right to quiet enjoyment.",
+      "Tenants can seek damages including three months' rent or actual damages, whichever is greater."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_000",
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_001",
         "title": "MGL c.186 s.14 - Quiet enjoyment / wrongful acts of landlord",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14"
       }
@@ -617,17 +589,17 @@
   },
   {
     "id": "golden_028",
-    "topic": "landlord_entry",
+    "topic": "utilities_heat",
     "question": "Can my landlord shut off my water if I am behind on rent in Boston?",
     "expected_answer": "No, your landlord cannot shut off your water even if you are behind on rent. This is considered a violation of your right to quiet enjoyment, and you may be entitled to damages or other legal remedies.",
     "key_facts": [
-      "MGL c.186 s.14 prohibits landlords from shutting off utilities like water as it constitutes a wrongful act.",
-      "Tenants have a right to quiet enjoyment, which includes access to essential services.",
-      "Violations may result in penalties and remedies for the tenant."
+      "Under MGL c.186 s.14, a landlord required to furnish water cannot willfully fail to provide it.",
+      "Shutting off water to force a tenant out is prohibited and constitutes an unfair practice.",
+      "The tenant may recover damages of three months' rent or actual damages, whichever is greater, plus attorney's fees."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_000",
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection14_chunk_001",
         "title": "MGL c.186 s.14 - Quiet enjoyment / wrongful acts of landlord",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section14"
       }
@@ -639,20 +611,20 @@
     "question": "Can my landlord in Boston deny me housing because of my religion?",
     "expected_answer": "No, under Massachusetts law, it is unlawful for a landlord to deny you housing because of your religious creed. This is prohibited under MGL Chapter 151B, which addresses unlawful discrimination in housing based on factors such as race, color, religious creed, national origin, ancestry, or sex.",
     "key_facts": [
-      "MGL Chapter 151B prohibits discrimination in housing based on religious creed.",
-      "Landlords cannot legally deny housing based on religion in Massachusetts.",
-      "Unlawful discrimination includes factors like race, color, and national origin."
+      "MGL c.151B s.4 prohibits refusing to rent or lease housing because of a person's religious creed.",
+      "Unlawful discrimination in housing includes factors such as race, color, religious creed, national origin, sex, and other protected classes.",
+      "Violations can be reported to the Massachusetts Commission Against Discrimination (MCAD)."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_help_housing_chunk_005",
-        "title": "Help With Housing",
-        "source_url": "https://www.boston.gov/help-housing"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_000",
+        "title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B/Section4"
       },
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_chunk_000",
-        "title": "MGL c.151B - Unlawful Discrimination (Table of Contents)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B"
+        "chunk_id": "mass_gov_info_details_overview_of_housing_discrimination_chunk_000",
+        "title": "Overview of Housing Discrimination | Mass.gov",
+        "source_url": "https://www.mass.gov/info-details/overview-of-housing-discrimination"
       }
     ]
   },
@@ -662,20 +634,20 @@
     "question": "Can my landlord in Boston refuse to rent to me because I have children?",
     "expected_answer": "No, your landlord cannot refuse to rent to you because you have children, as this would constitute unlawful discrimination based on family status, which is prohibited under Massachusetts law.",
     "key_facts": [
-      "MGL c.151B prohibits discrimination in housing based on family status.",
-      "Section 4A of MGL c.151B addresses unlawful discrimination practices.",
-      "The Massachusetts Commission Against Discrimination (MCAD) enforces these laws."
+      "MGL c.151B s.4 prohibits refusing to rent or lease housing because a person has children.",
+      "Housing discrimination based on familial status (having children) is unlawful under Massachusetts and federal fair housing laws.",
+      "Tenants who experience discrimination can file a complaint with MCAD or HUD."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_chunk_001",
-        "title": "MGL c.151B - Unlawful Discrimination (Table of Contents)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_000",
+        "title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B/Section4"
       },
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_chunk_002",
-        "title": "MGL c.151B - Unlawful Discrimination (Table of Contents)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B"
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_004",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
       }
     ]
   },
@@ -685,15 +657,20 @@
     "question": "Is my landlord required to post any notices about tenant rights in the building?",
     "expected_answer": "Yes, your landlord is required to post notices that include excerpts of certain statutes and other information about tenant rights. This is mandated by Massachusetts General Laws, Chapter 151B, Section 7.",
     "key_facts": [
-      "Landlords must post notices as per MGL c.151B, Section 7.",
-      "These notices include excerpts of statutes and tenant rights information.",
-      "The requirement is part of anti-discrimination laws."
+      "Massachusetts fair housing law prohibits discrimination in housing based on multiple protected classes.",
+      "Landlords of covered housing must comply with fair housing requirements including posting notices.",
+      "The Boston Fair Housing Commission and MCAD enforce anti-discrimination laws in housing."
     ],
     "source_chunks": [
       {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_chunk_002",
-        "title": "MGL c.151B - Unlawful Discrimination (Table of Contents)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B"
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_000",
+        "title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B/Section4"
+      },
+      {
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_004",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
       }
     ]
   },
@@ -711,32 +688,27 @@
         "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_ection4_chunk_002",
         "title": "MGL c.151B s.4 - Unlawful Practices (Housing Discrimination)",
         "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B/Section4"
-      },
-      {
-        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter151_chunk_002",
-        "title": "MGL c.151B - Unlawful Discrimination (Table of Contents)",
-        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151B"
       }
     ]
   },
   {
     "id": "golden_033",
-    "topic": "lease_terms",
+    "topic": "affordable_housing",
     "question": "I heard Boston has some new rules about affordable housing requirements for developers. Can someone explain what these are?",
     "expected_answer": "Boston's updated Inclusionary Zoning requires market-rate housing developments with seven or more units to create 15 to 17 percent of income-restricted units on-site or nearby, plus an additional three percent for voucher holders in large rental projects. Developers can also contribute to a fund instead of creating these units. These changes are effective from October 2024.",
     "key_facts": [
-      "Inclusionary Zoning requires 15 to 17 percent of units in new developments to be income-restricted.",
-      "An additional three percent of units must be for voucher holders in large projects.",
-      "Developers can contribute to a fund instead of building these units."
+      "Boston's Inclusionary Zoning requires market-rate developments with seven or more units to create income-restricted housing at 15 to 17 percent of units.",
+      "Large rental projects must additionally provide 3 percent of units for voucher holders.",
+      "Developers may contribute to the Inclusionary Development Policy Fund in lieu of building income-restricted units on site."
     ],
     "source_chunks": [
       {
-        "chunk_id": "bostonhousing_faq_004_what_if_i_need_to_reschedule_the_hearing_chunk_000",
-        "title": "[Grievances and Appeals] What if I need to reschedule the hearing?",
-        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
+        "chunk_id": "boston_gov_departments_housing_chunk_003",
+        "title": "Housing",
+        "source_url": "https://www.boston.gov/departments/housing"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_chunk_005",
+        "chunk_id": "boston_gov_departments_housing_chunk_004",
         "title": "Housing",
         "source_url": "https://www.boston.gov/departments/housing"
       }
@@ -756,11 +728,6 @@
         "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_002",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_002",
-        "title": "What Happens During an Eviction",
-        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       }
     ]
   },
@@ -811,7 +778,12 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002",
+        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_000",
+        "title": "Get Financial Help to Remove Lead From Your Home",
+        "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
+      },
+      {
+        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_001",
         "title": "Get Financial Help to Remove Lead From Your Home",
         "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
       }
@@ -829,7 +801,12 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002",
+        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_000",
+        "title": "Get Financial Help to Remove Lead From Your Home",
+        "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
+      },
+      {
+        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_001",
         "title": "Get Financial Help to Remove Lead From Your Home",
         "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
       }
@@ -852,7 +829,7 @@
         "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
       },
       {
-        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_002",
+        "chunk_id": "boston_gov_departments_neighborhood_development_get_financial_help_remove_lead_your_home_chunk_001",
         "title": "Get Financial Help to Remove Lead From Your Home",
         "source_url": "https://www.boston.gov/departments/neighborhood-development/get-financial-help-remove-lead-your-home"
       }
@@ -883,12 +860,12 @@
     "expected_answer": "Your landlord can require you to pay for heat and hot water only if you have signed a written agreement stating you must pay. Otherwise, the landlord is responsible for these utilities.",
     "key_facts": [
       "A tenant can only be required to pay for utilities if there are separate meters for each service charged.",
-      "Your landlord must pay for heat and hot water unless you have signed a written agreement that says you must pay.",
+      "The landlord must pay for heat and hot water unless the tenant has signed a written agreement to pay.",
       "Landlords who pay for heat must provide it between September 15 and May 31."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_015",
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
@@ -907,11 +884,6 @@
     "source_chunks": [
       {
         "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_006",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_010",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       }
@@ -976,11 +948,6 @@
         "chunk_id": "bostonhousing_faq_042_does_the_bha_have_to_grant_me_the_specific_reasonable_accomm_chunk_000",
         "title": "[Reasonable Accommodation] Does the BHA have to grant me the specific Reasonable Accommodation I have requested?",
         "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
-      },
-      {
-        "chunk_id": "bostonhousing_faq_006_what_if_i_need_an_interpreter_for_the_hearing_chunk_000",
-        "title": "[Grievances and Appeals] What if I need an interpreter for the hearing?",
-        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
       }
     ]
   },
@@ -996,16 +963,6 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "bostonhousing_faq_021_who_is_eligible_for_the_grandparents_housing_program_chunk_000",
-        "title": "[Housing Options & Eligibility] Who is eligible for the Grandparents Housing Program?",
-        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
-      },
-      {
-        "chunk_id": "bostonhousing_faq_037_when_are_requests_for_reasonable_accommodations_granted_chunk_000",
-        "title": "[Reasonable Accommodation] When are Requests for Reasonable Accommodations Granted?",
-        "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
-      },
-      {
         "chunk_id": "bostonhousing_faq_000_can_i_add_or_remove_development_choices_while_i_m_on_the_wai_chunk_000",
         "title": "[Check Your Status and Report Changes] Can I add or remove development choices while I’m on the waiting list?",
         "source_url": "https://www.bostonhousing.org/en/FAQ.aspx"
@@ -1018,42 +975,19 @@
     "question": "Is my landlord required to provide a refrigerator in my Boston apartment?",
     "expected_answer": "No, landlords in Boston are not required to provide refrigerators in rental units. However, if they do provide one, they must maintain it in working condition.",
     "key_facts": [
-      "Landlords are not required to provide refrigerators.",
-      "If a refrigerator is provided, it must be maintained by the landlord."
+      "Landlords are not required to provide refrigerators, but if they offer them, they must maintain them.",
+      "Under 105 CMR 410, a refrigerator with freezer is only required if specified in a written rental agreement."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_000",
+        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_012",
         "title": "Top Ten Things Tenants and Landlords Need to Know",
         "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
       },
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_020",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      }
-    ]
-  },
-  {
-    "id": "golden_048",
-    "topic": "tenant_rights_general",
-    "question": "Can my landlord enter my apartment without my permission in Boston?",
-    "expected_answer": "In Boston, a landlord must provide reasonable notice before entering a tenant's apartment, except in cases of emergency. This is to ensure the tenant's right to privacy and peaceful enjoyment of their rented space.",
-    "key_facts": [
-      "A landlord must provide reasonable notice before entering a tenant's apartment.",
-      "Exceptions are made for emergencies.",
-      "This policy ensures tenant privacy and peaceful enjoyment."
-    ],
-    "source_chunks": [
-      {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_005",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "masslegalhelp_ch08_getting_repairs_made_chunk_009",
-        "title": "Legal Tactics Ch. 8: Getting Repairs Made",
-        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/08%20Getting%20Repairs%20Made%202025_0.pdf"
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_034",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
     ]
   },
@@ -1063,20 +997,15 @@
     "question": "Do I need to have renters insurance as a tenant in Boston?",
     "expected_answer": "While renters insurance is not legally required for tenants in Boston, it is recommended as a small price to pay in case of a big problem.",
     "key_facts": [
-      "Renters insurance is not legally required.",
-      "It is recommended for financial protection.",
-      "Source 2 suggests it as a precautionary measure."
+      "Renters insurance is not legally required in Massachusetts.",
+      "The City of Boston recommends renters insurance to cover damages or losses from fire or other disasters.",
+      "The landlord is generally not responsible for fire damage to tenant's belongings absent negligence."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_020",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
-      },
-      {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_landlord_and_tenant_chunk_005",
-        "title": "Massachusetts law about landlord and tenant | Mass.gov",
-        "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-landlord-and-tenant"
+        "chunk_id": "boston_gov_departments_housing_office_housing_stability_know_your_rights_case_fire_chunk_001",
+        "title": "Know Your Rights in Case of a Fire",
+        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability/know-your-rights-case-fire"
       }
     ]
   },
@@ -1087,14 +1016,14 @@
     "expected_answer": "While it is not legally required to have renters insurance in Boston, it is highly recommended as a small price to pay for protection against potential big problems.",
     "key_facts": [
       "Renters insurance is not legally required by Massachusetts law.",
-      "Renters insurance is recommended by the City of Boston for tenant protection.",
-      "Renters insurance can cover damages or losses in case of unexpected events."
+      "Renters insurance can cover damage or loss to personal belongings from events like fire.",
+      "Without insurance, tenants bear the cost of replacing belongings damaged by fire or disaster."
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_011",
-        "title": "Top Ten Things Tenants and Landlords Need to Know",
-        "source_url": "https://www.boston.gov/departments/housing/top-ten-things-tenants-and-landlords-need-know"
+        "chunk_id": "boston_gov_departments_housing_office_housing_stability_know_your_rights_case_fire_chunk_001",
+        "title": "Know Your Rights in Case of a Fire",
+        "source_url": "https://www.boston.gov/departments/housing/office-housing-stability/know-your-rights-case-fire"
       }
     ]
   }
