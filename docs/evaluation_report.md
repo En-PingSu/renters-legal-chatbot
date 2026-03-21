@@ -1559,3 +1559,83 @@ The cross-encoder (ms-marco-MiniLM) compounds the problem by favoring chunks tha
 - **Multi-query expansion** would be the most direct fix — generating a variant query like "lead paint removal financial assistance program Boston" alongside the original would surface the correct chunks at position 1.
 - **Embedding model upgrade** (text-embedding-3-large or BGE-large) may better capture the "get help" → "financial program" semantic relationship.
 - This pattern likely affects other questions where the user describes a problem but the answer involves a specific program or resource they don't know to name.
+
+### 7.19.10 Retrieval Failure Deep Dive: All Retrieval Misses
+
+Systematic investigation of all 10 questions with retrieval misses from the post-audit evaluation. For each, the rerank retriever (top_k=10, initial_k=20) was tested, and missed chunks were checked against vector (top-20) and hybrid (top-20) to determine whether the chunk is reachable at all.
+
+#### Pattern 1: Formal statute text invisible to casual questions
+
+**Affected:** golden_007, golden_009, golden_028, golden_029
+
+| Question | Missing chunk | Vec top-20 | Hyb top-20 |
+|----------|--------------|-----------|-----------|
+| golden_007: "turn off my heat during winter if I'm late on rent?" | MGL c.186 s.14 (quiet enjoyment statute) | >20 | >20 |
+| golden_009: "evict me because I reported a health violation?" | MGL c.239 s.2A (anti-reprisal defense) | >20 | >20 |
+| golden_009: (same) | MA law about eviction (eviction process) | >20 | >20 |
+| golden_028: "shut off my water if I am behind on rent?" | MGL c.186 s.14 (quiet enjoyment statute) | >20 | >20 |
+| golden_029: "deny me housing because of my religion?" | MGL c.151B s.4 (unlawful practices) | >20 | >20 |
+| golden_029: (same) | Overview of Housing Discrimination | >20 | >20 |
+
+**Root cause:** These statute chunks use formal legal language ("Any lessor or landlord of any building or part thereof occupied for dwelling purposes...") while the questions use casual tenant language ("turn off my heat," "evict me"). The all-MiniLM-L6-v2 embeddings cannot bridge this vocabulary gap. The chunks are not in the top 20 for either vector or hybrid retrieval — they are completely unreachable.
+
+**What gets retrieved instead:** masslegalhelp Legal Tactics chapters (Ch. 7, 8, 12, 13) that discuss the same topics in plain language. These chapters often contain the relevant information but are not the ground-truth source chunks.
+
+**Why this matters:** The retriever finds topically relevant content, but from a different source than the ground truth. The LLM may still generate a correct answer from the masslegalhelp chapters, but it won't cite the statute directly — which affects correctness scoring when key_facts reference specific statute sections.
+
+#### Pattern 2: Specific program pages not retrieved for general questions (semantic gap)
+
+**Affected:** golden_037, golden_039
+
+This is the same pattern documented in section 7.19.9. The Lead Safe Boston program chunks (forgivable loans, inspections, contractor help) are reachable with program-specific queries but invisible to general tenant questions about lead paint concerns.
+
+| Question | Missing chunk | Vec top-20 | Hyb top-20 |
+|----------|--------------|-----------|-----------|
+| golden_037: "lead paint, concerned about safety for my child" | Lead removal financial help (chunk_000) | >20 | >20 |
+| golden_037: (same) | Lead Safe Boston application (chunk_001) | >20 | >20 |
+| golden_039: "peeling paint, suspect it has lead" | Lead removal financial help (chunk_000) | 14 | 18 |
+| golden_039: (same) | Lead Safe Boston application (chunk_001) | >20 | >20 |
+
+golden_039's chunk_000 is marginally reachable (vector position 14, hybrid 18) because "peeling paint" is closer to "lead-based paint" than "safety for my child." But the reranker pushes it out in favor of masslegalhelp lead poisoning chapters.
+
+#### Pattern 3: Niche BHA FAQ terminology
+
+**Affected:** golden_043
+
+| Question | Missing chunk | Vec top-20 | Hyb top-20 |
+|----------|--------------|-----------|-----------|
+| golden_043: "modification to my lease terms due to my disability?" | BHA FAQ: "otherwise qualified" meaning | >20 | >20 |
+
+**Root cause:** The question asks about "modification to lease terms due to disability" but the chunk answers "What does 'otherwise qualified' mean?" — a specific BHA term the tenant wouldn't know. The embedding model cannot infer that "otherwise qualified" is relevant to a disability accommodation question. The retriever instead finds fair housing discrimination chapters and disability rights overviews, which are topically related but don't contain the specific BHA eligibility definition.
+
+#### Pattern 4: Borderline retrieval — chunk exists in long tail
+
+**Affected:** golden_005, golden_012, golden_017
+
+| Question | Missing chunk | Vec top-20 | Hyb top-20 |
+|----------|--------------|-----------|-----------|
+| golden_005: "landlord selling building, security deposit?" | Security deposits overview (chunk_004) | 20 | >20 |
+| golden_012: "withhold rent for code violations?" | AG guide (chunk_005) | 16 | 11 |
+| golden_017: "enter apartment without notice?" | 940 CMR 3.17 entry provisions | >20 | >20 |
+
+golden_012's AG guide chunk_005 appears at hybrid position 11 — just outside the rerank candidate pool (initial_k=20 → top 10 after reranking). The chunk_006 (also expected) is beyond position 20. A larger initial_k (e.g., 30) might rescue these, but risks the cross-encoder domain mismatch problem documented in section 7.18.
+
+golden_005's chunk is at vector position 20 — right at the boundary. The masslegalhelp security deposit chapters are preferred because they discuss property sales more directly.
+
+golden_017's 940 CMR 3.17 regulation chunk is unreachable (>20 in both), following the Pattern 1 statute language gap.
+
+#### Summary of retrieval failure root causes
+
+| Root Cause | Questions Affected | Missed Facts | Fix |
+|-----------|-------------------|-------------|-----|
+| Statute language gap | golden_007, 009, 028, 029 | 6 | Embedding model upgrade or multi-query expansion |
+| Program name gap | golden_037, 039 | 5 | Multi-query expansion ("lead paint help" → "Lead Safe Boston program") |
+| Niche terminology | golden_043 | 1 | Query expansion or synonym injection |
+| Borderline ranking | golden_005, 012 | 2 | Larger initial_k (with better cross-encoder) or hybrid weight tuning |
+
+14 total retrieval misses across 10 questions. The dominant failure mode (11/14) is a **vocabulary gap** between casual tenant language and formal legal/program text. The remaining 3/14 are borderline ranking issues where the correct chunk exists in the retrieval candidate set but is displaced by the cross-encoder.
+
+**Recommended priority for fixes:**
+1. **Multi-query expansion** — highest expected impact, addresses all three vocabulary gap patterns
+2. **Embedding model upgrade** — second priority, helps with statute language matching
+3. **Cross-encoder replacement** — would fix the borderline ranking cases and stop displacing legal chunks
