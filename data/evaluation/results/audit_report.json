@@ -1,0 +1,537 @@
+{
+  "timestamp": "2026-03-20T16:56:27.167393",
+  "summary": {
+    "total_entries": 79,
+    "entries_with_issues": 5,
+    "total_issues": 6,
+    "issues_by_check": {
+      "low_chunk_relevance": 5,
+      "low_fact_grounding": 1
+    }
+  },
+  "duplicate_questions": [],
+  "entry_results": [
+    {
+      "entry_id": "golden_001",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_002",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_003",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_004",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_005",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_006",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_007",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_008",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_009",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_010",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_011",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_012",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_013",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_014",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_015",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_016",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_017",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_018",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_019",
+      "source_file": "golden_qa.json",
+      "num_issues": 2,
+      "issues": [
+        {
+          "check": "low_chunk_relevance",
+          "severity": "warning",
+          "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_090",
+          "ratio": 0.083,
+          "message": "Low question-chunk overlap (0.083 < 0.1)"
+        },
+        {
+          "check": "low_chunk_relevance",
+          "severity": "warning",
+          "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_092",
+          "ratio": 0.083,
+          "message": "Low question-chunk overlap (0.083 < 0.1)"
+        }
+      ]
+    },
+    {
+      "entry_id": "golden_020",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_021",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_022",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_023",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_024",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_025",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_026",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_027",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_028",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_029",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_030",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_031",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_032",
+      "source_file": "golden_qa.json",
+      "num_issues": 1,
+      "issues": [
+        {
+          "check": "low_fact_grounding",
+          "severity": "warning",
+          "fact_index": 1,
+          "fact": "MGL c.151B s.4 outlines unlawful housing discrimination practices.",
+          "ratio": 0.1,
+          "message": "Key fact poorly grounded (0.100 < 0.15)"
+        }
+      ]
+    },
+    {
+      "entry_id": "golden_033",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_034",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_035",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_036",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_037",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_038",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_039",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_040",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_041",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_042",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_043",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_044",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_045",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_046",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_047",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_049",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "golden_050",
+      "source_file": "golden_qa.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q001",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q002",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q003",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q004",
+      "source_file": "reddit_questions.json",
+      "num_issues": 1,
+      "issues": [
+        {
+          "check": "low_chunk_relevance",
+          "severity": "warning",
+          "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_001",
+          "ratio": 0.0,
+          "message": "Low question-chunk overlap (0.000 < 0.1)"
+        }
+      ]
+    },
+    {
+      "entry_id": "q005",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q006",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q007",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q008",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q009",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q010",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q011",
+      "source_file": "reddit_questions.json",
+      "num_issues": 1,
+      "issues": [
+        {
+          "check": "low_chunk_relevance",
+          "severity": "warning",
+          "chunk_id": "boston_gov_departments_housing_top_ten_things_tenants_and_landlords_need_know_chunk_020",
+          "ratio": 0.0,
+          "message": "Low question-chunk overlap (0.000 < 0.1)"
+        }
+      ]
+    },
+    {
+      "entry_id": "q012",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q013",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q014",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q015",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q016",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q017",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q018",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q019",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q020",
+      "source_file": "reddit_questions.json",
+      "num_issues": 1,
+      "issues": [
+        {
+          "check": "low_chunk_relevance",
+          "severity": "warning",
+          "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_059",
+          "ratio": 0.0,
+          "message": "Low question-chunk overlap (0.000 < 0.1)"
+        }
+      ]
+    },
+    {
+      "entry_id": "q021",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q022",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q023",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q024",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q025",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q026",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q027",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q028",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q029",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    },
+    {
+      "entry_id": "q030",
+      "source_file": "reddit_questions.json",
+      "num_issues": 0,
+      "issues": []
+    }
+  ]
+}

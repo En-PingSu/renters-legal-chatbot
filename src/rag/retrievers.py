@@ -153,6 +153,14 @@ def retrieve_hybrid(
 
 def retrieve_rerank(query: str, top_k: int = 5, initial_k: int = 10) -> list[dict]:
     """Hybrid retrieval + cross-encoder reranking."""
+    # Ensure rerank always has a larger candidate pool than top_k.
+    # Without this, top_k=10 with initial_k=10 means the cross-encoder only
+    # reorders (no filtering benefit). A 2x pool lets it rescue relevant chunks
+    # buried at positions 11-20 in the hybrid results.
+    # Note: 3x was tested but the ms-marco cross-encoder's domain mismatch
+    # on legal content caused it to push out statute-specific chunks in favor
+    # of general conversational content. 2x is a safer compromise.
+    initial_k = max(initial_k, top_k * 2)
     candidates = retrieve_hybrid(query, top_k=initial_k)
 
     try:
