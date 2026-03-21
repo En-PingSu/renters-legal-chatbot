@@ -1535,3 +1535,27 @@ Note: Total facts decreased from 74 to 66 because some entries now have 2 key_fa
 3. **Persistent retrieval failures** remain in lead_paint (0/3 for golden_037 — Lead Safe Boston program chunks not ranked highly enough) and retaliation (MGL c.186 s.14/s.18 statute text displaced by cross-encoder). These are retrieval infrastructure issues, not data quality problems.
 
 4. **Generation miss hotspot: utilities_heat.** golden_026 (electricity shutoff) scores 1.000 retrieval but 0.000 generation — the LLM retrieves the full MGL c.186 s.14 statute but fails to extract the specific damage amounts and attorney's fees details. This suggests the structured prompt could be improved for extracting quantitative legal details from statute text.
+
+### 7.19.9 Retrieval Failure Deep Dive: golden_037 (Lead Safe Boston)
+
+golden_037 asks: "I'm renting an apartment in Boston with lead paint, and I'm concerned about safety for my child. How can I get help to address this issue?" The expected source chunks describe the Lead Safe Boston program (forgivable loans up to $12,000, free inspections, contractor assistance).
+
+**Retrieval result (rerank, top_k=10):** 0/2 expected chunks retrieved. All 10 retrieved chunks are from masslegalhelp Ch. 9 (Lead Poisoning) and a Boston.gov lead fact sheet — topically related to lead paint but none about the financial assistance program.
+
+**Root cause investigation — query reformulation test:**
+
+| Query | Vector top-20 | Hybrid top-20 |
+|-------|--------------|---------------|
+| "Lead Safe Boston financial help remove lead paint" | Position 1, 7 | Position 1, 13 |
+| "forgivable loans lead abatement program Boston" | Position 5 | Position 6, 7 |
+| "lead paint removal financial assistance Boston program" | Position 1, 3 | Position 1, 17 |
+| Original question (safety concern for child) | Not found | Not found |
+
+The chunks are easily retrievable with program-specific language but completely invisible to the original question. The semantic gap is between a tenant's concern ("safety for my child, how to get help") and a government program page ("forgivable loans," "lead abatement program," "financial help"). The all-MiniLM-L6-v2 embedding model cannot bridge this inference.
+
+The cross-encoder (ms-marco-MiniLM) compounds the problem by favoring chunks that discuss lead poisoning dangers and tenant rights (which match the "concerned about safety" framing) over a short 474-char program description.
+
+**Implications for improvement:**
+- **Multi-query expansion** would be the most direct fix — generating a variant query like "lead paint removal financial assistance program Boston" alongside the original would surface the correct chunks at position 1.
+- **Embedding model upgrade** (text-embedding-3-large or BGE-large) may better capture the "get help" → "financial program" semantic relationship.
+- This pattern likely affects other questions where the user describes a problem but the answer involves a specific program or resource they don't know to name.
