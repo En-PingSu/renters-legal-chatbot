@@ -1639,3 +1639,123 @@ golden_017's 940 CMR 3.17 regulation chunk is unreachable (>20 in both), followi
 1. **Multi-query expansion** — highest expected impact, addresses all three vocabulary gap patterns
 2. **Embedding model upgrade** — second priority, helps with statute language matching
 3. **Cross-encoder replacement** — would fix the borderline ranking cases and stop displacing legal chunks
+
+---
+
+## Iteration 8: New Retriever Strategies (Section 7.20)
+
+**Date:** 2026-03-21
+**Goal:** Evaluate four new retrieval strategies against the rerank baseline, with per-topic breakdown to identify which retrievers work best for which question categories.
+
+### 7.20.1 Strategies Tested
+
+| Config | Description | Implementation |
+|--------|-------------|----------------|
+| **rerank** (baseline) | Hybrid (vector+BM25) → cross-encoder reranking | `src/rag/retrievers.py` |
+| **multiquery** | LLM generates 3 query variants (casual/legal/statute vocabulary) → runs rerank on each → reciprocal rank fusion (RRF, k=60) | `src/rag/multiquery.py` |
+| **hybrid_parent_child_rerank** | Hybrid base → neighbor expansion for clustered docs → cross-encoder reranking | `src/rag/hybrid_parent_child.py` |
+| **auto_merge** | Hybrid base → when ≥40% of a doc's chunks are retrieved, merge all doc chunks into one result → cross-encoder reranking | `src/rag/hybrid_parent_child.py` |
+| **sentence_window** | Sentence-level chunking (10,785 chunks, avg 56 tokens) → retrieve single sentences → expand to ±3 sentence context window | `src/processing/sentence_window_chunker.py` |
+
+All configs use GPT-4o as generator, Claude Sonnet 4 as judge, top_k=10, structured prompt.
+
+### 7.20.2 Retrieval-Only Metrics (MRR / Hit Rate)
+
+Free dry run using exact chunk_id matching against source_chunks ground truth (169 QA pairs). Multi-query skipped (requires LLM calls). Sentence window scores 0 because its chunk IDs (`_sent_NNNN`) differ from ground truth (`_chunk_NNN`) — not a meaningful comparison for this metric.
+
+| Retriever | MRR | Hit Rate | Hits |
+|-----------|-----|----------|------|
+| rerank | 0.175 | 0.361 | 61/169 |
+| hybrid_parent_child_rerank | 0.167 | 0.343 | 58/169 |
+| auto_merge | 0.136 | 0.260 | 44/169 |
+| sentence_window | N/A | N/A | N/A |
+
+**Note:** MRR/hit rate penalizes auto_merge (merged chunk IDs like `doc_id_merged` can't match ground truth) and is meaningless for sentence_window. The LLM-judged evaluation below is the authoritative comparison.
+
+### 7.20.3 Aggregate Results (LLM-Judged, 24 Stratified Questions, 77 Facts)
+
+| Config | Ret Cov | Gen Cov | Gen\|Ret | Covered | GenMiss | RetMiss | Halluc |
+|--------|---------|---------|----------|---------|---------|---------|--------|
+| **rerank** (baseline) | **0.675** | **0.494** | **0.673** | 35 | 17 | 22 | 3 |
+| multiquery | 0.623 | 0.468 | 0.667 | 32 | 16 | 25 | 4 |
+| hybrid_parent_child_rerank | 0.636 | 0.481 | 0.673 | 33 | 16 | 24 | 4 |
+| **auto_merge** | **0.727** | 0.442 | 0.589 | 33 | 23 | **20** | **1** |
+| sentence_window | 0.519 | 0.364 | 0.600 | 24 | 16 | 33 | 4 |
+
+### 7.20.4 Per-Topic Breakdown (Retrieval Coverage / Generation Coverage)
+
+| Topic | rerank | multiquery | hybrid_pc_rerank | auto_merge | sent_window |
+|-------|--------|------------|------------------|------------|-------------|
+| affordable_housing | 1.000/1.000 | 1.000/1.000 | 1.000/1.000 | 1.000/1.000 | 0.333/0.000 |
+| discrimination | 0.667/0.167 | 0.500/0.333 | 0.333/0.333 | 0.500/0.167 | 0.333/0.167 |
+| evictions | 0.833/0.667 | 0.833/0.500 | 0.833/0.667 | 0.833/0.500 | 0.833/0.333 |
+| lead_paint | 0.167/0.167 | 0.167/0.000 | 0.167/0.167 | **1.000/0.167** | 0.167/0.000 |
+| lease_terms | 1.000/0.800 | 1.000/0.600 | 0.800/0.600 | 0.800/0.600 | 0.600/0.600 |
+| public_housing | 0.750/0.500 | 0.750/0.500 | 0.750/0.500 | 0.750/0.500 | 0.500/0.500 |
+| rent_increases | 0.000/0.000 | 0.000/0.000 | **0.333/0.000** | 0.000/0.000 | 0.000/0.000 |
+| repairs_habitability | **1.000/0.667** | 0.667/0.500 | 0.500/0.333 | 0.500/0.500 | 0.500/0.500 |
+| retaliation | 0.400/0.400 | 0.400/0.400 | **0.600/0.400** | **0.600/0.400** | 0.600/0.200 |
+| security_deposits | **0.833/0.500** | 0.667/0.500 | 0.833/0.500 | 0.833/0.500 | 0.500/0.500 |
+| tenant_rights_general | 0.667/0.833 | **0.833/0.833** | 0.667/0.833 | 0.667/0.667 | 0.667/0.667 |
+| utilities_heat | 0.833/0.333 | 0.833/0.500 | 0.833/0.500 | **1.000/0.333** | 0.667/0.167 |
+
+**Best retriever per topic:**
+
+| Topic | Best Retriever | Delta vs Rerank |
+|-------|---------------|-----------------|
+| lead_paint | **auto_merge** | **+0.833** |
+| rent_increases | hybrid_parent_child_rerank | +0.333 |
+| retaliation | hybrid_parent_child_rerank / auto_merge | +0.200 |
+| utilities_heat | auto_merge | +0.167 |
+| tenant_rights_general | multiquery | +0.166 |
+| 7 other topics | rerank (still best or tied) | — |
+
+### 7.20.5 Per-Question Deltas vs Baseline
+
+**auto_merge** (most promising — 6 improved, 3 regressed):
+- golden_037 (lead_paint): ret +1.000 — full-doc merge captures Lead Safe Boston info scattered across chunks
+- golden_039 (lead_paint): ret +0.667
+- golden_009 (retaliation): ret +0.500
+- golden_027 (utilities_heat): ret +0.333
+- reddit_q008, reddit_q014: ret +0.333 each
+- golden_021 (repairs_habitability): ret -1.000 — doc merge diluted focused repair info
+
+**hybrid_parent_child_rerank** (targeted gains — 2 improved, 4 regressed):
+- golden_016 (rent_increases): ret +0.667 — neighbor expansion found adjacent rent increase chunks
+- golden_009 (retaliation): ret +0.500
+- golden_021 (repairs_habitability): ret -1.000
+
+**multiquery** (underperformed — 1 improved, 5 regressed):
+- golden_024 (tenant_rights_general): ret +0.333
+- Net regression on repairs_habitability, security_deposits, discrimination
+
+**sentence_window** (weakest — 1 improved, 10 regressed):
+- golden_009 (retaliation): ret +0.500 — only gain
+- Regressed across most topics, especially affordable_housing (-0.667), security_deposits (-0.667), repairs_habitability (-0.667)
+
+### 7.20.6 Analysis
+
+**auto_merge** achieves the highest retrieval coverage (0.727 vs 0.675 baseline) and fewest retrieval misses (20 vs 22), with only 1 hallucination. Its key strength is on topics where relevant information is spread across multiple chunks within a document (lead_paint, utilities_heat). However, merging full documents floods the context window, increasing generation misses (23 vs 17) and dropping gen|ret coverage to 0.589 — the LLM struggles to extract specific facts from verbose merged content.
+
+**hybrid_parent_child_rerank** shows targeted value for topics where BM25 lexical matching adds signal that vector search misses (rent_increases, retaliation). The hybrid base catches keyword matches on statute numbers and specific legal terms.
+
+**multiquery** did not deliver expected improvements. The vocabulary gap hypothesis (Section 7.19.10) predicted this would be the highest-impact fix, but the LLM-generated query variants may not be sufficiently diverse — or the rerank base retriever already captures most of the relevant chunks that the variants would find. The 3 variant queries may also introduce noise, diluting RRF scores for chunks that were well-ranked by the original query.
+
+**sentence_window** is the weakest approach. Single-sentence embeddings (avg 56 tokens) are too short to capture topical relevance for legal questions, which often require multi-sentence reasoning. The sentence splitter also produced some extreme lengths (up to 6,709 tokens) indicating poor splitting on certain documents.
+
+### 7.20.7 Recommendations
+
+1. **Auto_merge is worth pursuing** but needs a fix for the generation miss problem. Options:
+   - Truncate merged documents to a max token budget before passing to LLM
+   - Use a higher merge threshold (e.g., 0.5 or 0.6) to be more selective about which docs get merged
+   - Apply the structured prompt more aggressively to force the LLM to enumerate evidence
+
+2. **Topic-aware retriever selection** (ensemble approach): Use auto_merge for lead_paint/utilities questions, hybrid_parent_child_rerank for retaliation/rent_increases, and rerank as the default. This would require a lightweight topic classifier on the query.
+
+3. **Multi-query needs rethinking**: Consider using more variants (5 instead of 3), a cheaper model for generation (Mistral Small), or a template-based approach instead of LLM-generated variants to ensure vocabulary diversity.
+
+4. **Sentence window should be deprioritized**: The granularity mismatch between sentence-level embeddings and legal questions makes this approach unsuitable for the current domain without significant architectural changes (e.g., combining sentence-window with BM25 at the document level).
+
+### 7.20.8 Cost
+
+Total API cost for this evaluation: ~$4.50 (384 API calls across 5 configs × 24 questions).

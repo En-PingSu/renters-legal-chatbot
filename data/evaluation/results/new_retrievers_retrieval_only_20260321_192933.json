@@ -1,0 +1,33 @@
+{
+  "top_k": 10,
+  "metrics": {
+    "rerank": {
+      "mrr": 0.1749,
+      "hit_rate": 0.3609,
+      "hits": 61,
+      "total": 169,
+      "top_k": 10
+    },
+    "hybrid_parent_child_rerank": {
+      "mrr": 0.1666,
+      "hit_rate": 0.3432,
+      "hits": 58,
+      "total": 169,
+      "top_k": 10
+    },
+    "auto_merge": {
+      "mrr": 0.1356,
+      "hit_rate": 0.2604,
+      "hits": 44,
+      "total": 169,
+      "top_k": 10
+    },
+    "sentence_window": {
+      "mrr": 0.0,
+      "hit_rate": 0.0,
+      "hits": 0,
+      "total": 169,
+      "top_k": 10
+    }
+  }
+}

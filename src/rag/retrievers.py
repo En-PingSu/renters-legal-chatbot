@@ -256,3 +256,20 @@ RETRIEVER_REGISTRY = {
     "rerank": retrieve_rerank,
     "parent_child": retrieve_parent_child,
 }
+
+# Lazy-register new retrievers to avoid import overhead when not needed
+def _register_new_retrievers():
+    from src.rag.multiquery import retrieve_multiquery
+    from src.rag.hybrid_parent_child import (
+        retrieve_hybrid_parent_child,
+        retrieve_hybrid_parent_child_rerank,
+        retrieve_auto_merge,
+    )
+    RETRIEVER_REGISTRY.update({
+        "multiquery": retrieve_multiquery,
+        "hybrid_parent_child": retrieve_hybrid_parent_child,
+        "hybrid_parent_child_rerank": retrieve_hybrid_parent_child_rerank,
+        "auto_merge": retrieve_auto_merge,
+    })
+
+_register_new_retrievers()
