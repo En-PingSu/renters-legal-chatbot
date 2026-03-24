@@ -1943,3 +1943,76 @@ Based on the failure taxonomy, we expect:
 **H3 (Gen|Ret drops on hard questions): Not confirmed — opposite trend.** Gen|Ret is *higher* for hard questions (0.714 vs 0.654). When the retriever does surface multi-statute chunks, the LLM actually synthesizes them effectively. The real generation problem is selective: golden_051 retrieves all 6 facts but only generates 3 (drops demand letter, attorney's fees, small claims details), and golden_060 retrieves all 5 but generates only 2 (drops CPI cap, tax escalator, intent-to-convert rule). These are F1 (Statute Citation Dropout) and F2 (Remedy/Consequence Omission) — the same failure modes as standard questions, just with more facts to drop.
 
 **Key insight:** The bottleneck for hard questions is **not** cross-document synthesis per se, but rather **fact volume**: hard questions have 5-6 key facts vs 2-3 for standard questions. The LLM's tendency to omit secondary details (F1/F2) becomes more damaging when there are more facts to cover. This suggests that fact-volume-aware prompting or multi-pass generation would be more impactful than retriever improvements for hard questions.
+
+### 7.21.9 Chunk-Level Retrieval Metrics
+
+In addition to the LLM-judged fact-level metrics, we compute chunk-level retrieval metrics that compare retrieved chunk IDs directly against designated ground-truth chunk IDs. These are free (no API calls) and measure a different dimension: **did we find the specific documents?** rather than **did we find the information?**
+
+#### Aggregate Chunk-Level Results
+
+| Metric | Standard (27q) | Hard (10q) | Overall (37q) |
+|--------|---------------|------------|---------------|
+| MRR | 0.275 | 0.417 | 0.314 |
+| Hit@K | 0.444 | 0.600 | 0.486 |
+| Recall@K | 0.352 | 0.233 | 0.320 |
+| NDCG@K | 0.270 | 0.236 | 0.261 |
+
+#### Per-Question Chunk-Level Results
+
+| ID | Difficulty | Topic | Fact Ret | Fact Gen | Recall@K | NDCG@K | MRR |
+|----|-----------|-------|----------|----------|----------|--------|-----|
+| reddit_q008 | standard | — | 0.667 | 0.333 | 0.250 | 0.123 | 0.125 |
+| reddit_q014 | standard | — | 0.667 | 0.000 | 0.250 | 0.390 | 1.000 |
+| reddit_q015 | standard | — | 0.667 | 0.333 | 0.000 | 0.000 | 0.000 |
+| reddit_q019 | standard | — | 1.000 | 0.667 | 0.500 | 0.308 | 0.333 |
+| golden_002 | standard | repairs_habitability | 1.000 | 0.667 | 0.000 | 0.000 | 0.000 |
+| golden_006 | standard | security_deposits | 0.667 | 0.333 | 1.000 | 0.571 | 0.333 |
+| golden_007 | standard | retaliation | 0.333 | 0.333 | 0.000 | 0.000 | 0.000 |
+| golden_009 | standard | retaliation | 0.500 | 0.500 | 0.000 | 0.000 | 0.000 |
+| golden_011 | standard | evictions | 1.000 | 0.333 | 0.000 | 0.000 | 0.000 |
+| golden_012 | standard | evictions | 0.667 | 0.667 | 0.000 | 0.000 | 0.000 |
+| golden_016 | standard | rent_increases | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_021 | standard | repairs_habitability | 1.000 | 0.667 | 1.000 | 0.389 | 0.143 |
+| golden_022 | standard | security_deposits | 1.000 | 0.667 | 0.000 | 0.000 | 0.000 |
+| golden_023 | standard | rent_increases | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_024 | standard | tenant_rights_general | 0.667 | 1.000 | 0.500 | 0.613 | 1.000 |
+| golden_027 | standard | utilities_heat | 0.667 | 0.333 | 0.000 | 0.000 | 0.000 |
+| golden_029 | standard | discrimination | 1.000 | 0.667 | 0.000 | 0.000 | 0.000 |
+| golden_031 | standard | discrimination | 0.333 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_033 | standard | affordable_housing | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| golden_034 | standard | lease_terms | 1.000 | 0.500 | 1.000 | 1.000 | 1.000 |
+| golden_036 | standard | lease_terms | 1.000 | 0.667 | 1.000 | 0.631 | 0.500 |
+| golden_037 | standard | lead_paint | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_039 | standard | lead_paint | 0.333 | 0.333 | 0.000 | 0.000 | 0.000 |
+| golden_041 | standard | utilities_heat | 1.000 | 0.667 | 1.000 | 1.000 | 1.000 |
+| golden_043 | standard | public_housing | 0.500 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_045 | standard | public_housing | 1.000 | 1.000 | 1.000 | 0.631 | 0.500 |
+| golden_049 | standard | tenant_rights_general | 0.667 | 1.000 | 1.000 | 0.631 | 0.500 |
+| golden_051 | hard | security_deposits | 1.000 | 0.500 | 0.500 | 0.558 | 1.000 |
+| golden_052 | hard | lead_paint | 0.800 | 0.600 | 0.500 | 0.359 | 0.500 |
+| golden_053 | hard | repairs_habitability | 0.500 | 0.167 | 0.250 | 0.246 | 0.500 |
+| golden_054 | hard | utilities | 0.400 | 0.000 | 0.000 | 0.000 | 0.000 |
+| golden_055 | hard | evictions | 0.600 | 0.400 | 0.000 | 0.000 | 0.000 |
+| golden_056 | hard | security_deposits | 0.800 | 0.600 | 0.500 | 0.586 | 1.000 |
+| golden_057 | hard | evictions | 0.500 | 0.500 | 0.000 | 0.000 | 0.000 |
+| golden_058 | hard | discrimination | 0.750 | 0.500 | 0.250 | 0.139 | 0.167 |
+| golden_059 | hard | repairs_habitability | 0.600 | 0.600 | 0.000 | 0.000 | 0.000 |
+| golden_060 | hard | rent_increases | 1.000 | 0.400 | 0.333 | 0.469 | 1.000 |
+
+#### Analysis: Fact-Level vs Chunk-Level Metrics Divergence
+
+A key finding is the **large gap between fact-level retrieval coverage (0.685) and chunk-level Recall@K (0.320)**. This is not a contradiction — it reveals two distinct phenomena:
+
+**Pattern 1: Right document, wrong chunk.** For golden_054 (utilities), golden_057 (foreclosure), and golden_059 (repairs), the retriever finds chunks from the correct source document but lands on a neighboring chunk within it, not the specific one designated as ground truth. For example, golden_054 expected `ch06_utilities_chunk_009` but retrieved `chunk_003`, `chunk_010`, `chunk_015` — all from the same Utilities chapter. The fact-level judge scores these as partial hits because neighboring chunks contain overlapping legal information.
+
+**Pattern 2: Right topic, wrong source.** For golden_055 (lockout), the retriever finds topically related MassLegalHelp content (eviction chapters, court procedures) but misses the specific statute chunks (M.G.L. c. 186 §15F). This is **F7: Cross-Encoder Domain Mismatch** — the ms-marco reranker prefers conversational content over formal statute text.
+
+**Implication:** The corpus has significant **information redundancy** — the same legal facts appear in multiple chunks across different documents (AG's Guide, MassLegalHelp chapters, raw statutes). The retriever exploits this redundancy: it may miss the designated chunk but find an equivalent one. **Recall@K measures retrieval precision** (did we find the exact designated chunks?), while **fact-level coverage measures retrieval effectiveness** (did we find the information, regardless of source?). For a legal QA system, effectiveness matters more to users, but precision matters for understanding retriever behavior and improving it.
+
+#### Charts
+
+![Standard vs Hard: Fact-Level and Chunk-Level Metrics](figures/chart16_standard_vs_hard_metrics.png)
+
+![Per-Question Retrieval: Fact Coverage vs Recall@K](figures/chart17_fact_vs_chunk_retrieval.png)
+
+![Failure Attribution: Standard vs Hard](figures/chart18_failure_attribution_by_tier.png)

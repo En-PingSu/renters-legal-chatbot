@@ -13,6 +13,7 @@ Usage:
 """
 
 import json
+import math
 import random
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,6 +38,7 @@ FIXED_SET_PATH = EVAL_DIR / "stratified_questions.json"
 def load_fixed_questions(questions: list[dict]) -> list[dict]:
     """Load the fixed stratified question set (27 standard + 10 hard).
 
+    Attaches difficulty tags and source_chunks (for chunk-level retrieval metrics).
     Falls back to random stratification if the fixed set file doesn't exist.
     """
     if not FIXED_SET_PATH.exists():
@@ -53,6 +55,22 @@ def load_fixed_questions(questions: list[dict]) -> list[dict]:
     hard_ids = set(fixed.get("hard", []))
     for q in selected:
         q["difficulty"] = "hard" if q["id"] in hard_ids else "standard"
+
+    # Attach source_chunks for chunk-level retrieval metrics (MRR, Recall@K, etc.)
+    source_chunks_map = {}
+    golden_path = EVAL_DIR / "golden_qa.json"
+    if golden_path.exists():
+        with open(golden_path, "r") as f:
+            for item in json.load(f):
+                source_chunks_map[item["id"]] = item.get("source_chunks", [])
+    reddit_path = EVAL_DIR / "reddit_questions.json"
+    if reddit_path.exists():
+        with open(reddit_path, "r") as f:
+            for item in json.load(f):
+                qid = f"reddit_{item['id']}" if not item["id"].startswith("reddit_") else item["id"]
+                source_chunks_map[qid] = item.get("source_chunks", [])
+    for q in selected:
+        q["source_chunk_ids"] = [s["chunk_id"] for s in source_chunks_map.get(q["id"], [])]
 
     print(f"Loaded fixed set: {len(selected)} questions "
           f"({len(fixed['standard'])} standard + {len(fixed['hard'])} hard)")
@@ -139,6 +157,25 @@ def run(
             )
         retrieved_context = "\n\n---\n\n".join(context_parts)
 
+        # 1b. Chunk-level retrieval metrics (free — no API calls)
+        retrieved_ids = [c["chunk_id"] for c in chunks]
+        gt_ids = set(q.get("source_chunk_ids", []))
+        if gt_ids:
+            q_hit = 1 if gt_ids & set(retrieved_ids) else 0
+            q_mrr = 0.0
+            for rank, rid in enumerate(retrieved_ids, 1):
+                if rid in gt_ids:
+                    q_mrr = 1.0 / rank
+                    break
+            q_found = gt_ids & set(retrieved_ids)
+            q_recall = len(q_found) / len(gt_ids)
+            dcg = sum(1.0 / math.log2(r + 1) for r, rid in enumerate(retrieved_ids, 1) if rid in gt_ids)
+            ideal_k = min(len(gt_ids), len(retrieved_ids))
+            idcg = sum(1.0 / math.log2(i + 1) for i in range(1, ideal_k + 1))
+            q_ndcg = dcg / idcg if idcg > 0 else 0.0
+        else:
+            q_hit, q_mrr, q_recall, q_ndcg = 0, 0.0, 0.0, 0.0
+
         # 2. Generate response (structured prompt, matching best config)
         rag_result = ask(
             question=q["question"],
@@ -194,6 +231,14 @@ def run(
             "generation_correctness": gen_cor["score"],
             "generation_hits": gen_cor["hits"],
             "generation_total": gen_cor["total"],
+            "chunk_metrics": {
+                "hit_rate": q_hit,
+                "mrr": round(q_mrr, 4),
+                "recall_at_k": round(q_recall, 4),
+                "ndcg_at_k": round(q_ndcg, 4),
+                "gt_chunks": len(gt_ids),
+                "found_chunks": len(q_found) if gt_ids else 0,
+            },
             "per_fact_attribution": per_fact_attribution,
         })
 
@@ -201,7 +246,8 @@ def run(
         print(f"  Retrieval: {ret_cov['hits']}/{ret_cov['total']} "
               f"({ret_cov['score']:.3f})  "
               f"Generation: {gen_cor['hits']}/{gen_cor['total']} "
-              f"({gen_cor['score']:.3f})")
+              f"({gen_cor['score']:.3f})  "
+              f"Recall@K: {q_recall:.3f} ({len(q_found) if gt_ids else 0}/{len(gt_ids)})")
 
     # ── Aggregate results ───────────────────────────────────────────────
 
@@ -246,6 +292,28 @@ def run(
         print(f"  {ret_miss_pct}% are retrieval failures")
         print(f"  {gen_miss_pct}% are generation failures")
 
+    # ── Chunk-level retrieval metrics (aggregate) ─────────────────────
+
+    results_with_gt = [r for r in results if r["chunk_metrics"]["gt_chunks"] > 0]
+    if results_with_gt:
+        n = len(results_with_gt)
+        avg_mrr = sum(r["chunk_metrics"]["mrr"] for r in results_with_gt) / n
+        avg_hit = sum(r["chunk_metrics"]["hit_rate"] for r in results_with_gt) / n
+        avg_recall = sum(r["chunk_metrics"]["recall_at_k"] for r in results_with_gt) / n
+        avg_ndcg = sum(r["chunk_metrics"]["ndcg_at_k"] for r in results_with_gt) / n
+        chunk_metrics_agg = {
+            "mrr": round(avg_mrr, 4),
+            "hit_rate": round(avg_hit, 4),
+            "recall_at_k": round(avg_recall, 4),
+            "ndcg_at_k": round(avg_ndcg, 4),
+            "num_queries_with_gt": n,
+        }
+        print(f"\nChunk-level retrieval metrics ({n} questions with ground truth):")
+        print(f"  MRR={avg_mrr:.3f}  Hit@K={avg_hit:.3f}  "
+              f"Recall@K={avg_recall:.3f}  NDCG@K={avg_ndcg:.3f}")
+    else:
+        chunk_metrics_agg = {}
+
     # ── Standard vs Hard breakdown ────────────────────────────────────
 
     for tier in ("standard", "hard"):
@@ -265,24 +333,31 @@ def run(
         t_retrieved = t_attr["covered"] + t_attr["generation_miss"]
         t_gen_given_ret = (round(t_attr["covered"] / t_retrieved, 3)
                            if t_retrieved else 0)
+        # Chunk-level metrics per tier
+        t_with_gt = [r for r in tier_results if r["chunk_metrics"]["gt_chunks"] > 0]
+        t_n = len(t_with_gt)
+        t_mrr = sum(r["chunk_metrics"]["mrr"] for r in t_with_gt) / t_n if t_n else 0
+        t_hit = sum(r["chunk_metrics"]["hit_rate"] for r in t_with_gt) / t_n if t_n else 0
+        t_recall_k = sum(r["chunk_metrics"]["recall_at_k"] for r in t_with_gt) / t_n if t_n else 0
+        t_ndcg_k = sum(r["chunk_metrics"]["ndcg_at_k"] for r in t_with_gt) / t_n if t_n else 0
         print(f"\n  [{tier.upper()}] ({len(tier_results)} questions, {t_facts} facts)")
-        print(f"    Ret coverage: {t_ret_cov:.3f}  Gen coverage: {t_gen_cov:.3f}  "
-              f"Gen|Ret: {t_gen_given_ret:.3f}")
+        print(f"    Fact-level:  Ret={t_ret_cov:.3f}  Gen={t_gen_cov:.3f}  Gen|Ret={t_gen_given_ret:.3f}")
+        print(f"    Chunk-level: MRR={t_mrr:.3f}  Hit@K={t_hit:.3f}  "
+              f"Recall@K={t_recall_k:.3f}  NDCG@K={t_ndcg_k:.3f}")
         print(f"    covered={t_attr['covered']} gen_miss={t_attr['generation_miss']} "
               f"ret_miss={t_attr['retrieval_miss']} halluc={t_attr['hallucinated']}")
 
     # ── Per-question table ──────────────────────────────────────────────
 
-    print(f"\n{'ID':<14} {'Diff':<9} {'Topic':<22} {'Ret':>5} {'Gen':>5} {'Miss type'}")
-    print("-" * 80)
+    print(f"\n{'ID':<14} {'Diff':<5} {'Topic':<20} {'Ret':>5} {'Gen':>5} "
+          f"{'Rcl@K':>6} {'NDCG':>6} {'MRR':>5}")
+    print("-" * 85)
     for r in results:
-        misses = [pf["attribution"] for pf in r["per_fact_attribution"]
-                  if pf["attribution"] in ("retrieval_miss", "generation_miss")]
-        miss_str = ", ".join(misses) if misses else "—"
         diff = r.get("difficulty", "standard")[:4]
-        print(f"{r['question_id']:<14} {diff:<9} {r['topic']:<22} "
+        cm = r["chunk_metrics"]
+        print(f"{r['question_id']:<14} {diff:<5} {r['topic']:<20} "
               f"{r['retrieval_coverage']:>5.3f} {r['generation_correctness']:>5.3f} "
-              f"{miss_str}")
+              f"{cm['recall_at_k']:>6.3f} {cm['ndcg_at_k']:>6.3f} {cm['mrr']:>5.3f}")
 
     # ── Save ────────────────────────────────────────────────────────────
 
@@ -302,6 +377,9 @@ def run(
             for pf in r["per_fact_attribution"]:
                 t_attr[pf["attribution"]] += 1
         t_retrieved = t_attr["covered"] + t_attr["generation_miss"]
+        # Chunk-level metrics per tier for saved output
+        t_with_gt = [r for r in tier_results if r["chunk_metrics"]["gt_chunks"] > 0]
+        t_n = len(t_with_gt)
         tier_aggregates[tier] = {
             "num_questions": len(tier_results),
             "total_facts": t_facts,
@@ -310,6 +388,12 @@ def run(
             "generation_coverage_given_retrieval": (
                 round(t_attr["covered"] / t_retrieved, 3) if t_retrieved else 0),
             "attribution": t_attr,
+            "chunk_metrics": {
+                "mrr": round(sum(r["chunk_metrics"]["mrr"] for r in t_with_gt) / t_n, 4) if t_n else 0,
+                "hit_rate": round(sum(r["chunk_metrics"]["hit_rate"] for r in t_with_gt) / t_n, 4) if t_n else 0,
+                "recall_at_k": round(sum(r["chunk_metrics"]["recall_at_k"] for r in t_with_gt) / t_n, 4) if t_n else 0,
+                "ndcg_at_k": round(sum(r["chunk_metrics"]["ndcg_at_k"] for r in t_with_gt) / t_n, 4) if t_n else 0,
+            },
         }
 
     output = {
@@ -326,6 +410,7 @@ def run(
             "generation_coverage": gen_coverage,
             "generation_coverage_given_retrieval": gen_given_ret,
             "attribution": attr_counts,
+            "chunk_metrics": chunk_metrics_agg,
         },
         "per_tier": tier_aggregates,
         "results": results,
