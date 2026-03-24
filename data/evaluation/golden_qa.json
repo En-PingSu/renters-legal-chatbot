@@ -135,7 +135,7 @@
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-tenants-security-deposits"
       },
       {
-        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_004",
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_015",
         "title": "Legal Tactics Ch. 3: Security Deposits",
         "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
       }
@@ -463,7 +463,7 @@
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       },
       {
-        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_005",
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_006",
         "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
         "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
@@ -1024,6 +1024,351 @@
         "chunk_id": "boston_gov_departments_housing_office_housing_stability_know_your_rights_case_fire_chunk_001",
         "title": "Know Your Rights in Case of a Fire",
         "source_url": "https://www.boston.gov/departments/housing/office-housing-stability/know-your-rights-case-fire"
+      }
+    ]
+  },
+  {
+    "id": "golden_051",
+    "topic": "security_deposits",
+    "difficulty": "hard",
+    "question": "My landlord never put my $2,000 security deposit in a separate bank account, and now that I've moved out 45 days ago, they still haven't returned it. What legal steps can I take and what damages can I recover?",
+    "expected_answer": "In Massachusetts, your landlord has violated multiple requirements of the security deposit law (M.G.L. c. 186, § 15B). They were required to place your deposit in a separate interest-bearing bank account and return it within 30 days after your tenancy ended. You should first send a demand letter via certified mail. If they don't respond, you can take them to Small Claims court (up to $7,000 limit, though statutory damages may exceed this). The court must award you 3 times the security deposit amount for failure to properly deposit or return it, plus interest, court costs, and attorney's fees.",
+    "key_facts": [
+      "Landlord must place security deposit in a separate interest-bearing bank account protected from creditors.",
+      "Landlord must return security deposit within 30 days after tenancy ends.",
+      "Tenant should send a demand letter first via certified mail, return receipt requested.",
+      "If landlord fails to properly deposit or return, court must award 3 times the security deposit amount.",
+      "Tenant can also recover interest, court costs, and attorney's fees.",
+      "Can file in Small Claims court for up to $7,000; 3x statutory damages may exceed $7,000."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_016",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_018",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
+      },
+      {
+        "chunk_id": "mass_gov_how_to_file_a_small_claim_in_the_boston_municipal_court_district_court_or_housing_court_chunk_000",
+        "title": "File a Small Claim in BMC, District Court, or Housing Court | Mass.gov",
+        "source_url": "https://www.mass.gov/how-to/file-a-small-claim-in-the-boston-municipal-court-district-court-or-housing-court"
+      }
+    ]
+  },
+  {
+    "id": "golden_052",
+    "topic": "lead_paint",
+    "difficulty": "hard",
+    "question": "I have a 4-year-old child and discovered peeling paint in our pre-1978 apartment. I reported it to my landlord and the Board of Health. Now my landlord served me with an eviction notice. Is this legal, and what can I do?",
+    "expected_answer": "This eviction is almost certainly illegal on two grounds. First, under the Massachusetts Lead Law, your landlord is required to remove or cover all lead paint hazards in pre-1978 homes where a child under 6 lives, and cannot refuse to rent to or evict you because you have children or because of lead paint. Second, under M.G.L. c. 186 § 18, it is illegal for a landlord to retaliate against a tenant for reporting violations to the Board of Health. You can raise retaliation as both a defense and a counterclaim in the eviction proceedings. If the court finds retaliation, the landlord may be ordered to pay you 1-3 months' rent in damages.",
+    "key_facts": [
+      "Massachusetts Lead Law requires landlords to remove or cover lead paint hazards in pre-1978 homes where a child under 6 lives.",
+      "Landlord cannot refuse to rent to or evict a tenant because they have children or because of lead paint.",
+      "It is illegal for a landlord to retaliate for reporting a lead paint violation to the Board of Health under M.G.L. c. 186 § 18.",
+      "Tenant can raise retaliation as both a defense and counterclaim in eviction proceedings.",
+      "If court finds retaliation, landlord may be ordered to pay 1-3 months' rent in damages."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "masslegalhelp_ch09_lead_poisoning_chunk_001",
+        "title": "Legal Tactics Ch. 9: Lead Poisoning",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/09%20Lead%20Poisoning%202025.pdf"
+      },
+      {
+        "chunk_id": "boston_gov_sites_default_files_file_2020_03_renters_english_lead_20fact_20sheet_chunk_000",
+        "title": "Sites Default Files File 2020 03 Renters English Lead 20Fact 20Sheet",
+        "source_url": "https://www.boston.gov/sites/default/files/file/2020/03/Renters_English_Lead%20Fact%20Sheet.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection18_chunk_000",
+        "title": "MGL c.186 s.18 - Anti-Retaliation Protection for Tenants",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_056",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      }
+    ]
+  },
+  {
+    "id": "golden_053",
+    "topic": "repairs_habitability",
+    "difficulty": "hard",
+    "question": "My apartment has had no heat since December even though my landlord is responsible for it, and I've told them multiple times in writing. I started withholding rent and now they're trying to evict me for nonpayment. What are my legal rights?",
+    "expected_answer": "You have strong legal protections. First, your landlord is violating the State Sanitary Code, which requires minimum heat of 68°F from 7am-11pm and 64°F at other times during heating season (September 15 - June 15). This failure to maintain habitable conditions after notice is also an unfair/deceptive practice under 940 CMR 3.17. You have the right to withhold rent for serious code violations, but should put the withheld money in a separate bank account. Bad conditions are a defense to a nonpayment eviction. A judge can determine the fair rental value of your apartment in its defective condition and calculate how much rent you actually owe. You may also have a counterclaim for damages based on the decreased value of the apartment.",
+    "key_facts": [
+      "Landlord must maintain minimum heat of 68°F (7am-11pm) and 64°F (11pm-7am) during heating season (Sept 15 - June 15).",
+      "Failure to maintain habitable conditions after notice is an unfair/deceptive practice under 940 CMR 3.17.",
+      "Tenant may withhold rent for serious code violations but should put withheld rent in a separate bank account.",
+      "Bad conditions are a defense to nonpayment eviction if conditions violate Sanitary Code and landlord had knowledge.",
+      "A judge can determine fair rental value of the apartment in its defective condition and calculate how much rent is actually owed.",
+      "Tenant may also have a counterclaim for damages based on the decreased value of the apartment."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_001",
+        "title": "Housing code in Boston",
+        "source_url": "https://www.boston.gov/departments/inspectional-services/meeting-housing-code-boston"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_007",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch08_getting_repairs_made_chunk_003",
+        "title": "Legal Tactics Ch. 8: Getting Repairs Made",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/08%20Getting%20Repairs%20Made%202025_0.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_044",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      }
+    ]
+  },
+  {
+    "id": "golden_054",
+    "topic": "utilities",
+    "difficulty": "hard",
+    "question": "My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?",
+    "expected_answer": "Under 940 CMR 3.17, it is an unfair practice for a landlord who is obligated to provide gas service to fail to pay the bills and expose tenants to loss of service. The utility company must give tenants at least 30 days' notice before shutting off service when the landlord fails to pay. You and your neighbors can band together to pay a 'projected bill' to avoid the shutoff, and you have a right to deduct those payments from your rent. You are protected from retaliation for withholding rent for this purpose. Additionally, failure to provide utilities violates your right to quiet enjoyment, and you can sue the landlord for up to 3 months' rent and attorney's fees.",
+    "key_facts": [
+      "Under 940 CMR 3.17, it is an unfair practice for a landlord obligated to provide gas/electric to fail to provide service or expose tenants to risk of loss by failing to pay bills.",
+      "Utility company must give tenants at least 30 days' notice before shutting off service when landlord fails to pay.",
+      "Tenants can band together to pay a projected bill to avoid shutoff and deduct those payments from rent.",
+      "Tenants are protected from retaliation for withholding rent for utility payments.",
+      "Failure to provide utilities violates quiet enjoyment — tenants can win up to 3 months' rent and attorney's fees."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_010",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch06_utilities_chunk_009",
+        "title": "Legal Tactics Ch. 6: Utilities",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-02/06%20Utilities%202025_0.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_045",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      }
+    ]
+  },
+  {
+    "id": "golden_055",
+    "topic": "evictions",
+    "difficulty": "hard",
+    "question": "I came home and found my landlord changed the locks on my apartment. My belongings are still inside. What are my legal options and what damages can I recover?",
+    "expected_answer": "What your landlord did is an illegal lockout. In Massachusetts, a landlord cannot lock out a tenant or remove their belongings without a court order. Under M.G.L. c. 186 § 15F, if a tenant is removed from or excluded from their premises without a valid court order, they can recover possession or terminate the rental agreement, and in either case recover three months' rent or three times actual damages, plus the cost of suit including reasonable attorney's fees. A lockout also violates your right to quiet enjoyment and can be raised as a defense and counterclaim in any subsequent eviction. Additionally, a willful violation of M.G.L. c. 186 § 14 constitutes an unfair practice under 940 CMR 3.17 consumer protection regulations.",
+    "key_facts": [
+      "A landlord cannot lock out a tenant or remove belongings without a court order.",
+      "Under M.G.L. c. 186 § 15F, tenant can recover 3 months' rent or 3 times actual damages, plus attorney's fees.",
+      "Any lease provision waiving the tenant's right to claim constructive eviction is void as against public policy.",
+      "Lockout is a violation of quiet enjoyment and can be raised as a defense/counterclaim in eviction.",
+      "Willful violation of M.G.L. c. 186 § 14 is an unfair practice under 940 CMR 3.17."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection15_chunk_001",
+        "title": "MGL c.186 s.15F - Restricting tenant litigation",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15F"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_002",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_045",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_010",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      }
+    ]
+  },
+  {
+    "id": "golden_056",
+    "topic": "security_deposits",
+    "difficulty": "hard",
+    "question": "I'm being evicted for nonpayment of rent. My landlord never gave me a statement of condition when I moved in, never paid me interest on my security deposit, and I never got a receipt. Can I use any of this in court to fight the eviction?",
+    "expected_answer": "Yes, security deposit law violations give you both a defense and a counterclaim in a nonpayment eviction. You have a defense to eviction if your landlord failed to provide a written receipt, give you a statement of condition, hold the deposit in a separate bank account, or pay you yearly interest. As a counterclaim, you may be entitled to three times the security deposit amount and interest owed. If you win the security deposit counterclaim but still owe rent, the court will give you 7 days to pay the difference to keep your apartment. The landlord also cannot claim you caused damage to the apartment if they didn't provide an itemized list of damages within 30 days.",
+    "key_facts": [
+      "If landlord failed to provide receipt, statement of condition, separate bank account, or yearly interest, tenant has a defense to eviction.",
+      "Security deposit violations can be raised as both a defense and a counterclaim in nonpayment evictions.",
+      "As a counterclaim, tenant may be entitled to 3 times the security deposit and interest owed.",
+      "If tenant wins counterclaim but still owes rent, court gives 7 days to pay the difference to keep the apartment.",
+      "Landlord cannot claim tenant caused damage if they didn't provide an itemized list within 30 days."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_044",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_045",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_016",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_056",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      }
+    ]
+  },
+  {
+    "id": "golden_057",
+    "topic": "evictions",
+    "difficulty": "hard",
+    "question": "My building was just foreclosed on by the bank. The new owner says I need to leave within 30 days. I've lived here for 5 years with a lease. What are my rights?",
+    "expected_answer": "Under M.G.L. c. 186A, a foreclosing owner can only evict a tenant with 'just cause,' which is limited to: failure to pay rent, material lease violation not cured within 30 days, nuisance/substantial damage, illegal use, refusal to execute a renewal, or refusal of reasonable access. A bona fide lease must be honored and you cannot be evicted simply because of the foreclosure. Even if eviction proceedings begin, you can request a stay of eviction for up to 6 months (or 12 months if you are elderly or disabled) if the tenancy was terminated without your fault. To get a stay, you must show you cannot find suitable alternative housing and have made reasonable efforts to do so.",
+    "key_facts": [
+      "Under M.G.L. c. 186A, a foreclosing owner can only evict a tenant with just cause (nonpayment, material violation, nuisance, illegal activity, refusal of access).",
+      "A bona fide lease must be honored — tenant cannot be evicted simply because of foreclosure.",
+      "Tenant can request a stay of eviction for up to 6 months (or 12 months if elderly/disabled) if tenancy terminated without fault.",
+      "To get a stay, tenant must show they cannot find suitable alternative housing and have made reasonable effort."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_chunk_000",
+        "title": "MGL c.186A - Tenant Protections in Foreclosed Properties (full chapter)",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186A"
+      },
+      {
+        "chunk_id": "mass_gov_laws_generallaws_partiii_titleiii_chapter239_section9_chunk_000",
+        "title": "General Law - Part III, Title III, Chapter 239, Section 9",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section9"
+      },
+      {
+        "chunk_id": "mass_gov_laws_generallaws_partiii_titleiii_chapter239_section10_chunk_000",
+        "title": "General Law - Part III, Title III, Chapter 239, Section 10",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section10"
+      }
+    ]
+  },
+  {
+    "id": "golden_058",
+    "topic": "discrimination",
+    "difficulty": "hard",
+    "question": "My landlord told me he doesn't want to rent to families with children and is now trying to evict me after I had a baby. Where can I file a complaint and can I fight the eviction?",
+    "expected_answer": "Your landlord's actions are illegal housing discrimination. In Boston, it is illegal to discriminate in housing based on family status, among other protected classes. You can file a complaint with the Boston Fair Housing and Equity office by calling 617-635-2500 or completing their online intake form. In the eviction proceedings, discrimination is both a defense and a counterclaim that you can raise in nonpayment, fault, and no-fault evictions. Refusing to rent to or evicting someone because they have children violates both state and federal fair housing law.",
+    "key_facts": [
+      "In Boston, it is illegal to discriminate in housing based on family status.",
+      "Tenant can file a complaint with Boston Fair Housing and Equity at 617-635-2500 or via online intake form.",
+      "Discrimination is a defense and counterclaim in nonpayment, fault, and no-fault eviction proceedings.",
+      "Refusing to rent to or evicting someone because they have children is illegal under state and federal fair housing law."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_000",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
+      },
+      {
+        "chunk_id": "boston_gov_departments_fair_housing_and_equity_chunk_001",
+        "title": "Fair Housing and Equity",
+        "source_url": "https://www.boston.gov/departments/fair-housing-and-equity"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch12_evictions_chunk_056",
+        "title": "Legal Tactics Ch. 12: Evictions",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/12%20Evictions%202025.pdf"
+      },
+      {
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_018",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      }
+    ]
+  },
+  {
+    "id": "golden_059",
+    "topic": "repairs_habitability",
+    "difficulty": "hard",
+    "question": "My landlord has refused to fix a leaking roof and mold problem for 6 months despite my written requests. I've called the Board of Health and they issued a repair order, but my landlord still hasn't fixed it. What court actions can I take?",
+    "expected_answer": "You have several court options. First, you can file a Tenant Petition asking a judge to order your landlord to repair the Sanitary Code violations. A judge can order repairs, appoint a receiver (a temporary landlord) to make repairs, or lower your rent to the fair rental value of the apartment in its defective condition. Second, you can file a civil complaint seeking money damages for the harm you've suffered. Third, your landlord's failure to repair after notice is an unfair/deceptive practice under 940 CMR 3.17, which triggers consumer protection remedies under M.G.L. c. 93A — you can recover double or treble damages plus attorney's fees.",
+    "key_facts": [
+      "Tenant can file a Tenant Petition asking a judge to order landlord to repair Sanitary Code violations.",
+      "A judge can order repairs, appoint a receiver (temporary landlord) to make repairs, or lower rent to fair rental value.",
+      "Tenant can file a civil complaint seeking money damages for harm suffered from bad conditions.",
+      "Failure to repair after notice is an unfair/deceptive practice under 940 CMR 3.17.",
+      "Under M.G.L. c. 93A, tenant can recover double or treble damages plus attorney's fees for unfair practices."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "masslegalhelp_ch08_getting_repairs_made_chunk_021",
+        "title": "Legal Tactics Ch. 8: Getting Repairs Made",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/08%20Getting%20Repairs%20Made%202025_0.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_940_cmr_3_17_landlord_tenant_chunk_007",
+        "title": "940 CMR 3.17 — Landlord-Tenant Consumer Protection Regulations",
+        "source_url": "https://www.mass.gov/doc/940-cmr-3-consumer-protection-general-regulations/download"
+      },
+      {
+        "chunk_id": "mass_gov_laws_generallaws_parti_titlexv_chapter93a_section9_chunk_003",
+        "title": "General Law - Part I, Title XV, Chapter 93A, Section 9",
+        "source_url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter93A/Section9"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch13_when_to_take_your_landlord_to_court_chunk_000",
+        "title": "Legal Tactics Ch. 13: When to Take Your Landlord to Court",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/13%20Taking%20Landlords%20to%20Court%202025.pdf"
+      }
+    ]
+  },
+  {
+    "id": "golden_060",
+    "topic": "rent_increases",
+    "difficulty": "hard",
+    "question": "My landlord just told me he's converting our building to condominiums and is raising my rent by 50%. He also said the new condo owner won't be responsible for my security deposit. Is any of this legal?",
+    "expected_answer": "No, none of this is legal. Under Massachusetts condo conversion law, a landlord or condo owner cannot increase your rent by more than 10% per year or above the increase in the Consumer Price Index, whichever is less. The owner only needs to have an 'intent to convert' for these tenant protections to apply. If you have a lease, the landlord cannot change your rent until the lease ends, except through a tax escalator clause. Regarding your security deposit, when a building is sold or ownership changes, the new owner becomes responsible for your last month's rent and security deposit, even if the former landlord did not transfer the deposit. If the new owner fails to honor this, you can take them to court for up to 3 times the security deposit amount.",
+    "key_facts": [
+      "Under condo conversion law, rent cannot increase by more than 10% per year or above the CPI increase, whichever is less.",
+      "If tenant has a lease, landlord cannot change rent until the lease ends (except through a tax escalator clause).",
+      "When ownership changes, the new owner becomes responsible for last month's rent and security deposit paid to the former landlord.",
+      "This is true even if the former landlord did not transfer the deposit to the new owner.",
+      "The owner must have only an 'intent to convert' for tenant protections to apply."
+    ],
+    "source_chunks": [
+      {
+        "chunk_id": "masslegalhelp_ch05_rent_chunk_012",
+        "title": "Legal Tactics Ch. 5: Rent",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-02/05%20Rent%202025%20v2.pdf"
+      },
+      {
+        "chunk_id": "masslegalhelp_ch03_security_deposits_chunk_018",
+        "title": "Legal Tactics Ch. 3: Security Deposits",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-10/03%20Security%20Deposits%202025-%20Updated%208-13-25.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004",
+        "title": "Attorney General's Guide to Landlord and Tenant Rights",
+        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       }
     ]
   }

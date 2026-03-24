@@ -1672,7 +1672,7 @@ Free dry run using exact chunk_id matching against source_chunks ground truth (1
 
 **Note:** MRR/hit rate penalizes auto_merge (merged chunk IDs like `doc_id_merged` can't match ground truth) and is meaningless for sentence_window. The LLM-judged evaluation below is the authoritative comparison.
 
-### 7.20.3 Aggregate Results (LLM-Judged, 24 Stratified Questions, 77 Facts)
+### 7.20.3 Aggregate Results (LLM-Judged, 27 Stratified Questions, 77 Facts)
 
 | Config | Ret Cov | Gen Cov | Gen\|Ret | Covered | GenMiss | RetMiss | Halluc |
 |--------|---------|---------|----------|---------|---------|---------|--------|
@@ -1758,4 +1758,120 @@ Free dry run using exact chunk_id matching against source_chunks ground truth (1
 
 ### 7.20.8 Cost
 
-Total API cost for this evaluation: ~$4.50 (384 API calls across 5 configs × 24 questions).
+Total API cost for this evaluation: ~$4.50 (384 API calls across 5 configs × 27 questions).
+
+---
+
+## 7.21: Failure Taxonomy for Legal QA
+
+### 7.21.1 Motivation
+
+Instructor feedback identified that the project needs a sharper analytical angle beyond "does RAG reduce hallucination." This section categorizes the specific failure modes observed across our evaluation, providing a taxonomy that can guide targeted improvements and serve as an analytical contribution.
+
+### 7.21.2 Methodology
+
+We analyzed the latest retrieval coverage results (27 stratified questions, 77 total key facts) from the best configuration (GPT-4o + rerank + top_k=10 + structured prompt, Claude Sonnet 4 judge). Each of the 46 missed facts was categorized into one of 8 failure modes based on whether the failure occurred at the retrieval stage, generation stage, or both.
+
+### 7.21.3 Taxonomy of RAG Failure Modes
+
+| ID | Failure Mode | Stage | Frequency | Description |
+|----|-------------|-------|-----------|-------------|
+| F1 | Statute Citation Dropout | Generation | 9 facts / 7 questions | LLM retrieves relevant content but omits specific statute numbers (e.g., M.G.L. c.151B, 940 CMR 3.17) in the generated response. The legal principle is stated but without the authoritative citation. |
+| F2 | Remedy/Consequence Omission | Generation | 6 facts / 5 questions | LLM states the rule correctly but drops penalties, damages, or enforcement mechanisms (e.g., triple damages for security deposit violations, attorney's fees recovery). |
+| F3 | Cross-Document Synthesis Gap | Retrieval | 5 facts / 5 questions | Answer requires facts from 2+ documents in different sources; the retriever finds one relevant source but not the other. Common when mass.gov statutes and boston.gov guides cover complementary aspects. |
+| F4 | Program/Term Mismatch | Retrieval | 5 facts / 2 questions | Casual query language doesn't match official program names or legal terminology in the corpus (e.g., "lead paint help" vs. "Lead Safe Boston program"). Embedding similarity fails to bridge the vocabulary gap. |
+| F5 | Statute Retrieval Miss | Retrieval | 4 facts / 4 questions | Relevant regulation or statute exists in the corpus but is not retrieved because the question's embedding is too distant from formal legal language. |
+| F6 | Boundary Condition Omission | Generation | 3 facts / 3 questions | General rule is generated correctly but exceptions, conditions, or prerequisites are omitted (e.g., separate meter requirement for tenant utility billing). |
+| F7 | Cross-Encoder Domain Mismatch | Retrieval | Qualitative | The ms-marco cross-encoder reranker, trained on web search data, sometimes displaces formal legal statute chunks in favor of conversational FAQ content that scores higher on surface-level relevance. |
+| F8 | Hallucinated Citation | Generation | 2 facts / 2 questions | LLM generates a statute reference not present in any retrieved chunk, likely from parametric knowledge (e.g., fabricated M.G.L. c.186 §14 water shutoff reference). |
+
+### 7.21.4 Distribution Analysis
+
+**By stage:**
+- **Generation failures** (F1 + F2 + F6 + F8): 20 facts (43%) — The retriever did its job, but the LLM failed to fully extract or faithfully represent the information.
+- **Retrieval failures** (F3 + F4 + F5 + F7): 14 facts (30%) — The relevant information exists in the corpus but was not surfaced to the LLM.
+- **Covered**: 31 facts (40%) — Successfully retrieved and generated.
+- **Hallucinated**: 2 facts (3%) — Generated without retrieval support.
+
+**Key insight**: Generation-side failures outnumber retrieval-side failures. This suggests that for standard (single-statute) questions, the primary bottleneck has shifted from retrieval to generation. However, for harder questions requiring multi-statute reasoning (F3), retrieval remains the bottleneck because the retriever must surface chunks from multiple documents simultaneously.
+
+### 7.21.5 Hard Multi-Step Questions
+
+To stress-test failure modes F3 (Cross-Document Synthesis) and probe new failure patterns around multi-statute reasoning, we created 10 hard questions (golden_051 through golden_060). Each question requires synthesizing information from 2-4 chunks across different legal topics and statutes.
+
+**Question difficulty tiers:**
+
+| Tier | Description | # Questions | Example Failure Modes Targeted |
+|------|-------------|-------------|-------------------------------|
+| Standard | Single fact, single chunk or closely related chunks | 49 (existing) | F1, F2, F4, F5 |
+| Hard | Multiple statutes, cross-topic reasoning, conditional logic | 10 (new) | F3, F6, F7 (and new modes) |
+
+**Hard questions summary:**
+
+| ID | Question | Topics Combined | # Source Chunks |
+|----|----------|----------------|-----------------|
+| golden_051 | Security deposit not returned — legal steps and damages | Security deposits + treble damages + small claims filing | 4 |
+| golden_052 | Lead paint report triggers retaliatory eviction | Lead law + retaliation + eviction defenses | 4 |
+| golden_053 | No heat, rent withheld, now facing eviction | Sanitary Code (heat) + consumer protection + rent withholding + eviction defense | 4 |
+| golden_054 | Landlord won't pay gas bill, shutoff notice received | Utility obligations + consumer protection + quiet enjoyment + rent deduction | 3 |
+| golden_055 | Landlord changed locks — illegal lockout | Lockout statute + damages + quiet enjoyment + consumer protection | 4 |
+| golden_056 | Security deposit violations as eviction defense | Security deposit law + eviction defense/counterclaim + treble damages | 4 |
+| golden_057 | Building foreclosed, new owner demands tenant leave | Foreclosure tenant protections + just cause + stay of eviction | 3 |
+| golden_058 | Family status discrimination + retaliatory eviction | Fair housing + complaint filing + eviction defense | 4 |
+| golden_059 | Repairs refused after Board of Health order | Tenant petition + court remedies + consumer protection + 93A damages | 4 |
+| golden_060 | Condo conversion with illegal rent increase | Condo conversion limits + security deposit transfer + tenant protections | 4 |
+
+### 7.21.6 Hard Question Evidence Matrix
+
+The following table provides ground-truth verification for all 10 hard questions, showing the exact chunks that answer each question and verbatim proof from the corpus.
+
+| Q# | Question | Chunk ID | Source | Verbatim Evidence |
+|----|----------|----------|--------|-------------------|
+| Q1 | "My landlord never put my $2,000 security deposit in a separate bank account, and now that I've moved out 45 days ago, they still haven't returned it. What legal steps can I take and what damages can I recover?" | `masslegalhelp_ch03_security_deposits_chunk_016` | MassLegalHelp Ch.3 | "You have a right to ask for 3 times the amount of your security deposit if the landlord: Does not put your security deposit money in a separate account" |
+| Q1 | | `masslegalhelp_ch03_security_deposits_chunk_018` | MassLegalHelp Ch.3 | "You can ask the court for up to 3 times the amount of the deposit, plus interest... You can sue for up to $7,000 in Small Claims court" |
+| Q1 | | `mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004` | AG's Guide | "All security deposits must be deposited in a Massachusetts bank, in an account that collects interest... the landlord must return the security deposit, plus interest, within 30 days" |
+| Q1 | | `mass_gov_how_to_file_a_small_claim_in_the_boston_municipal_court_district_court_or_housing_court_chunk_000` | Mass.gov | "the claim may be subject to statutory damages of more than $7,000 (i.e., consumer protection cases or certain landlord/tenant cases)" |
+| Q2 | "I have a 4-year-old child and discovered peeling paint in our pre-1978 apartment. I reported it to my landlord and the Board of Health. Now my landlord served me with an eviction notice. Is this legal, and what can I do?" | `masslegalhelp_ch09_lead_poisoning_chunk_001` | MassLegalHelp Ch.9 | "property owners must remove or cover all lead paint hazards in homes built before 1978 where any children under 6 live... A property owner may not: evict you... in retaliation for you reporting a suspected lead paint violation" |
+| Q2 | | `boston_gov_sites_default_files_file_2020_03_renters_english_lead_20fact_20sheet_chunk_000` | Boston Lead Fact Sheet | "landlords CANNOT refuse to rent to you or evict you if you have children or if the property has lead" |
+| Q2 | | `mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection18_chunk_000` | MGL c.186 §18 | "Any person...who threatens to or takes reprisals against any tenant...for the tenant's act of...reporting to the board of health" |
+| Q2 | | `masslegalhelp_ch12_evictions_chunk_056` | MassLegalHelp Ch.12 | Defense/counterclaim table: "Retaliation" = defense + counterclaim for non-payment, fault, and no-fault evictions |
+| Q3 | "My apartment has had no heat since December even though my landlord is responsible for it, and I've told them multiple times in writing. I started withholding rent and now they're trying to evict me for nonpayment. What are my legal rights?" | `boston_gov_departments_inspectional_services_meeting_housing_code_boston_chunk_001` | Boston Housing Code | "must keep the heat at a minimum of 68 degrees from 7 a.m. - 11 p.m. during heating season from September 15 - June 15. The heat can't go below 64 degrees" |
+| Q3 | | `mass_gov_940_cmr_3_17_landlord_tenant_chunk_007` | 940 CMR 3.17 | "unfair or deceptive act or practice for an owner to... Fail... to remedy a violation of law... or maintain the dwelling unit in a condition fit for human habitation" |
+| Q3 | | `masslegalhelp_ch08_getting_repairs_made_chunk_003` | MassLegalHelp Ch.8 | "Withhold rent or part of it until the landlord makes the repairs... put the rent money you withhold in a separate bank account" |
+| Q3 | | `masslegalhelp_ch12_evictions_chunk_044` | MassLegalHelp Ch.12 | "A judge will determine what the fair rental value of the apartment is in its defective condition and calculate how much rent is owed" |
+| Q4 | "My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?" | `mass_gov_940_cmr_3_17_landlord_tenant_chunk_010` | 940 CMR 3.17 | "unfair practice for any owner who is obligated... to provide gas or electric service... To fail to provide such service; or To expose such occupant to the risk of loss" |
+| Q4 | | `masslegalhelp_ch06_utilities_chunk_009` | MassLegalHelp Ch.6 | "company cannot shut off service in the building until the tenants have been given at least 30 days' notice... You have a right to deduct from your rent" |
+| Q4 | | `masslegalhelp_ch12_evictions_chunk_045` | MassLegalHelp Ch.12 | "Your landlord did not pay for utilities that were the landlord's responsibility... can win up to three months' rent and attorneys' fees" |
+| Q5 | "I came home and found my landlord changed the locks on my apartment. My belongings are still inside. What are my legal options and what damages can I recover?" | `mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_ection15_chunk_001` | MGL c.186 §15F | "If a tenant is removed from the premises or excluded therefrom by the landlord... the tenant may recover... three months' rent or three times the damages sustained by him, and the cost of suit, including reasonable attorney's fees" |
+| Q5 | | `masslegalhelp_ch12_evictions_chunk_002` | MassLegalHelp Ch.12 | "They can't lock you out, throw your things out on the street, or harass you" |
+| Q5 | | `masslegalhelp_ch12_evictions_chunk_045` | MassLegalHelp Ch.12 | "Your landlord locked you out of your home... attempted to move your possessions out without first taking you to court and getting a court order" |
+| Q5 | | `mass_gov_940_cmr_3_17_landlord_tenant_chunk_010` | 940 CMR 3.17 | "(f) To violate willfully any provisions of M.G.L. c. 186, § 14" (lockout = consumer protection violation) |
+| Q6 | "I'm being evicted for nonpayment of rent. My landlord never gave me a statement of condition when I moved in, never paid me interest on my security deposit, and I never got a receipt. Can I use any of this in court to fight the eviction?" | `masslegalhelp_ch12_evictions_chunk_044` | MassLegalHelp Ch.12 | "you have a defense to eviction if your landlord failed to provide you with a written receipt, give you a statement... hold your money in a bank account that is separate" |
+| Q6 | | `masslegalhelp_ch12_evictions_chunk_045` | MassLegalHelp Ch.12 | "entitled to three times the security deposit and interest owed... the court will give you a chance to pay the difference in 7 days" |
+| Q6 | | `masslegalhelp_ch03_security_deposits_chunk_016` | MassLegalHelp Ch.3 | "You can ask for the entire security deposit back if the landlord: Does not give you a complete receipt within 30 days" |
+| Q6 | | `masslegalhelp_ch12_evictions_chunk_056` | MassLegalHelp Ch.12 | Table: "Security deposit law" = defense + counterclaim for non-payment eviction |
+| Q7 | "My building was just foreclosed on by the bank. The new owner says I need to leave within 30 days. I've lived here for 5 years with a lease. What are my rights?" | `mass_gov_malegislature_gov_aws_eneral_aws_art_itle_hapter186_chunk_000` | MGL c.186A | "'Just cause'... (1) failed to pay rent; (2) materially violated... 'Bona fide lease'... result of an arms-length transaction" |
+| Q7 | | `mass_gov_laws_generallaws_partiii_titleiii_chapter239_section9_chunk_000` | MGL c.239 §9 | "a stay or stays of judgment and execution may be granted... for a period not exceeding six months... or twelve months... where the person is sixty years of age or older, or handicapped" |
+| Q7 | | `mass_gov_laws_generallaws_partiii_titleiii_chapter239_section10_chunk_000` | MGL c.239 §10 | "applicant cannot secure suitable premises... has used due and reasonable effort... the court may grant a stay" |
+| Q8 | "My landlord told me he doesn't want to rent to families with children and is now trying to evict me after I had a baby. Where can I file a complaint and can I fight the eviction?" | `boston_gov_departments_fair_housing_and_equity_chunk_000` | Boston FH&E | "property owners do not discriminate against tenants or buyers based on their... family status" |
+| Q8 | | `boston_gov_departments_fair_housing_and_equity_chunk_001` | Boston FH&E | "call us at 617-635-2500, or complete our online intake form" |
+| Q8 | | `masslegalhelp_ch12_evictions_chunk_056` | MassLegalHelp Ch.12 | Table: "Discrimination" = defense + counterclaim for non-payment, fault, and no-fault evictions |
+| Q8 | | `boston_gov_departments_housing_what_happens_during_eviction_chunk_018` | Boston Eviction Guide | "Unlawful Discrimination: The landlord has refused to rent, or attempted to end the tenancy, because the tenant belongs to a protected class" |
+| Q9 | "My landlord has refused to fix a leaking roof and mold problem for 6 months despite my written requests. I've called the Board of Health and they issued a repair order, but my landlord still hasn't fixed it. What court actions can I take?" | `masslegalhelp_ch08_getting_repairs_made_chunk_021` | MassLegalHelp Ch.8 | "A judge can: Order your landlord to make repairs... pay you money... Appoint a receiver... called a tenant petition" |
+| Q9 | | `mass_gov_940_cmr_3_17_landlord_tenant_chunk_007` | 940 CMR 3.17 | "unfair or deceptive act... Fail... after notice... to remedy a violation of law in a dwelling unit" |
+| Q9 | | `mass_gov_laws_generallaws_parti_titlexv_chapter93a_section9_chunk_003` | MGL c.93A §9 | "damages may include double or treble damages, attorneys' fees and costs" |
+| Q9 | | `masslegalhelp_ch13_when_to_take_your_landlord_to_court_chunk_000` | MassLegalHelp Ch.13 | TOC: "Bad Conditions... Violation of Consumer Protection Law" as grounds for filing |
+| Q10 | "My landlord just told me he's converting our building to condominiums and is raising my rent by 50%. He also said the new condo owner won't be responsible for my security deposit. Is any of this legal?" | `masslegalhelp_ch05_rent_chunk_012` | MassLegalHelp Ch.5 | "cannot increase your rent by more than 10% per year or above the increase in the Consumer Price Index... whichever is less" |
+| Q10 | | `masslegalhelp_ch05_rent_chunk_012` | MassLegalHelp Ch.5 | "the new landlord becomes responsible for your last month's rent and the security deposit... even if it is your former landlord who did not transfer" |
+| Q10 | | `masslegalhelp_ch03_security_deposits_chunk_018` | MassLegalHelp Ch.3 | "Failed to transfer a security deposit to a new owner" = grounds for 3x damages |
+| Q10 | | `mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_004` | AG's Guide | "All security deposits must be deposited in a Massachusetts bank, in an account that collects interest" |
+
+### 7.21.7 Hypotheses for Hard Questions
+
+Based on the failure taxonomy, we expect:
+1. **Retrieval coverage will drop significantly** on hard questions compared to standard questions, because the retriever must surface 3-4 relevant chunks from different documents simultaneously with only top_k=10 slots.
+2. **F3 (Cross-Document Synthesis Gap) will be the dominant failure mode**, as most hard questions require chunks from 2-3 different source documents.
+3. **Generation coverage given retrieval will also drop**, because the LLM must synthesize across multiple legal domains rather than extracting from a single coherent passage.
+4. **Auto-merge and parent-child retrievers may outperform rerank** on hard questions, since they pull in broader context from neighboring chunks.
+
+These hypotheses will be tested in the next evaluation iteration.

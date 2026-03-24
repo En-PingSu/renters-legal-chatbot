@@ -205,19 +205,19 @@
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_003",
-        "title": "Attorney General's Guide to Landlord and Tenant Rights",
-        "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
-      },
-      {
         "chunk_id": "mass_gov_www_mass_gov_guides_the_attorney_generals_guide_to_landlord_and_tenant_rights_chunk_005",
         "title": "Attorney General's Guide to Landlord and Tenant Rights",
         "source_url": "https://www.mass.gov/guides/the-attorney-generals-guide-to-landlord-and-tenant-rights"
       },
       {
-        "chunk_id": "boston_gov_departments_inspectional_services_tenant_rights_and_responsibilities_chunk_000",
-        "title": "Tenant Rights and Responsibilities",
-        "source_url": "https://www.boston.gov/departments/inspectional-services/tenant-rights-and-responsibilities"
+        "chunk_id": "masslegalhelp_ch08_getting_repairs_made_chunk_015",
+        "title": "Legal Tactics Ch. 8: Getting Repairs Made",
+        "source_url": "https://www.masslegalhelp.org/sites/default/files/2025-03/08%20Getting%20Repairs%20Made%202025_0.pdf"
+      },
+      {
+        "chunk_id": "mass_gov_105_cmr_410_sanitary_code_chunk_022",
+        "title": "105 CMR 410 — Minimum Standards of Fitness for Human Habitation (State Sanitary Code Chapter II)",
+        "source_url": "https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download"
       }
     ]
   },
@@ -364,12 +364,22 @@
     ],
     "source_chunks": [
       {
-        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_033",
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_000",
         "title": "What Happens During an Eviction",
         "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
       },
       {
-        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_005",
+        "chunk_id": "boston_gov_departments_housing_what_happens_during_eviction_chunk_025",
+        "title": "What Happens During an Eviction",
+        "source_url": "https://www.boston.gov/departments/housing/what-happens-during-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_info_details_tenants_guide_to_eviction_chunk_001",
+        "title": "Tenants' Guide to Eviction",
+        "source_url": "https://www.mass.gov/info-details/tenants-guide-to-eviction"
+      },
+      {
+        "chunk_id": "mass_gov_www_mass_gov_info_details_massachusetts_law_about_eviction_chunk_003",
         "title": "Massachusetts law about eviction",
         "source_url": "https://www.mass.gov/info-details/massachusetts-law-about-eviction"
       }
