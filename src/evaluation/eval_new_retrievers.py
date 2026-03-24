@@ -3,7 +3,7 @@ Evaluate new retrieval strategies: multi-query expansion, sentence window,
 hybrid parent-child (with rerank), and auto-merge.
 
 Two modes:
-  --retrieval-only  Free dry run: MRR/hit rate using source_chunks ground truth
+  --retrieval-only  Free dry run: MRR/Hit Rate/Recall@K/NDCG@K using source_chunks ground truth
   (default)         Full LLM-judged eval: retrieval-aware correctness on 24 stratified questions
 
 Usage:
@@ -13,6 +13,7 @@ Usage:
 
 import argparse
 import json
+import math
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -51,7 +52,7 @@ TOP_K = 10
 # ── Retrieval-only mode (free) ────────────────────────────────────────────
 
 def _load_qa_with_source_chunks() -> list[dict]:
-    """Load all QA pairs that have source_chunks for retrieval metric computation."""
+    """Load all QA pairs with all source_chunks as ground truth (one pair per question)."""
     pairs = []
 
     golden_path = EVAL_DIR / "golden_qa.json"
@@ -59,11 +60,13 @@ def _load_qa_with_source_chunks() -> list[dict]:
         with open(golden_path, "r") as f:
             golden = json.load(f)
         for item in golden:
-            for sc in item.get("source_chunks", []):
+            if item.get("source_chunks"):
                 pairs.append({
                     "question": item["question"],
-                    "ground_truth_chunk_id": sc["chunk_id"],
-                    "source_title": sc.get("title", ""),
+                    "ground_truth_chunk_ids": [s["chunk_id"] for s in item["source_chunks"]],
+                    "source_title": item["source_chunks"][0].get("title", ""),
+                    "id": item.get("id", ""),
+                    "topic": item.get("topic", ""),
                 })
 
     reddit_path = EVAL_DIR / "reddit_questions.json"
@@ -71,25 +74,32 @@ def _load_qa_with_source_chunks() -> list[dict]:
         with open(reddit_path, "r") as f:
             reddit = json.load(f)
         for item in reddit:
-            for sc in item.get("source_chunks", []):
+            if item.get("source_chunks"):
                 pairs.append({
                     "question": item["question"],
-                    "ground_truth_chunk_id": sc["chunk_id"],
-                    "source_title": sc.get("title", ""),
+                    "ground_truth_chunk_ids": [s["chunk_id"] for s in item["source_chunks"]],
+                    "source_title": item["source_chunks"][0].get("title", ""),
+                    "id": item.get("id", ""),
+                    "topic": item.get("topic", ""),
                 })
 
     return pairs
 
 
 def _compute_retrieval_metrics(qa_pairs, retrieve_fn, retriever_name, top_k=10):
-    """Compute MRR, Hit Rate for a retriever (no API cost)."""
+    """Compute MRR, Hit Rate, Recall@K, NDCG@K for a retriever (no API cost).
+
+    Uses all ground-truth chunks per question for multi-chunk evaluation.
+    """
     print(f"\n--- {retriever_name} ({len(qa_pairs)} QA pairs, top_k={top_k}) ---")
 
     mrr_total = 0.0
-    hits = 0
+    hit_total = 0
+    recall_total = 0.0
+    ndcg_total = 0.0
     total = len(qa_pairs)
 
-    # Cache retrieval results per unique question (many QA pairs share questions)
+    # Cache retrieval results per unique question
     cache = {}
 
     for i, pair in enumerate(qa_pairs):
@@ -99,30 +109,51 @@ def _compute_retrieval_metrics(qa_pairs, retrieve_fn, retriever_name, top_k=10):
             cache[q] = [c["chunk_id"] for c in chunks]
 
         retrieved_ids = cache[q]
-        gt_id = pair["ground_truth_chunk_id"]
+        gt_ids = set(pair["ground_truth_chunk_ids"])
 
-        if gt_id in retrieved_ids:
-            hits += 1
-            rank = retrieved_ids.index(gt_id) + 1
-            mrr_total += 1.0 / rank
+        # Hit Rate: any relevant chunk in top-k?
+        if gt_ids & set(retrieved_ids):
+            hit_total += 1
+
+        # MRR: 1/rank of first relevant chunk
+        for rank, rid in enumerate(retrieved_ids, 1):
+            if rid in gt_ids:
+                mrr_total += 1.0 / rank
+                break
+
+        # Recall@K: fraction of relevant chunks found
+        found = gt_ids & set(retrieved_ids)
+        recall_total += len(found) / len(gt_ids)
+
+        # NDCG@K: binary relevance with log-discount
+        dcg = sum(
+            1.0 / math.log2(rank + 1)
+            for rank, rid in enumerate(retrieved_ids, 1)
+            if rid in gt_ids
+        )
+        ideal_k = min(len(gt_ids), len(retrieved_ids))
+        idcg = sum(1.0 / math.log2(i + 1) for i in range(1, ideal_k + 1))
+        ndcg_total += dcg / idcg if idcg > 0 else 0.0
 
     metrics = {
         "mrr": round(mrr_total / total, 4) if total else 0,
-        "hit_rate": round(hits / total, 4) if total else 0,
-        "hits": hits,
+        "hit_rate": round(hit_total / total, 4) if total else 0,
+        "recall_at_k": round(recall_total / total, 4) if total else 0,
+        "ndcg_at_k": round(ndcg_total / total, 4) if total else 0,
+        "hits": hit_total,
         "total": total,
         "top_k": top_k,
     }
 
-    print(f"  MRR={metrics['mrr']:.3f}  Hit Rate={metrics['hit_rate']:.3f}  "
-          f"Hits={hits}/{total}")
+    print(f"  MRR={metrics['mrr']:.3f}  Hit@K={metrics['hit_rate']:.3f}  "
+          f"Recall@K={metrics['recall_at_k']:.3f}  NDCG@K={metrics['ndcg_at_k']:.3f}")
     return metrics
 
 
 def run_retrieval_only():
     """Compute retrieval metrics for all retrievers (no API cost)."""
     print("=" * 60)
-    print("Retrieval-Only Evaluation (MRR / Hit Rate)")
+    print("Retrieval-Only Evaluation (MRR / Hit Rate / Recall@K / NDCG@K)")
     print("=" * 60)
 
     qa_pairs = _load_qa_with_source_chunks()
@@ -163,13 +194,14 @@ def run_retrieval_only():
         all_metrics[name] = metrics
 
     # Summary table
-    print("\n" + "=" * 60)
-    print(f"{'Retriever':<35} {'MRR':>7} {'Hit Rate':>10} {'Hits':>6}")
-    print("-" * 60)
+    print("\n" + "=" * 80)
+    print(f"{'Retriever':<30} {'MRR':>7} {'Hit@K':>7} {'Recall@K':>9} {'NDCG@K':>8} {'Hits':>6}")
+    print("-" * 80)
     for name, m in all_metrics.items():
-        print(f"{name:<35} {m['mrr']:>7.3f} {m['hit_rate']:>10.3f} "
+        print(f"{name:<30} {m['mrr']:>7.3f} {m['hit_rate']:>7.3f} "
+              f"{m['recall_at_k']:>9.3f} {m['ndcg_at_k']:>8.3f} "
               f"{m['hits']:>3}/{m['total']}")
-    print("=" * 60)
+    print("=" * 80)
 
     # Save
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
