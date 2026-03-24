@@ -49,11 +49,22 @@ Date: 2026-03-17
 
   **Relationship between correctness and retrieval metrics:** Correctness is downstream of retrieval quality. The causal chain is: retrieval quality → which chunks land in context → what the LLM writes → correctness score. Notably, `judge_correctness()` does not receive the retrieved context — it only sees the question, the response, and the expected key facts. This means correctness measures whether the LLM *produced* the expected facts, but it cannot distinguish between two failure modes: (1) the relevant chunk was never retrieved (a retrieval failure), or (2) the chunk was retrieved but the LLM failed to use it (a generation failure). The `top_k=10` experiment (Section 7.11) illustrates this coupling: more retrieved chunks → +30% correctness for GPT-4o, confirming that correctness tracks retrieval coverage. The generator-judge swap experiment (Section 7.14) further shows that correctness scores are highly judge-dependent (0.321 to 0.750 for identical responses), making it the least reliable of the three generation metrics. Future work should adopt per-fact claim recall scoring (checking each key fact individually and reporting the fraction covered) to disentangle retrieval failures from generation failures and reduce sensitivity to judge identity.
 
-**Retrieval-level (RAG only, 50 auto-generated QA pairs):**
-- **MRR** (Mean Reciprocal Rank): Position of correct chunk in ranked results
-- **Hit Rate:** Whether correct chunk appears in `top_k` results
-- **Precision:** Fraction of retrieved chunks that are relevant
-- **Recall:** Fraction of relevant chunks retrieved
+**Retrieval-level metrics** are computed by comparing retrieved chunk IDs against ground-truth chunk IDs from `source_chunks` in `golden_qa.json` and `reddit_questions.json`. These are free (no API calls) and run alongside every evaluation.
+
+  **Ground-truth change (Iteration 8):** Prior iterations (Sections 2–7.20) evaluated retrieval against only `source_chunks[0]` — the first ground-truth chunk per question. This produced false misses for questions with multiple relevant chunks (8 of 68 multi-chunk questions were scored as misses despite retrieving other valid chunks). Starting in Iteration 8 (Section 7.21), all metrics evaluate against **all** `source_chunks` per question. MRR and Hit Rate semantics are preserved (they still check for "any" relevant hit), but now consider all designated chunks rather than just the first. Earlier results in Sections 2–7.20 used the old single-chunk evaluation and are not directly comparable to Iteration 8+ results on these metrics.
+
+  **Chunk-level metrics (K = top_k, default 10):**
+- **MRR** (Mean Reciprocal Rank): `1 / rank` of the first relevant chunk found in the top-K results, averaged over all questions. Measures how quickly the retriever surfaces any relevant result. Range 0–1; higher is better.
+- **Hit Rate (Hit@K):** Fraction of questions where at least one ground-truth chunk appears in the top-K results. Binary per question: 1 if any relevant chunk is found, 0 otherwise.
+- **Recall@K** (added Iteration 8): `|retrieved ∩ ground_truth| / |ground_truth|` — fraction of all ground-truth chunks found in the top-K, averaged over questions. Critical for multi-statute questions that require 3–4 chunks: a question needing 4 chunks where the retriever finds 2 scores Recall@10 = 0.50.
+- **NDCG@K** (Normalized Discounted Cumulative Gain, added Iteration 8): Measures ranking quality with a logarithmic discount. `DCG = Σ 1/log₂(rank+1)` for each relevant chunk found; `IDCG` is the ideal DCG if all relevant chunks occupied the top positions. `NDCG = DCG / IDCG`. With binary relevance (relevant = 1, not = 0), NDCG rewards putting relevant chunks at the top of the ranking. Two retrievers with identical Recall@K can differ in NDCG if one ranks hits at positions 1, 2 while the other ranks them at positions 8, 9.
+
+  **Fact-level metrics (LLM-judged, added Iteration 7):**
+- **Retrieval coverage:** Fraction of key_facts present in retrieved chunk text, judged by Claude Sonnet 4. Measures whether the retrieved context *contains* the information, regardless of which specific chunk it came from.
+- **Generation coverage:** Fraction of key_facts present in the LLM-generated response.
+- **Gen|Ret (generation coverage given retrieval):** Of the facts that *were* retrieved, what fraction did the LLM include in its response? Isolates generation quality from retrieval quality.
+
+  **Relationship between chunk-level and fact-level metrics:** These two layers measure different things. Chunk-level metrics (MRR, Recall@K) answer "did we find the designated documents?" Fact-level metrics (retrieval/generation coverage) answer "did we find the information, regardless of which document it came from?" The gap between them (e.g., Recall@K = 0.320 vs fact-level retrieval coverage = 0.685) measures **corpus information redundancy** — the same legal facts appear in multiple chunks across different sources (AG's Guide, MassLegalHelp chapters, raw statutes). See Section 7.21.9 for detailed analysis.
 
 ---
 
