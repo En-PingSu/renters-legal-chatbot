@@ -29,18 +29,45 @@ from src.rag.pipeline import ask, format_context
 from src.rag.retrievers import RETRIEVER_REGISTRY
 
 
-# ── Stratified sampling (matches Section 7.8 methodology) ──────────────
+# ── Fixed evaluation set ───────────────────────────────────────────────
 
-def stratify_questions(questions: list[dict], per_topic: int = 2,
-                       reddit_count: int = 4, seed: int = 42) -> list[dict]:
-    """Select a stratified subset: per_topic per golden topic + reddit_count Reddit."""
+FIXED_SET_PATH = EVAL_DIR / "stratified_questions.json"
+
+
+def load_fixed_questions(questions: list[dict]) -> list[dict]:
+    """Load the fixed stratified question set (27 standard + 10 hard).
+
+    Falls back to random stratification if the fixed set file doesn't exist.
+    """
+    if not FIXED_SET_PATH.exists():
+        print("[WARN] Fixed set not found, falling back to random stratification")
+        return _stratify_random(questions)
+
+    with open(FIXED_SET_PATH, "r") as f:
+        fixed = json.load(f)
+
+    fixed_ids = set(fixed["standard"] + fixed["hard"])
+    selected = [q for q in questions if q["id"] in fixed_ids]
+
+    # Tag difficulty for downstream reporting
+    hard_ids = set(fixed.get("hard", []))
+    for q in selected:
+        q["difficulty"] = "hard" if q["id"] in hard_ids else "standard"
+
+    print(f"Loaded fixed set: {len(selected)} questions "
+          f"({len(fixed['standard'])} standard + {len(fixed['hard'])} hard)")
+    return selected
+
+
+def _stratify_random(questions: list[dict], per_topic: int = 2,
+                     reddit_count: int = 4, seed: int = 42) -> list[dict]:
+    """Fallback: select a stratified subset via random sampling."""
     rng = random.Random(seed)
 
     golden_by_topic: dict[str, list[dict]] = {}
     reddit_qs: list[dict] = []
     for q in questions:
         if q["source"] == "golden":
-            # look up topic from the original data
             golden_by_topic.setdefault(q.get("topic", "unknown"), []).append(q)
         else:
             reddit_qs.append(q)
@@ -81,7 +108,7 @@ def run(
     retriever_name: str = "rerank",
     top_k: int = 10,
 ):
-    """Run retrieval-aware correctness scoring on 28 stratified questions."""
+    """Run retrieval-aware correctness scoring on fixed stratified questions."""
     print("=" * 60)
     print("Retrieval-Aware Correctness Scoring (Section 7.15)")
     print("=" * 60)
@@ -89,9 +116,9 @@ def run(
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     client = get_openrouter_client()
 
-    # Load & stratify
+    # Load fixed question set (27 standard + 10 hard)
     all_questions = load_eval_questions_with_topics()
-    questions = stratify_questions(all_questions)
+    questions = load_fixed_questions(all_questions)
     # Keep only questions with key_facts
     questions = [q for q in questions if q.get("key_facts")]
     print(f"Selected {len(questions)} questions with key_facts")
@@ -160,6 +187,7 @@ def run(
             "question_id": q["id"],
             "question": q["question"],
             "topic": q.get("topic", ""),
+            "difficulty": q.get("difficulty", "standard"),
             "retrieval_coverage": ret_cov["score"],
             "retrieval_hits": ret_cov["hits"],
             "retrieval_total": ret_cov["total"],
@@ -218,21 +246,72 @@ def run(
         print(f"  {ret_miss_pct}% are retrieval failures")
         print(f"  {gen_miss_pct}% are generation failures")
 
+    # ── Standard vs Hard breakdown ────────────────────────────────────
+
+    for tier in ("standard", "hard"):
+        tier_results = [r for r in results if r.get("difficulty", "standard") == tier]
+        if not tier_results:
+            continue
+        t_facts = sum(r["retrieval_total"] for r in tier_results)
+        t_ret = sum(r["retrieval_hits"] for r in tier_results)
+        t_gen = sum(r["generation_hits"] for r in tier_results)
+        t_ret_cov = round(t_ret / t_facts, 3) if t_facts else 0
+        t_gen_cov = round(t_gen / t_facts, 3) if t_facts else 0
+        t_attr = {"covered": 0, "generation_miss": 0,
+                  "retrieval_miss": 0, "hallucinated": 0}
+        for r in tier_results:
+            for pf in r["per_fact_attribution"]:
+                t_attr[pf["attribution"]] += 1
+        t_retrieved = t_attr["covered"] + t_attr["generation_miss"]
+        t_gen_given_ret = (round(t_attr["covered"] / t_retrieved, 3)
+                           if t_retrieved else 0)
+        print(f"\n  [{tier.upper()}] ({len(tier_results)} questions, {t_facts} facts)")
+        print(f"    Ret coverage: {t_ret_cov:.3f}  Gen coverage: {t_gen_cov:.3f}  "
+              f"Gen|Ret: {t_gen_given_ret:.3f}")
+        print(f"    covered={t_attr['covered']} gen_miss={t_attr['generation_miss']} "
+              f"ret_miss={t_attr['retrieval_miss']} halluc={t_attr['hallucinated']}")
+
     # ── Per-question table ──────────────────────────────────────────────
 
-    print(f"\n{'ID':<14} {'Topic':<22} {'Ret':>5} {'Gen':>5} {'Miss type'}")
-    print("-" * 70)
+    print(f"\n{'ID':<14} {'Diff':<9} {'Topic':<22} {'Ret':>5} {'Gen':>5} {'Miss type'}")
+    print("-" * 80)
     for r in results:
         misses = [pf["attribution"] for pf in r["per_fact_attribution"]
                   if pf["attribution"] in ("retrieval_miss", "generation_miss")]
         miss_str = ", ".join(misses) if misses else "—"
-        print(f"{r['question_id']:<14} {r['topic']:<22} "
+        diff = r.get("difficulty", "standard")[:4]
+        print(f"{r['question_id']:<14} {diff:<9} {r['topic']:<22} "
               f"{r['retrieval_coverage']:>5.3f} {r['generation_correctness']:>5.3f} "
               f"{miss_str}")
 
     # ── Save ────────────────────────────────────────────────────────────
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    # Per-tier aggregates for saved output
+    tier_aggregates = {}
+    for tier in ("standard", "hard"):
+        tier_results = [r for r in results if r.get("difficulty", "standard") == tier]
+        if not tier_results:
+            continue
+        t_facts = sum(r["retrieval_total"] for r in tier_results)
+        t_ret = sum(r["retrieval_hits"] for r in tier_results)
+        t_gen = sum(r["generation_hits"] for r in tier_results)
+        t_attr = {"covered": 0, "generation_miss": 0,
+                  "retrieval_miss": 0, "hallucinated": 0}
+        for r in tier_results:
+            for pf in r["per_fact_attribution"]:
+                t_attr[pf["attribution"]] += 1
+        t_retrieved = t_attr["covered"] + t_attr["generation_miss"]
+        tier_aggregates[tier] = {
+            "num_questions": len(tier_results),
+            "total_facts": t_facts,
+            "retrieval_coverage": round(t_ret / t_facts, 3) if t_facts else 0,
+            "generation_coverage": round(t_gen / t_facts, 3) if t_facts else 0,
+            "generation_coverage_given_retrieval": (
+                round(t_attr["covered"] / t_retrieved, 3) if t_retrieved else 0),
+            "attribution": t_attr,
+        }
+
     output = {
         "config": {
             "gen_model": gen_model,
@@ -248,6 +327,7 @@ def run(
             "generation_coverage_given_retrieval": gen_given_ret,
             "attribution": attr_counts,
         },
+        "per_tier": tier_aggregates,
         "results": results,
     }
 

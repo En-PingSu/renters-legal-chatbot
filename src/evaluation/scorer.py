@@ -2,10 +2,11 @@
 Evaluation scorer for the RAG chatbot.
 Runs all evaluation questions through baseline and RAG configurations,
 then scores on Faithfulness and Relevancy (matching HW4 methodology).
-Also computes retrieval metrics (MRR, Hit Rate, Precision, Recall) for RAG.
+Also computes retrieval metrics (MRR, Hit Rate, Recall@K, NDCG@K) for RAG.
 """
 
 import json
+import math
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -440,7 +441,18 @@ def generate_qa_pairs_from_chunks(
 def compute_retrieval_metrics(
     qa_pairs: list[dict], top_k: int = 5, retriever_name: str = "vector"
 ) -> dict:
-    """Compute MRR, Hit Rate, Precision, Recall for a given retriever."""
+    """Compute retrieval metrics using all ground-truth chunks per question.
+
+    Metrics:
+        mrr: Mean Reciprocal Rank — 1/rank of the first relevant chunk found.
+        hit_rate: fraction of questions where at least one relevant chunk is in top-k.
+        recall_at_k: fraction of relevant chunks found in top-k, averaged over questions.
+        ndcg_at_k: Normalized Discounted Cumulative Gain with binary relevance.
+
+    Each qa_pair must have either:
+        - "ground_truth_chunk_ids": list[str]  (preferred, multi-chunk)
+        - "ground_truth_chunk_id": str          (legacy single-chunk, auto-wrapped)
+    """
     retrieve_fn = RETRIEVER_REGISTRY.get(retriever_name)
     if retrieve_fn is None:
         raise ValueError(f"Unknown retriever: {retriever_name}")
@@ -449,31 +461,57 @@ def compute_retrieval_metrics(
           f"({len(qa_pairs)} QA pairs, top_k={top_k}) ---")
 
     mrr_total = 0.0
-    hits = 0
+    hit_total = 0
+    recall_total = 0.0
+    ndcg_total = 0.0
     total = len(qa_pairs)
 
     for i, pair in enumerate(qa_pairs):
         print(f"  [{i+1}/{total}] Retrieving for: {pair['question'][:50]}...")
         chunks = retrieve_fn(pair["question"], top_k=top_k)
         retrieved_ids = [c["chunk_id"] for c in chunks]
-        gt_id = pair["ground_truth_chunk_id"]
 
-        if gt_id in retrieved_ids:
-            hits += 1
-            rank = retrieved_ids.index(gt_id) + 1
-            mrr_total += 1.0 / rank
+        # Support both legacy single-chunk and new multi-chunk format
+        if "ground_truth_chunk_ids" in pair:
+            gt_ids = set(pair["ground_truth_chunk_ids"])
+        else:
+            gt_ids = {pair["ground_truth_chunk_id"]}
+
+        # Hit Rate: any relevant chunk in top-k?
+        if gt_ids & set(retrieved_ids):
+            hit_total += 1
+
+        # MRR: 1/rank of first relevant chunk
+        for rank, rid in enumerate(retrieved_ids, 1):
+            if rid in gt_ids:
+                mrr_total += 1.0 / rank
+                break
+
+        # Recall@K: fraction of relevant chunks found
+        found = gt_ids & set(retrieved_ids)
+        recall_total += len(found) / len(gt_ids)
+
+        # NDCG@K: binary relevance with log-discount
+        dcg = sum(
+            1.0 / math.log2(rank + 1)
+            for rank, rid in enumerate(retrieved_ids, 1)
+            if rid in gt_ids
+        )
+        ideal_k = min(len(gt_ids), len(retrieved_ids))
+        idcg = sum(1.0 / math.log2(i + 1) for i in range(1, ideal_k + 1))
+        ndcg_total += dcg / idcg if idcg > 0 else 0.0
 
     metrics = {
         "mrr": round(mrr_total / total, 4) if total > 0 else 0,
-        "hit_rate": round(hits / total, 4) if total > 0 else 0,
-        "precision": round(hits / (total * top_k), 4) if total > 0 else 0,
-        "recall": round(hits / total, 4) if total > 0 else 0,
+        "hit_rate": round(hit_total / total, 4) if total > 0 else 0,
+        "recall_at_k": round(recall_total / total, 4) if total > 0 else 0,
+        "ndcg_at_k": round(ndcg_total / total, 4) if total > 0 else 0,
         "num_queries": total,
         "top_k": top_k,
     }
 
-    print(f"\n  MRR={metrics['mrr']:.3f}  Hit Rate={metrics['hit_rate']:.3f}  "
-          f"Precision={metrics['precision']:.3f}  Recall={metrics['recall']:.3f}")
+    print(f"\n  MRR={metrics['mrr']:.3f}  Hit@K={metrics['hit_rate']:.3f}  "
+          f"Recall@K={metrics['recall_at_k']:.3f}  NDCG@K={metrics['ndcg_at_k']:.3f}")
     return metrics
 
 
@@ -575,7 +613,7 @@ def run(judge_model: str = "anthropic/claude-sonnet-4", run_retrieval_metrics: b
             qa_pairs.extend([
                 {
                     "question": g["question"],
-                    "ground_truth_chunk_id": g["source_chunks"][0]["chunk_id"],
+                    "ground_truth_chunk_ids": [s["chunk_id"] for s in g["source_chunks"]],
                     "source_title": g["source_chunks"][0]["title"],
                 }
                 for g in golden if g.get("source_chunks")
@@ -587,7 +625,7 @@ def run(judge_model: str = "anthropic/claude-sonnet-4", run_retrieval_metrics: b
             qa_pairs.extend([
                 {
                     "question": r["question"],
-                    "ground_truth_chunk_id": r["source_chunks"][0]["chunk_id"],
+                    "ground_truth_chunk_ids": [s["chunk_id"] for s in r["source_chunks"]],
                     "source_title": r["source_chunks"][0]["title"],
                 }
                 for r in reddit if r.get("source_chunks")

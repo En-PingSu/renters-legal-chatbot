@@ -1874,4 +1874,72 @@ Based on the failure taxonomy, we expect:
 3. **Generation coverage given retrieval will also drop**, because the LLM must synthesize across multiple legal domains rather than extracting from a single coherent passage.
 4. **Auto-merge and parent-child retrievers may outperform rerank** on hard questions, since they pull in broader context from neighboring chunks.
 
-These hypotheses will be tested in the next evaluation iteration.
+### 7.21.8 Evaluation Results: Standard vs Hard (Iteration 8)
+
+**Configuration:** GPT-4o + rerank + top_k=10 + structured prompt, Claude Sonnet 4 judge. Fixed stratified question set: 27 standard + 10 hard = 37 total (127 key facts).
+
+#### Overall Results
+
+| Metric | Standard (27q, 77 facts) | Hard (10q, 50 facts) | Overall (37q, 127 facts) |
+|--------|--------------------------|----------------------|--------------------------|
+| Retrieval coverage | 0.675 | 0.700 | 0.685 |
+| Generation coverage | 0.468 | 0.500 | 0.480 |
+| Gen coverage given retrieval | 0.654 | 0.714 | 0.678 |
+| Covered (ret + gen) | 34 | 25 | 59 |
+| Generation miss | 18 | 10 | 28 |
+| Retrieval miss | 23 | 15 | 38 |
+| Hallucinated | 2 | 0 | 2 |
+
+**Overall failure breakdown:** Of 66 missed facts, 57.6% are retrieval failures and 42.4% are generation failures.
+
+#### Per-Question Breakdown
+
+| ID | Difficulty | Topic | Ret Cov | Gen Cov | Failure Modes |
+|----|-----------|-------|---------|---------|---------------|
+| reddit_q008 | standard | — | 0.667 | 0.333 | retrieval_miss, generation_miss |
+| reddit_q014 | standard | — | 0.667 | 0.667 | retrieval_miss |
+| reddit_q015 | standard | — | 0.667 | 0.333 | retrieval_miss, generation_miss |
+| reddit_q019 | standard | — | 1.000 | 1.000 | — |
+| golden_002 | standard | repairs_habitability | 1.000 | 0.667 | generation_miss |
+| golden_006 | standard | security_deposits | 0.667 | 0.333 | generation_miss, retrieval_miss |
+| golden_007 | standard | retaliation | 0.333 | 0.333 | retrieval_miss ×2 |
+| golden_009 | standard | retaliation | 0.500 | 0.500 | retrieval_miss |
+| golden_011 | standard | evictions | 1.000 | 0.333 | generation_miss ×2 |
+| golden_012 | standard | evictions | 0.667 | 0.667 | retrieval_miss |
+| golden_016 | standard | rent_increases | 0.000 | 0.000 | retrieval_miss ×3 |
+| golden_021 | standard | repairs_habitability | 1.000 | 0.667 | generation_miss |
+| golden_022 | standard | security_deposits | 1.000 | 0.667 | generation_miss |
+| golden_023 | standard | rent_increases | 0.000 | 0.000 | retrieval_miss ×3 |
+| golden_024 | standard | tenant_rights_general | 0.667 | 0.667 | retrieval_miss |
+| golden_027 | standard | utilities_heat | 0.667 | 0.333 | generation_miss ×2 |
+| golden_029 | standard | discrimination | 1.000 | 0.333 | generation_miss ×2 |
+| golden_031 | standard | discrimination | 0.333 | 0.000 | generation_miss, retrieval_miss ×2 |
+| golden_033 | standard | affordable_housing | 1.000 | 1.000 | — |
+| golden_034 | standard | lease_terms | 1.000 | 0.500 | generation_miss |
+| golden_036 | standard | lease_terms | 1.000 | 0.667 | generation_miss |
+| golden_037 | standard | lead_paint | 0.000 | 0.000 | retrieval_miss ×3 |
+| golden_039 | standard | lead_paint | 0.333 | 0.333 | retrieval_miss ×2 |
+| golden_041 | standard | utilities_heat | 1.000 | 0.333 | generation_miss ×2 |
+| golden_043 | standard | public_housing | 0.500 | 0.000 | retrieval_miss, generation_miss |
+| golden_045 | standard | public_housing | 1.000 | 1.000 | — |
+| golden_049 | standard | tenant_rights_general | 0.667 | 1.000 | — |
+| golden_051 | hard | security_deposits | 1.000 | 0.500 | generation_miss ×3 |
+| golden_052 | hard | lead_paint | 0.800 | 0.600 | generation_miss, retrieval_miss |
+| golden_053 | hard | repairs_habitability | 0.500 | 0.500 | retrieval_miss ×3 |
+| golden_054 | hard | utilities | 0.400 | 0.200 | retrieval_miss ×3, generation_miss |
+| golden_055 | hard | evictions | 0.600 | 0.400 | retrieval_miss ×2, generation_miss |
+| golden_056 | hard | security_deposits | 0.800 | 0.600 | generation_miss, retrieval_miss |
+| golden_057 | hard | evictions | 0.500 | 0.500 | retrieval_miss ×2 |
+| golden_058 | hard | discrimination | 0.750 | 0.750 | retrieval_miss |
+| golden_059 | hard | repairs_habitability | 0.600 | 0.600 | retrieval_miss ×2 |
+| golden_060 | hard | rent_increases | 1.000 | 0.400 | generation_miss ×3 |
+
+#### Analysis: Hypothesis Validation
+
+**H1 (Retrieval coverage drops on hard questions): Not confirmed.** Hard retrieval coverage (0.700) was slightly *higher* than standard (0.675). This suggests the hard questions were designed with chunks that have strong lexical overlap with the queries. The retriever handles multi-chunk questions adequately at the aggregate level, though individual questions vary widely (0.400 to 1.000).
+
+**H2 (Cross-document synthesis is the dominant failure): Partially confirmed.** Retrieval misses account for 15 of 25 hard-question failures (60%), consistent with F3, but the per-question pattern reveals a split: some hard questions achieve perfect retrieval (golden_051, golden_060) while others are heavily retrieval-limited (golden_054 at 0.400). The failure is not uniform — it depends on whether the required chunks share vocabulary with the question.
+
+**H3 (Gen|Ret drops on hard questions): Not confirmed — opposite trend.** Gen|Ret is *higher* for hard questions (0.714 vs 0.654). When the retriever does surface multi-statute chunks, the LLM actually synthesizes them effectively. The real generation problem is selective: golden_051 retrieves all 6 facts but only generates 3 (drops demand letter, attorney's fees, small claims details), and golden_060 retrieves all 5 but generates only 2 (drops CPI cap, tax escalator, intent-to-convert rule). These are F1 (Statute Citation Dropout) and F2 (Remedy/Consequence Omission) — the same failure modes as standard questions, just with more facts to drop.
+
+**Key insight:** The bottleneck for hard questions is **not** cross-document synthesis per se, but rather **fact volume**: hard questions have 5-6 key facts vs 2-3 for standard questions. The LLM's tendency to omit secondary details (F1/F2) becomes more damaging when there are more facts to cover. This suggests that fact-volume-aware prompting or multi-pass generation would be more impactful than retriever improvements for hard questions.
