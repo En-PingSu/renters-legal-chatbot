@@ -2027,3 +2027,49 @@ A key finding is the **large gap between fact-level retrieval coverage (0.685) a
 ![Per-Question Retrieval: Fact Coverage vs Recall@K](figures/chart17_fact_vs_chunk_retrieval.png)
 
 ![Failure Attribution: Standard vs Hard](figures/chart18_failure_attribution_by_tier.png)
+
+## 7.22: Model Fine-Tuning Eligibility Analysis
+
+### 7.22.1 Motivation
+
+Fine-tuning is a medium-priority task for M3 (due 2026-04-15) and a core proposal goal. Before selecting a model for fine-tuning on Massachusetts tenant law Q&A pairs, we must verify which generator models meet the requirements: open weights (downloadable for local training), a permissive license (allowing derivative models), and practical hardware requirements.
+
+### 7.22.2 Model Comparison
+
+| Model | Params | Open Weight | License | Local Fine-Tuning | Min Hardware (Quantized) |
+|-------|--------|-------------|---------|-------------------|--------------------------|
+| openai/gpt-4o | Unknown | No | Proprietary (OpenAI) | No | N/A (API only) |
+| meta-llama/llama-3.3-70b-instruct | 70B | Yes | Llama 3.3 Community License | Yes (QLoRA) | Multi-GPU or cloud |
+| mistralai/mistral-small-3.1-24b-instruct | 24B | Yes | Apache 2.0 | Yes (QLoRA/full) | Single RTX 4090 or 32GB Mac |
+
+### 7.22.3 Per-Model Details
+
+**GPT-4o (openai/gpt-4o)**
+- Proprietary closed-weight model. Weights are not publicly available.
+- Fine-tuning is only possible through OpenAI's API fine-tuning service (limited customization, no weight export, ongoing API costs).
+- Not suitable for local fine-tuning on domain-specific legal Q&A data.
+
+**Llama 3.3 70B Instruct (meta-llama/llama-3.3-70b-instruct)**
+- Open-weight model released by Meta. Weights available on HuggingFace.
+- Licensed under the Llama 3.3 Community License: allows use, reproduction, distribution, and creation of derivative works. Derivative models must include "Llama" in their name.
+- Fine-tuning supported via QLoRA (quantized low-rank adaptation) to manage the 70B parameter footprint.
+- Hardware requirement is significant: requires multi-GPU setup or cloud compute for fine-tuning even with quantization.
+- In our evaluations: faithfulness 0.821 with structured prompt (Section 7.12), highest hallucination rate among the three models (4 hallucinated facts, Section 7.17).
+
+**Mistral Small 3.1 24B Instruct (mistralai/mistral-small-3.1-24b-instruct)**
+- Open-weight model released by Mistral AI. Weights available on HuggingFace.
+- Licensed under Apache 2.0: fully permissive, allows commercial use and derivative works with no naming restrictions.
+- Both base and instruct checkpoints are released, enabling fine-tuning from either starting point.
+- Fine-tuning supported by Unsloth and standard HuggingFace training pipelines. Fits on a single RTX 4090 (24GB VRAM) or 32GB RAM MacBook when quantized.
+- In our evaluations: matched GPT-4o faithfulness (0.929) with structured prompt (Section 7.12), fewest generation misses (13 vs 16/19) and highest generation-given-retrieval coverage (0.768) across all models (Section 7.17). Best production config identified as Mistral + structured prompt + rerank + k=10 at 7x lower inference cost than GPT-4o.
+
+### 7.22.4 Recommendation
+
+**Mistral Small 3.1 24B is the preferred fine-tuning candidate** based on:
+
+1. **License**: Apache 2.0 is the most permissive of the three — no naming restrictions, no usage limitations.
+2. **Size**: At 24B parameters, it requires ~3x less compute than Llama 3.3 70B for fine-tuning, making it feasible on a single consumer GPU.
+3. **Baseline quality**: Already matches GPT-4o on faithfulness (0.929) with structured prompting (Section 7.12) and has the best generation coverage given retrieval (0.768, Section 7.17). Fine-tuning on domain-specific legal Q&A data should further improve correctness and reduce generation misses.
+4. **Checkpoint availability**: Both base and instruct checkpoints are available, allowing experimentation with fine-tuning from either starting point.
+
+Llama 3.3 70B remains a viable secondary candidate if additional capacity becomes available, though its higher hallucination rate (Section 7.17) and larger resource footprint make it less practical as a first choice.

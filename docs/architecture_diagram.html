@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Architecture — MA Tenant Law RAG Chatbot</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #2d3436;
+      background: #f0f2f5;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+      color: white;
+      padding: 2rem 1.5rem 1.2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #dee2e6;
+      padding: 0.6rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    nav a {
+      color: #2c5282;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    nav a:hover { border-bottom-color: #2c5282; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    section h2 {
+      font-size: 1.35rem;
+      color: #1e3a5f;
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    section > p {
+      font-size: 0.9rem;
+      color: #636e72;
+      margin-bottom: 1.2rem;
+    }
+
+    .diagram-wrap {
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+    }
+
+    .stat {
+      background: #edf2f7;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #2c5282;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>System Architecture</h1>
+  <p>MA Tenant Law RAG Chatbot &mdash; CS6180 Final Project, Team 27</p>
+</header>
+
+<nav>
+  <a href="#overview">System Overview</a>
+  <a href="#ingestion">Data Ingestion</a>
+  <a href="#query">Query Pipeline</a>
+  <a href="#retrievers">Retriever Hierarchy</a>
+  <a href="#evaluation">Evaluation Framework</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== 1. SYSTEM OVERVIEW ===== -->
+<section id="overview">
+  <h2>1. System Overview</h2>
+  <p>High-level architecture showing the three main subsystems and how data flows between them.</p>
+  <div class="stats-bar">
+    <span class="stat">6 Data Sources</span>
+    <span class="stat">249 Documents</span>
+    <span class="stat">967 Chunks</span>
+    <span class="stat">8 Retriever Strategies</span>
+    <span class="stat">3 Generator Models</span>
+    <span class="stat">9 Evaluation Configs</span>
+  </div>
+  <div class="diagram-wrap">
+    <pre class="mermaid">
+flowchart TD
+  subgraph ING["<b>Data Ingestion Pipeline</b>"]
+    direction LR
+    S["6 Web Scrapers<br/><i>mass.gov, boston.gov,<br/>BHA, MassLegalHelp,<br/>GBLS, Reddit</i>"]
+    P["Processing<br/><i>Clean, chunk, deduplicate</i>"]
+    VS[("ChromaDB<br/><i>967 chunks<br/>all-MiniLM-L6-v2<br/>384-dim</i>")]
+    S --> P --> VS
+  end
+
+  subgraph QRY["<b>RAG Query Pipeline</b>"]
+    direction LR
+    Q["User Question"]
+    R["Retriever<br/><i>8 strategies</i>"]
+    LLM["LLM Generation<br/><i>OpenRouter API</i>"]
+    ANS["Response<br/>+ Citations"]
+    Q --> R --> LLM --> ANS
+  end
+
+  subgraph EVL["<b>Evaluation Framework</b>"]
+    direction LR
+    TS["Test Sets<br/><i>79 questions</i>"]
+    JDG["LLM Judge<br/><i>Claude Sonnet 4</i>"]
+    MET["Metrics<br/><i>Faithfulness, Relevancy,<br/>Correctness, Coverage</i>"]
+    TS --> JDG --> MET
+  end
+
+  VS -.->|"retrieval"| R
+  TS -.->|"questions"| Q
+  ANS -.->|"responses"| JDG
+
+  style ING fill:#e8f4fd,stroke:#4a90d9,stroke-width:2px
+  style QRY fill:#fff8e1,stroke:#e67e22,stroke-width:2px
+  style EVL fill:#e8f5e9,stroke:#27ae60,stroke-width:2px
+    </pre>
+  </div>
+</section>
+
+<!-- ===== 2. DATA INGESTION PIPELINE ===== -->
+<section id="ingestion">
+  <h2>2. Data Ingestion Pipeline</h2>
+  <p>From raw web sources to indexed vector store. Six scrapers feed into a shared processing pipeline that produces 967 searchable chunks.</p>
+  <div class="diagram-wrap">
+    <pre class="mermaid">
+flowchart LR
+  subgraph SRC["<b>Data Sources</b>"]
+    direction TB
+    MG["mass.gov<br/><i>Statutes &amp; guides</i>"]
+    BG["boston.gov<br/><i>Renter pages &amp; PDFs</i>"]
+    BHA["BHA FAQ<br/><i>Housing Authority</i>"]
+    MLH["MassLegalHelp<br/><i>Legal Tactics<br/>18 PDF chapters</i>"]
+    GBLS["GBLS<br/><i>Fact sheets</i>"]
+    RDT["Reddit<br/><i>r/legaladvice<br/>r/bostonhousing</i>"]
+  end
+
+  subgraph UTIL["<b>Shared Utils</b>"]
+    direction TB
+    FP["fetch_page / fetch_pdf"]
+    HTM["html_to_markdown"]
+    CIT["extract_legal_citations"]
+  end
+
+  RAW[("data/raw/<br/><i>HTML &amp; PDF</i>")]
+
+  subgraph PROC["<b>Processing</b>"]
+    direction TB
+    CC["Corpus Cleaner<br/><i>Dedup, nav removal,<br/>off-topic filter,<br/>boilerplate removal</i>"]
+    DOCS[("data/processed/<br/><i>249 Markdown docs</i>")]
+    CHK["Chunker<br/><i>800 tok, 200 overlap<br/>MD-aware recursive split<br/>FAQ: keep whole<br/>Statutes: section boundaries</i>"]
+    CHUNKS[("data/chunks/<br/><i>967 chunks</i>")]
+    CC --> DOCS --> CHK --> CHUNKS
+  end
+
+  subgraph IDX["<b>Vector Index</b>"]
+    CHROMA[("ChromaDB<br/><i>Collection: ma_tenant_law<br/>Embedding: all-MiniLM-L6-v2<br/>384 dims, cosine similarity</i>")]
+  end
+
+  MG --> UTIL
+  BG --> UTIL
+  BHA --> UTIL
+  MLH --> UTIL
+  GBLS --> UTIL
+  RDT --> UTIL
+  UTIL --> RAW --> CC
+  CHUNKS --> CHROMA
+
+  DOCS -.->|"alternative"| SW["Sentence Window<br/>Chunker<br/><i>10,785 sentences<br/>(deprioritized)</i>"]
+
+  style SRC fill:#e8f4fd,stroke:#4a90d9,stroke-width:2px
+  style UTIL fill:#f5f5f5,stroke:#999,stroke-width:1px
+  style PROC fill:#fff8e1,stroke:#e67e22,stroke-width:2px
+  style IDX fill:#e8f5e9,stroke:#27ae60,stroke-width:2px
+  style SW fill:#fafafa,stroke:#ccc,stroke-dasharray: 5 5
+    </pre>
+  </div>
+</section>
+
+<!-- ===== 3. RAG QUERY PIPELINE ===== -->
+<section id="query">
+  <h2>3. RAG Query Pipeline</h2>
+  <p>Traces the <code>ask()</code> function in <code>src/rag/pipeline.py</code>. A user question flows through retriever selection, context assembly, LLM generation, and citation verification.</p>
+  <div class="diagram-wrap">
+    <pre class="mermaid">
+flowchart TD
+  Q["<b>User Question</b>"]
+
+  Q --> SEL{"Retriever Selection<br/><i>RETRIEVER_REGISTRY</i>"}
+
+  SEL -->|"retrieve_fn(query, top_k)"| CHUNKS["Retrieved Chunks<br/><i>top_k = 5 or 10</i>"]
+
+  CHUNKS --> FMT["format_context()<br/><i>[Source N: title - url]<br/>chunk content</i>"]
+
+  FMT --> PROMPT["System Prompt Assembly<br/><i>5 Rules:</i><br/>1. Use ONLY retrieved context<br/>2. Never provide legal advice<br/>3. Always cite sources<br/>4. Disclose insufficient context<br/>5. Stay in MA tenant law scope"]
+
+  PROMPT --> API["<b>OpenRouter API</b><br/><i>temp = 0.2, max_tokens = 1500</i>"]
+
+  subgraph MODELS["<b>Generator Models</b>"]
+    direction TB
+    GPT["openai/gpt-4o"]
+    LLAMA["meta-llama/llama-3.3-70b-instruct"]
+    MISTRAL["mistralai/mistral-small-3.1-24b-instruct"]
+  end
+
+  MODELS -.-> API
+
+  API --> VER["verify_citations()<br/><i>Deduplicate source URLs<br/>Append sources footer</i>"]
+
+  VER --> OUT["<b>Response Dict</b><br/><i>question, model, retriever,<br/>retrieved_chunks, response</i>"]
+
+  CHROMA[("ChromaDB<br/><i>967 chunks</i>")] -.->|"vector search"| SEL
+
+  style Q fill:#fff8e1,stroke:#e67e22,stroke-width:2px
+  style OUT fill:#e8f5e9,stroke:#27ae60,stroke-width:2px
+  style MODELS fill:#e8f4fd,stroke:#4a90d9,stroke-width:1px
+  style CHROMA fill:#f0f0f0,stroke:#999
+    </pre>
+  </div>
+</section>
+
+<!-- ===== 4. RETRIEVER STRATEGY HIERARCHY ===== -->
+<section id="retrievers">
+  <h2>4. Retriever Strategy Hierarchy</h2>
+  <p>Eight retriever strategies build on each other through composition. Base retrievers (Vector, BM25) are combined into increasingly sophisticated strategies. Labels match <code>RETRIEVER_REGISTRY</code> keys.</p>
+  <div class="diagram-wrap">
+    <pre class="mermaid">
+flowchart BT
+  VEC["<b>vector</b><br/><i>ChromaDB cosine similarity<br/>all-MiniLM-L6-v2</i>"]
+  BM25["<b>bm25</b><br/><i>Lexical search<br/>Snowball stemmer</i>"]
+
+  VEC --> HYBRID
+  BM25 --> HYBRID
+  HYBRID["<b>hybrid</b><br/><i>0.6 vector + 0.4 BM25<br/>score normalization &amp; fusion</i>"]
+
+  HYBRID -->|"2x candidates"| RERANK["<b>rerank</b><br/><i>ms-marco-MiniLM-L-6-v2<br/>cross-encoder scoring</i>"]
+
+  VEC -->|"2x candidates"| PC["<b>parent_child</b><br/><i>Neighbor +/-1 expansion<br/>1.2x distance dampening</i>"]
+
+  HYBRID --> HPC["<b>hybrid_parent_child</b><br/><i>Hybrid base +<br/>neighbor expansion</i>"]
+  HPC --> HPCR["<b>hybrid_parent_child_rerank</b><br/><i>Hybrid PC candidates<br/>+ cross-encoder rerank</i>"]
+
+  HYBRID -->|"4x candidates"| AM["<b>auto_merge</b><br/><i>Merge docs with &gt;=40%<br/>chunks retrieved, then rerank</i>"]
+
+  MQ["<b>multiquery</b><br/><i>LLM generates 3 query variants<br/>RRF merge, k=60</i>"]
+  MQ -->|"uses base retriever"| RERANK
+
+  style VEC fill:#dbeafe,stroke:#4a90d9,stroke-width:2px
+  style BM25 fill:#dbeafe,stroke:#4a90d9,stroke-width:2px
+  style HYBRID fill:#fef3cd,stroke:#e67e22,stroke-width:2px
+  style RERANK fill:#d4edda,stroke:#27ae60,stroke-width:2px
+  style PC fill:#e8daef,stroke:#8e44ad,stroke-width:1px
+  style HPC fill:#e8daef,stroke:#8e44ad,stroke-width:1px
+  style HPCR fill:#e8daef,stroke:#8e44ad,stroke-width:1px
+  style AM fill:#fadbd8,stroke:#e74c3c,stroke-width:1px
+  style MQ fill:#fdebd0,stroke:#f39c12,stroke-width:1px
+    </pre>
+  </div>
+</section>
+
+<!-- ===== 5. EVALUATION FRAMEWORK ===== -->
+<section id="evaluation">
+  <h2>5. Evaluation Framework</h2>
+  <p>Dual-path evaluation: LLM judge scoring (API cost) and retrieval metrics (free). The retrieval-aware correctness decomposition identifies whether failures originate in retrieval or generation.</p>
+  <div class="diagram-wrap">
+    <pre class="mermaid">
+flowchart TD
+  subgraph TESTS["<b>Test Sets</b>"]
+    direction TB
+    GQA["Golden QA<br/><i>49 pairs, 12 topics</i>"]
+    RQ["Reddit Questions<br/><i>30 enriched</i>"]
+    HQ["Hard Questions<br/><i>10 multi-step<br/>cross-statute</i>"]
+  end
+
+  STRAT["Stratified Subset<br/><i>28 questions<br/>2 per topic + 4 Reddit<br/>(cost-efficient)</i>"]
+
+  TESTS --> STRAT
+
+  subgraph CONFIGS["<b>9 Configurations</b>"]
+    direction TB
+    C1["3 Models x 3 Retrievers"]
+    C2["GPT-4o / Llama 70B / Mistral 24B"]
+    C3["vector / hybrid / rerank"]
+  end
+
+  STRAT --> CONFIGS
+
+  CONFIGS --> RESP["Responses +<br/>Retrieved Chunks"]
+
+  subgraph JUDGE["<b>LLM Judge: Claude Sonnet 4</b>"]
+    direction TB
+    FAITH["Faithfulness<br/><i>Binary: grounded<br/>in sources?</i>"]
+    RELEV["Relevancy<br/><i>Binary: addresses<br/>question?</i>"]
+    CORR["Correctness<br/><i>Per-fact: key fact<br/>recall fraction</i>"]
+  end
+
+  RESP --> JUDGE
+
+  subgraph ATTRIB["<b>Per-Fact Attribution</b>"]
+    direction TB
+    COV["Covered<br/><i>Retrieved AND<br/>generated</i>"]
+    GMISS["Generation Miss<br/><i>Retrieved but<br/>LLM dropped</i>"]
+    RMISS["Retrieval Miss<br/><i>Not retrieved</i>"]
+    HALL["Hallucinated<br/><i>Not retrieved but<br/>LLM included</i>"]
+  end
+
+  CORR --> ATTRIB
+
+  subgraph RETMET["<b>Retrieval Metrics (Free)</b>"]
+    direction LR
+    MRR["MRR"]
+    HR["Hit Rate"]
+    RK["Recall@K"]
+    NDCG["NDCG@K"]
+  end
+
+  RESP -->|"chunk overlap<br/>with ground truth"| RETMET
+
+  RESULTS[("data/evaluation/results/<br/><i>retrieval_coverage_*.json<br/>eval_*.json</i>")]
+
+  JUDGE --> RESULTS
+  RETMET --> RESULTS
+  ATTRIB --> RESULTS
+
+  style TESTS fill:#e8f4fd,stroke:#4a90d9,stroke-width:2px
+  style CONFIGS fill:#fff8e1,stroke:#e67e22,stroke-width:1px
+  style JUDGE fill:#e8f5e9,stroke:#27ae60,stroke-width:2px
+  style ATTRIB fill:#fce4ec,stroke:#e74c3c,stroke-width:2px
+  style RETMET fill:#f3e5f5,stroke:#8e44ad,stroke-width:1px
+  style STRAT fill:#fff3cd,stroke:#f39c12,stroke-width:1px
+  style RESULTS fill:#f0f0f0,stroke:#999
+    </pre>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  CS6180 Final Project &mdash; Team 27: En-Ping Su &amp; Maxwell Berry &mdash; Spring 2026
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#dbeafe',
+      primaryTextColor: '#1e3a5f',
+      primaryBorderColor: '#4a90d9',
+      secondaryColor: '#d4edda',
+      secondaryTextColor: '#1a5c2d',
+      secondaryBorderColor: '#27ae60',
+      tertiaryColor: '#fef3cd',
+      tertiaryTextColor: '#856404',
+      tertiaryBorderColor: '#e67e22',
+      lineColor: '#6c757d',
+      fontSize: '14px'
+    },
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+      curve: 'basis'
+    }
+  });
+</script>
+
+</body>
+</html>
