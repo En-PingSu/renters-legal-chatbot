@@ -1,0 +1,451 @@
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I'm being evicted for nonpayment of rent. My landlord never gave me a statement of condition when I moved in, never paid me interest on my security deposit, and I never got a receipt. Can I use any of this in court to fight the eviction?<|im_end|>
+<|im_start|>assistant
+Yes, security deposit law violations give you both a defense and a counterclaim in a nonpayment eviction. You have a defense to eviction if your landlord failed to provide a written receipt, give you a statement of condition, hold the deposit in a separate bank account, or pay you yearly interest. As a counterclaim, you may be entitled to three times the security deposit amount and interest owed. If you win the security deposit counterclaim but still owe rent, the court will give you 7 days to pay the difference to keep your apartment. The landlord also cannot claim you caused damage to the apartment if they didn't provide an itemized list of damages within 30 days.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [reasonable accommodation] where can i get the forms other than on this website??<|im_end|>
+<|im_start|>assistant
+**Q: Where can I get the forms other than on this website?**
+
+You may pick up the forms at:The John F. Murphy Housing Service Center at 56 Chauncy Street, Boston, MA 02111The Public Housing developments’ management offices.The Occupancy Department at 52 Chauncy Street, Floor 3, Boston, MA 02111The Leased Housing Department at 52 Chauncy Streets, Floor 4 or 5, Boston, MA 02111The BHA Office of Civil Rights at 52 Chauncy Street, Floor 9, Boston, MA 02111To request a form by mail, call the Office of Civil Rights’ Reasonable Accommodation Coordinator at 617-988-4377 (TDD: 800-545-1833 x420).If you need assistance or an accommodation (for example, a screen reader or sign language interpreter) to complete the forms, contact the Office of Civil Rights’ Reasonable Accommodation Coordinator at 617-<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My apartment has had no heat since December even though my landlord is responsible for it, and I've told them multiple times in writing. I started withholding rent and now they're trying to evict me for nonpayment. What are my legal rights?<|im_end|>
+<|im_start|>assistant
+You have strong legal protections. First, your landlord is violating the State Sanitary Code, which requires minimum heat of 68°F from 7am-11pm and 64°F at other times during heating season (September 15 - June 15). This failure to maintain habitable conditions after notice is also an unfair/deceptive practice under 940 CMR 3.17. You have the right to withhold rent for serious code violations, but should put the withheld money in a separate bank account. Bad conditions are a defense to a nonpayment eviction. A judge can determine the fair rental value of your apartment in its defective condition and calculate how much rent you actually owe. You may also have a counterclaim for damages based on the decreased value of the apartment.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord mentioned my building might have asbestos. What are they required to do about it?<|im_end|>
+<|im_start|>assistant
+Your landlord must maintain all asbestos-containing materials in good repair, ensuring they are free from defects like holes or cracks that could release asbestos dust. If there is any violation, they must correct it in compliance with accepted standards.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What are the legal requirements under MGL c.239 - Summary Process for Possession of Land (TOC)?<|im_end|>
+<|im_start|>assistant
+Section 2A Reprisal for reporting violations of law, for tenant's union activity, or actions taken pursuant to laws protecting tenants who are victims of domestic violence, rape, sexual assault or stalking; defense; presumption<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord told me he doesn't want to rent to families with children and is now trying to evict me after I had a baby. Where can I file a complaint and can I fight the eviction?<|im_end|>
+<|im_start|>assistant
+Your landlord's actions are illegal housing discrimination. In Boston, it is illegal to discriminate in housing based on family status, among other protected classes. You can file a complaint with the Boston Fair Housing and Equity office by calling 617-635-2500 or completing their online intake form. In the eviction proceedings, discrimination is both a defense and a counterclaim that you can raise in nonpayment, fault, and no-fault evictions. Refusing to rent to or evicting someone because they have children violates both state and federal fair housing law.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does masslegalhelp provide about legal tactics ch. 2: tenant screening?<|im_end|>
+<|im_start|>assistant
+If you have ever had an eviction case brought against you or you brought a case
+against a former landlord to get repairs made, you might discover that one of
+these agencies has a file about you in its computer. A landlord may not want to
+rent to you because they think you will not pay your rent or are a troublemaker
+(even if your previous landlord violated the law or your case was dismissed).
+How to Get a Copy of a Tenant Screening Report
+There is no centralized source for a tenant to obtain free tenant screening reports.
+Tenants must make requests directly to each tenant screening agency.
+Because these reports are often only put together when a landlord pays for one,
+they may not have a report for you unless you recently applied for an apartment.
+34 ▲ Chapter 2: Tenant Screening<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [grievances and appeals] who should i contact if i have questions about the appeal process or hearing??<|im_end|>
+<|im_start|>assistant
+**Q: Who should I contact if I have questions about the appeal process or hearing?**
+
+All inquiries should be directed to the front desk at the Department of Grievances and Appeals on the 9thfloor at 617-988-4579.  Do not attempt to contact the Hearing Officer.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord charge me an exorbitant fee for emergency repairs during a declared state of emergency in Massachusetts?<|im_end|>
+<|im_start|>assistant
+No, your landlord cannot charge an unconscionably high fee for emergency repairs during a declared state of emergency. According to 940 CMR 3.17, a price is considered unconscionably high if there's a gross disparity between the charged price and the usual price before the emergency, or what other businesses charge, unless justified by increased costs.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [transfers] are there any transfer requirements in the bha lease??<|im_end|>
+<|im_start|>assistant
+**Q: Are there any transfer requirements in the BHA Lease?**
+
+Yes, residents who are over- or under-housed or residing in a wheelchair accessible unit and do not require these features will be subject to legal action for rejecting a housing offer of a unit of appropriate size and type. In addition, over-housed residents in the state-aided developments are required to move, and will be required to pay 150% of their monthly rent if they reject a housing offer to a unit of appropriate size and type.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [reasonable accommodation] does bha always have the right to ask for verification of my disability and needs??<|im_end|>
+<|im_start|>assistant
+**Q: Does BHA always have the right to ask for verification of my disability and needs?**
+
+Not always, but the BHA does have the right to request information if it:Is necessary to verify that the Client meets the definition of a person with a disability;Describes the needed accommodation; andShows the relationship between the person’s disability and the need for the requested accommodation.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I'm renting an apartment in Boston and my lease is for 12 months. What are my rights regarding the security deposit my landlord is holding?<|im_end|>
+<|im_start|>assistant
+As a tenant in Boston, your landlord must follow the rules in MGL c. 186, s.15B for handling your security deposit. This includes placing it in an interest-bearing account in a Massachusetts bank, providing you with the bank details within 30 days, and giving you a statement of condition. If the landlord fails to comply, you may be entitled to triple damages plus interest, court costs, and attorney's fees.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What are the legal requirements under General Law - Part II, Title I, Chapter 186, Section 19?<|im_end|>
+<|im_start|>assistant
+Section 19. A landlord or lessor of any real estate except an owner-occupied two- or three-family dwelling shall, within a reasonable time following receipt of a written notice from a tenant forwarded by registered or certified mail of an unsafe condition, not caused by the tenant, his invitee, or any one occupying through or under the tenant, exercise reasonable care to correct the unsafe condition described in said notice except that such notice need not be given for unsafe conditions in that portion of the premises not under control of the tenant. The tenant or any person rightfully on said premises injured as a result of the failure to correct said unsafe condition within a reasonable time shall have a right of action in tort against the landlord or lessor for damages.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does CMR 410 say about tenant rights in Massachusetts?<|im_end|>
+<|im_start|>assistant
+## 410.003: General Provisions
+(A) No owner shall allow a person to occupy, offer to rent, or occupy as owner-occupant any
+residence which does not comply with the requirements of 105 CMR 410.000.
+(B) Unless otherwise specified in 105 CMR 410.000, the owner is responsible for providing all
+maintenance, repairs, and equipment necessary to achieve compliance with 105 CMR 410.000.
+(C) No owner or occupant shall cause any service, facility, equipment, or utility which is
+required to be made available by 105 CMR 410.000, or any optional service, facility, equipment,
+or utility provided by the owner, to be removed from or shut off from any occupied residence
+except for such temporary period as may be necessary during actual repairs or alterations and
+where reasonable notice of curtailment of ser<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord in Boston charge me a late fee if I'm only a few days late on rent?<|im_end|>
+<|im_start|>assistant
+Under Massachusetts law, a landlord cannot charge a late fee until the rent is 30 days overdue. This regulation is outlined in 940 CMR 3.17(3)(a). Therefore, if you are only a few days late, your landlord cannot legally impose a late fee.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord is raising my rent by $500/month with only 2 weeks notice. Is this legal in MA?<|im_end|>
+<|im_start|>assistant
+In Massachusetts, for a month-to-month tenancy at will, a landlord must provide at least 30 days' notice in writing for any rent increase. Therefore, the landlord's attempt to raise your rent with only 2 weeks' notice is not legal.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?<|im_end|>
+<|im_start|>assistant
+Under 940 CMR 3.17, it is an unfair practice for a landlord who is obligated to provide gas service to fail to pay the bills and expose tenants to loss of service. The utility company must give tenants at least 30 days' notice before shutting off service when the landlord fails to pay. You and your neighbors can band together to pay a 'projected bill' to avoid the shutoff, and you have a right to deduct those payments from your rent. You are protected from retaliation for withholding rent for this purpose. Additionally, failure to provide utilities violates your right to quiet enjoyment, and you can sue the landlord for up to 3 months' rent and attorney's fees.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I came home and found my landlord changed the locks on my apartment. My belongings are still inside. What are my legal options and what damages can I recover?<|im_end|>
+<|im_start|>assistant
+What your landlord did is an illegal lockout. In Massachusetts, a landlord cannot lock out a tenant or remove their belongings without a court order. Under M.G.L. c. 186 § 15F, if a tenant is removed from or excluded from their premises without a valid court order, they can recover possession or terminate the rental agreement, and in either case recover three months' rent or three times actual damages, plus the cost of suit including reasonable attorney's fees. A lockout also violates your right to quiet enjoyment and can be raised as a defense and counterclaim in any subsequent eviction. Additionally, a willful violation of M.G.L. c. 186 § 14 constitutes an unfair practice under 940 CMR 3.17 consumer protection regulations.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I'm renting an apartment in Boston and concerned about lead paint. How can I get help to remove it?<|im_end|>
+<|im_start|>assistant
+You can apply for assistance through the Lead Safe Boston program, which helps set up a lead inspection and find contractors for removal work. The application is available in multiple languages, including Spanish and Chinese.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does masslegalhelp provide about legal tactics ch. 5: rent?<|im_end|>
+<|im_start|>assistant
+If you are elderly or disabled, you
+may ask for up to a year to find a new apartment.53 A judge will likely want to
+see that you are taking active steps to look for new housing and that you are
+continuing to pay your rent.
+IMPORTANT: There are many things to think through before you sign any
+agreement in court. Unless you definitely have another place to go, be very
+careful about signing an agreement in court with the landlord that you will move
+out by a certain date. If you are unable to move out by that date, the court
+agreement form often says your landlord can get a judgment to evict you without
+the court ever hearing your case and an execution allowing a sheriff to forcibly
+move you out. For more see Negotiating a Settlement of Your Case (Booklet
+11).
+▲ Chapter 5: Rent
+Endnotes<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [grievances and appeals] what if i arrive late or miss the hearing??<|im_end|>
+<|im_start|>assistant
+**Q: What if I arrive late or miss the hearing?**
+
+Tardiness or failure to appear may result in a Default being issued, which would result in the decision of the Occupancy Department/Leased Housing Division being upheld. The hearing will be rescheduled if “good cause” or “compelling circumstances” prevented you from attending on time. This must be verified in writing by a third party. For example, if you miss the hearing due to a medical emergency, you must submit documentation from the medical provider to verify the date and time that you experienced the emergency and received treatment.  Transportation or parking delays/problems will not be considered a compelling circumstance—you should plan your travel time with the expectation that you will be delayed due to traffic congestion, public<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does boston_gov provide about housing programs income and rent limits?<|im_end|>
+<|im_start|>assistant
+# Housing Programs Income and Rent Limits
+
+Learn the current income limits used to determine eligibility for housing programs offered by the Mayor’s Office of Housing (MOH).
+
+Income limits are based on household size and a percentage of the annual average income for the Boston area. These limits are set annually and subject to change. Housing programs qualify applicants based on their household income. The standard used for determining income eligibility is called the Area Median Income (AMI).  Since each market area in the United States has different living costs and income levels, AMI is based on where you live and your household size.
+
+Monthly rents are calculated to be affordable to households at various income levels. Monthly rents are set annually and subject to change.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [grievances and appeals] when will a decision be made and who decides??<|im_end|>
+<|im_start|>assistant
+**Q: When will a decision be made and who decides?**
+
+After the hearing and the conclusion of any extension period, the Hearing Officer will review all documents submitted, the testimony of any witnesses, and all of the statements you made during the hearing. The Hearing Officer will also review all applicable BHA policies and Federal and/or Massachusetts regulations to determine whether to uphold or reverse the decision made regarding your application. A written decision should be mailed within 3 weeks of the hearing date or conclusion of the extension period. After a decision is made,do not attempt to contact the Hearing Officer—you will not be permitted to speak with him/her.  Any inquiries should be directed to the Department of Grievances and Appeals front desk at 617-988-4579.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can I ask for a modification to my lease terms due to my disability if I'm struggling to meet certain requirements?<|im_end|>
+<|im_start|>assistant
+Yes, if you have a disability and are having difficulty meeting essential Boston Housing Authority (BHA) program requirements, you can request a reasonable accommodation. This means the BHA can consider your disability and work with you to find an arrangement that allows you to comply with the program.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My apartment has had no heat since December even though my landlord is responsible for it, and I've told them multiple times in writing. I started withholding rent and now they're trying to evict me for nonpayment. What are my legal rights?<|im_end|>
+<|im_start|>assistant
+You have strong legal protections. First, your landlord is violating the State Sanitary Code, which requires minimum heat of 68°F from 7am-11pm and 64°F at other times during heating season (September 15 - June 15). This failure to maintain habitable conditions after notice is also an unfair/deceptive practice under 940 CMR 3.17. You have the right to withhold rent for serious code violations, but should put the withheld money in a separate bank account. Bad conditions are a defense to a nonpayment eviction. A judge can determine the fair rental value of your apartment in its defective condition and calculate how much rent you actually owe. You may also have a counterclaim for damages based on the decreased value of the apartment.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I just got an eviction notice in Boston. When do I need to appear in court, and what happens if I don't respond in time?<|im_end|>
+<|im_start|>assistant
+You need to appear in court on the date specified in the summons, and it's crucial to respond by this date to avoid a default judgment against you. Your response, including any answer or counterclaims, must be filed before the court date. If you fail to respond or appear, you may lose the case by default, which can lead to eviction.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What is the eviction process in Massachusetts? How long does it take?<|im_end|>
+<|im_start|>assistant
+In Massachusetts, the eviction process begins with the landlord serving a notice to quit for non-payment of rent. If the tenant does not pay or vacate, the landlord can file a summary process action in court under MGL c. 239. After a court hearing, if the judge rules in favor of the landlord, an execution for possession is granted, but the landlord must wait at least 10 days to obtain it.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord charge me an exorbitant fee for emergency repairs during a declared state of emergency in Massachusetts?<|im_end|>
+<|im_start|>assistant
+No, your landlord cannot charge an unconscionably high fee for emergency repairs during a declared state of emergency. According to 940 CMR 3.17, a price is considered unconscionably high if there's a gross disparity between the charged price and the usual price before the emergency, or what other businesses charge, unless justified by increased costs.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord stopped paying the electric bill, and I'm worried about losing service. What can I do according to Massachusetts law?<|im_end|>
+<|im_start|>assistant
+Under Massachusetts law, it is considered an unfair practice for a landlord who is required to provide gas or electric service to fail to pay the bills, exposing tenants to the risk of losing such services. You may have legal grounds to take action if this obligation is not met.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?<|im_end|>
+<|im_start|>assistant
+Under 940 CMR 3.17, it is an unfair practice for a landlord who is obligated to provide gas service to fail to pay the bills and expose tenants to loss of service. The utility company must give tenants at least 30 days' notice before shutting off service when the landlord fails to pay. You and your neighbors can band together to pay a 'projected bill' to avoid the shutoff, and you have a right to deduct those payments from your rent. You are protected from retaliation for withholding rent for this purpose. Additionally, failure to provide utilities violates your right to quiet enjoyment, and you can sue the landlord for up to 3 months' rent and attorney's fees.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Do I need to have renters insurance as a tenant in Boston?<|im_end|>
+<|im_start|>assistant
+While renters insurance is not legally required for tenants in Boston, it is recommended as a small price to pay in case of a big problem.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord increase my rent during a market emergency in Boston?<|im_end|>
+<|im_start|>assistant
+Under Massachusetts law, a landlord cannot unfairly increase rent during a market emergency, as this is considered an unfair or deceptive act under 940 CMR 3.17.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord enter my apartment without notice to make repairs?<|im_end|>
+<|im_start|>assistant
+No, your landlord cannot enter your apartment without notice to make repairs unless there is an emergency. They should provide at least one day's notice and try to arrange a convenient time with you.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I'm renting an apartment in Boston and my landlord says I have to pay for my own heat. Is that legal?<|im_end|>
+<|im_start|>assistant
+Your landlord can require you to pay for heat only if you have signed a written agreement stating that you are responsible for its cost. Additionally, the landlord must ensure there are separate meters for each utility service charged to you.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can I withhold rent if my landlord won't make repairs in Massachusetts?<|im_end|>
+<|im_start|>assistant
+In Massachusetts, you may be able to withhold a portion of your rent if your landlord fails to make necessary repairs, such as fixing a broken heating system during winter. However, it is advised to consult with a private lawyer or legal services before proceeding with rent withholding.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I requested a specific accommodation for my disability from the Boston Housing Authority, but they offered me a different one. Can they do that?<|im_end|>
+<|im_start|>assistant
+Yes, the BHA can offer a different accommodation if it's less burdensome and equally effective in meeting your needs.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+I'm a single applicant looking for housing in Boston. Can I choose between a studio and a 1-bedroom unit?<|im_end|>
+<|im_start|>assistant
+As a new admissions single individual, you will be assigned to either a studio or a 1-bedroom unit based on availability, unless you provide documentation stating the necessity for a 1-bedroom. The BHA plans to allow single applicants to choose to be on a waiting list for just one unit type in the future.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What are the legal requirements under MGL c.151B - Unlawful Discrimination (Table of Contents)?<|im_end|>
+<|im_start|>assistant
+MGL Chapter 151B: UNLAWFUL DISCRIMINATION BECAUSE OF RACE, COLOR, RELIGIOUS CREED, NATIONAL ORIGIN, ANCESTRY OR SEX
+
+Table of Contents:<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does masslegalhelp provide about legal tactics ch. 15: rooming houses?<|im_end|>
+<|im_start|>assistant
+Department of Mental Health
+Residential Housing
+If you live in a residential housing program licensed, funded, or operated by
+the Massachusetts Department of Mental Health (DMH), there are certain
+procedures that your program must follow to legally evict you.51 These
+procedures provide you with some legal protections. The program must post
+in each residence a clearly visible notice that explains, in plain and simple
+language, your rights under the law.52
+You are entitled to all of the eviction notice protections for rooming house
+occupants described in this chapter based on your length of occupancy and
+regular eviction protections for tenants described in Chapter 12: Evictions,
+if your residency in the DMH program meets the following 3 requirements:53
+ You have paid the program for reside<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does boston_gov provide about tenant rights and responsibilities?<|im_end|>
+<|im_start|>assistant
+# Tenant Rights and Responsibilities
+
+Toggle
+
+Page Sections
+
+There are certain rules that landlords and tenants need to follow to meet City housing codes. Here’s what you need to know.
+
+## What you need to do as a tenant
+
+*The Rental Ordinance requires property owners with rental property to register the property.   The property will be selected for inspection once every five years.*
+
+*Landlords can protect themselves with security deposits, and tenant screening.*
+
+Violating housing codes
+
+A landlord has the right to file a complaint against you if you violate housing codes including:
+
+* not giving them access to make repairs
+* not handling your trash
+* having a rodent or insect infestation
+* not taking care of your apartment, or
+* causing damage to structural areas.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?<|im_end|>
+<|im_start|>assistant
+Under 940 CMR 3.17, it is an unfair practice for a landlord who is obligated to provide gas service to fail to pay the bills and expose tenants to loss of service. The utility company must give tenants at least 30 days' notice before shutting off service when the landlord fails to pay. You and your neighbors can band together to pay a 'projected bill' to avoid the shutoff, and you have a right to deduct those payments from your rent. You are protected from retaliation for withholding rent for this purpose. Additionally, failure to provide utilities violates your right to quiet enjoyment, and you can sue the landlord for up to 3 months' rent and attorney's fees.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [preferences & priorities] how does a development become "designated"??<|im_end|>
+<|im_start|>assistant
+**Q: How does a development become "Designated"?**
+
+Federal developments in the Elderly/Disabled Program with fewer than 80% elderly residents are identified on a regular basis, by the Boston Housing Authority's MIS Department. These developments become “Elderly”designated.Applicants for Elderly/Disabled developments can adjust their waiting list choices at any time. The developments become “Elderly” designated when the site is occupied by less than the 80% elderly (62 years of age or older) ratio. This ratio changes as residents move-in and/or vacate each site. In accordance with the approved Plan, the population occupying wheelchair accessible units will not be included when determining the designations.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can I withhold rent in Boston if my landlord hasn't fixed the heating in my apartment?<|im_end|>
+<|im_start|>assistant
+Yes, you may withhold rent if your apartment has code violations like lack of heating, provided you meet certain conditions, such as notifying the landlord and allowing a reasonable time for repairs. The premises also must not be in a hotel, motel, or lodging house where you've stayed less than three months (MGL c.239 s.8A).<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My building was just foreclosed on by the bank. The new owner says I need to leave within 30 days. I've lived here for 5 years with a lease. What are my rights?<|im_end|>
+<|im_start|>assistant
+Under M.G.L. c. 186A, a foreclosing owner can only evict a tenant with 'just cause,' which is limited to: failure to pay rent, material lease violation not cured within 30 days, nuisance/substantial damage, illegal use, refusal to execute a renewal, or refusal of reasonable access. A bona fide lease must be honored and you cannot be evicted simply because of the foreclosure. Even if eviction proceedings begin, you can request a stay of eviction for up to 6 months (or 12 months if you are elderly or disabled) if the tenancy was terminated without your fault. To get a stay, you must show you cannot find suitable alternative housing and have made reasonable efforts to do so.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord in Boston evict me because I reported a building code violation to the city?<|im_end|>
+<|im_start|>assistant
+No, your landlord cannot evict you in retaliation for reporting a building code violation. Massachusetts law protects tenants from reprisals when they report violations of health or building codes to the appropriate authorities.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can my landlord charge me an exorbitant fee for emergency repairs during a declared state of emergency in Massachusetts?<|im_end|>
+<|im_start|>assistant
+No, your landlord cannot charge an unconscionably high fee for emergency repairs during a declared state of emergency. According to 940 CMR 3.17, a price is considered unconscionably high if there's a gross disparity between the charged price and the usual price before the emergency, or what other businesses charge, unless justified by increased costs.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What does bostonhousing say about [preferences & priorities] what is the procedure for the allocation of vacant units to applicants under the designated housing plan??<|im_end|>
+<|im_start|>assistant
+**Q: What is the procedure for the allocation of vacant units to applicants under the Designated Housing Plan?**
+
+The Boston Housing Authority Elderly/Disabled Program maintains a HUD-approved site based waiting list system. Every Elderly/Disabled development has separate waiting lists for studio/1 bedroom units and for a very few existing 2 bedroom units.  These lists are ranked by Priority and/or Preference points and date of application.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+Can I withhold rent in Boston if my landlord hasn't fixed the heating in my apartment?<|im_end|>
+<|im_start|>assistant
+Yes, you may withhold rent if your apartment has code violations like lack of heating, provided you meet certain conditions, such as notifying the landlord and allowing a reasonable time for repairs. The premises also must not be in a hotel, motel, or lodging house where you've stayed less than three months (MGL c.239 s.8A).<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+My landlord has refused to fix a leaking roof and mold problem for 6 months despite my written requests. I've called the Board of Health and they issued a repair order, but my landlord still hasn't fixed it. What court actions can I take?<|im_end|>
+<|im_start|>assistant
+You have several court options. First, you can file a Tenant Petition asking a judge to order your landlord to repair the Sanitary Code violations. A judge can order repairs, appoint a receiver (a temporary landlord) to make repairs, or lower your rent to the fair rental value of the apartment in its defective condition. Second, you can file a civil complaint seeking money damages for the harm you've suffered. Third, your landlord's failure to repair after notice is an unfair/deceptive practice under 940 CMR 3.17, which triggers consumer protection remedies under M.G.L. c. 93A — you can recover double or treble damages plus attorney's fees.<|im_end|>
+
+<|im_start|>system
+You are a knowledgeable Massachusetts tenant law assistant. Provide accurate legal information grounded in Massachusetts statutes, regulations, and housing resources. Always recommend consulting an attorney for specific legal situations.<|im_end|>
+<|im_start|>user
+What guidance does boston_gov provide about fair housing and equity?<|im_end|>
+<|im_start|>assistant
+# Fair Housing and Equity
+
+Working to prevent discrimination and ensure fair and equitable access to housing for all people of Boston
+
+Toggle
+
+Page Sections
+
+Our mission is to ensure fair and equitable access to housing opportunities. We strive to increase equity and reduce barriers to opportunity for persons living and working in the City of Boston.
+
+##### What is fair housing?
+
+In the City of Boston, discrimination is illegal when renting, buying, selling, or securing financing for any housing. Our commission makes sure property owners do not discriminate against tenants or buyers based on their race, color, religion, disability, national origin, ancestry, sex, gender identity and expression, age, sexual orientation, marital status, rental assistance, family status, and military status.<|im_end|>
