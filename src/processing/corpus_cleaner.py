@@ -4,6 +4,7 @@ Removes junk chunks (duplicates, headings-only, boilerplate, short fragments,
 non-English content, nav menus, endnote-only chunks) to improve retrieval quality.
 """
 
+import hashlib
 import json
 import re
 from collections import defaultdict
@@ -254,6 +255,7 @@ def merge_heading_chunks(chunks: list[dict]) -> list[dict]:
     for c in chunks:
         by_doc[c["doc_id"]].append(c)
 
+    before = len(chunks)
     result = []
     for doc_id, doc_chunks in by_doc.items():
         doc_chunks.sort(key=lambda c: c["chunk_index"])
@@ -286,6 +288,7 @@ def merge_heading_chunks(chunks: list[dict]) -> list[dict]:
 
         result.extend(merged)
 
+    print(f"  Merge heading chunks: {before} -> {len(result)} (-{before - len(result)})")
     return result
 
 
@@ -332,7 +335,7 @@ def deduplicate_by_content(chunks: list[dict]) -> list[dict]:
     before = len(chunks)
     for c in chunks:
         normalized = re.sub(r"\s+", " ", c["content"].strip().lower())
-        content_hash = hash(normalized)
+        content_hash = hashlib.md5(normalized.encode()).hexdigest()
         if content_hash not in seen_hashes:
             seen_hashes.add(content_hash)
             result.append(c)
