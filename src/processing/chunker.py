@@ -72,11 +72,23 @@ def recursive_split(text: str, separators: list[str], max_tokens: int) -> list[s
 
 
 def merge_with_overlap(chunks: list[str], overlap_tokens: int) -> list[str]:
-    """Merge small chunks and add overlap between consecutive chunks."""
+    """Add overlap between consecutive chunks, always starting at a paragraph boundary.
+
+    Takes the last `overlap_tokens` tokens of the previous chunk, then walks
+    forward to the first paragraph break (double newline) so the overlap prefix
+    begins at a clean paragraph start. For legal text this is almost always a
+    complete self-contained thought — better than sentence boundaries which can
+    split multi-sentence legal provisions mid-rule.
+
+    Falls back to sentence boundary if no paragraph break is found, then to
+    the raw overlap if neither is found.
+    """
     if len(chunks) <= 1:
         return chunks
 
     enc = tiktoken.get_encoding("cl100k_base")
+    PARA_BREAK = re.compile(r"\n\n+")
+    SENT_END   = re.compile(r"(?<=[.!?])\s+")
     merged = []
 
     for i, chunk in enumerate(chunks):
@@ -84,10 +96,16 @@ def merge_with_overlap(chunks: list[str], overlap_tokens: int) -> list[str]:
             merged.append(chunk)
             continue
 
-        # Add overlap from previous chunk
         prev_tokens = enc.encode(chunks[i - 1])
         if len(prev_tokens) > overlap_tokens:
-            overlap_text = enc.decode(prev_tokens[-overlap_tokens:])
+            raw_overlap = enc.decode(prev_tokens[-overlap_tokens:])
+            # Prefer paragraph boundary, fall back to sentence, then raw
+            m = PARA_BREAK.search(raw_overlap)
+            if m:
+                overlap_text = raw_overlap[m.end():]
+            else:
+                m = SENT_END.search(raw_overlap)
+                overlap_text = raw_overlap[m.end():] if m else raw_overlap
             chunk_with_overlap = overlap_text + chunk
         else:
             chunk_with_overlap = chunk
