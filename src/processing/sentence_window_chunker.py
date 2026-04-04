@@ -83,8 +83,15 @@ def split_into_sentences(text: str) -> list[str]:
                 # Single letter followed by period (e.g. "c.", "s.")
                 if len(wb) == 1 and wb.isalpha():
                     is_abbrev = True
-                # Digit before period (e.g. "15B.", section numbers)
-                if re.search(r'\d$', wb):
+                # Statute citation patterns only: digit+letter (e.g. "15B", "186")
+                # followed by period — but NOT plain numbers like "4" or "12"
+                # which are paragraph/section labels that should end sentences.
+                if re.search(r'\d[A-Za-z]$', wb):
+                    # e.g. "15B", "186A" — statute section suffixes
+                    is_abbrev = True
+                elif re.search(r'^\d+$', wb) and len(wb) <= 2:
+                    # Short plain numbers like "4." or "12." in a list context
+                    # are ambiguous — treat as abbreviation to avoid splitting list items
                     is_abbrev = True
 
             if is_abbrev:
