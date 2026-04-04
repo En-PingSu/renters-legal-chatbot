@@ -1,773 +1,437 @@
 """
 Generate evaluation charts for the Renters Legal Assistance Chatbot report.
-Covers all iterations (1-7) with data hardcoded from evaluation_report.txt.
+Consolidated to 10 clean charts covering all 5 models:
+  GPT-4o, Llama 3.3 70B, Mistral Small 24B, Qwen3 4B Base, Qwen3 4B Fine-tuned.
 
-Run: venv/bin/python3 scripts/generate_charts.py
-Output: docs/figures/*.png (11 charts)
+Charts 3, 4, 6, 10 read live from eval_20260404_182956.json.
+Charts 1, 2, 5, 7, 8, 9 use hardcoded data from earlier eval iterations.
+
+Run:    venv\Scripts\python scripts\generate_charts.py
+Output: docs/figures/*.png
 """
 
 from pathlib import Path
-
+import json
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import numpy as np
 
 OUTPUT_DIR = Path(__file__).parent.parent / "docs" / "figures"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+EVAL_PATH = Path(__file__).parent.parent / "data" / "evaluation" / "results" / "eval_20260404_231818.json"
 
-# ── Style ──────────────────────────────────────────────────────────────
+def _load_eval():
+    with open(EVAL_PATH, encoding="utf-8") as f:
+        d = json.load(f)
+    return d["summary"], d["retrieval_metrics"]
+
 plt.rcParams.update({
-    "font.family": "sans-serif",
-    "font.size": 11,
-    "axes.titlesize": 13,
-    "axes.titleweight": "bold",
-    "axes.labelsize": 11,
-    "figure.facecolor": "white",
-    "axes.facecolor": "white",
-    "axes.edgecolor": "#333333",
-    "axes.grid": True,
-    "grid.alpha": 0.3,
+    "font.family": "sans-serif", "font.size": 11,
+    "axes.titlesize": 13, "axes.titleweight": "bold",
+    "axes.labelsize": 11, "figure.facecolor": "white",
+    "axes.facecolor": "white", "axes.edgecolor": "#333333",
+    "axes.grid": True, "grid.alpha": 0.3,
 })
 
-# ── Color palettes ─────────────────────────────────────────────────────
-BLUE = "#4A90D9"
-GREEN = "#2ECC71"
-RED = "#E74C3C"
-ORANGE = "#F39C12"
-PURPLE = "#9B59B6"
-TEAL = "#1ABC9C"
-DARK = "#2C3E50"
-PINK = "#E91E63"
-
-MODEL_COLORS = {"GPT-4o": BLUE, "Llama 3.3": ORANGE, "Mistral Small": GREEN}
-RETRIEVER_COLORS = {
-    "Baseline": "#95A5A6",
-    "Vector": BLUE,
-    "BM25": ORANGE,
-    "Hybrid": PURPLE,
-    "Rerank": GREEN,
-    "Parent-Child": TEAL,
-}
-
+BLUE="#4A90D9"; GREEN="#2ECC71"; RED="#E74C3C"; ORANGE="#F39C12"
+PURPLE="#9B59B6"; TEAL="#1ABC9C"; DARK="#2C3E50"; PINK="#E91E63"
 
 def save(fig, name):
-    path = OUTPUT_DIR / name
-    fig.savefig(path, dpi=200, bbox_inches="tight")
+    fig.savefig(OUTPUT_DIR / name, dpi=200, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved {name}")
 
 
 # ======================================================================
-# Chart 1: Iteration Progression (faithfulness + MRR over iterations)
+# Chart 1: Iteration Progression
 # ======================================================================
 def chart1():
     iters = ["Iter 1\n(1068ch)", "Iter 2\n(617ch)", "Iter 4\n(871ch)", "Iter 5\n(967ch)"]
     faith = [0.780, 0.900, 0.762, 0.725]
-    mrr =   [0.480, 0.568, 0.243, 0.220]
+    mrr   = [0.480, 0.568, 0.243, 0.220]
     x = np.arange(len(iters))
-
     fig, ax1 = plt.subplots(figsize=(9, 5))
     ax2 = ax1.twinx()
-
-    l1, = ax1.plot(x, faith, "o-", color=BLUE, linewidth=2.5, markersize=8, label="Faithfulness (RAG)")
-    l2, = ax2.plot(x, mrr, "s--", color=RED, linewidth=2.5, markersize=8, label="MRR (rerank)")
-
+    l1, = ax1.plot(x, faith, "o-",  color=BLUE, linewidth=2.5, markersize=8, label="Faithfulness (RAG)")
+    l2, = ax2.plot(x, mrr,   "s--", color=RED,  linewidth=2.5, markersize=8, label="MRR (rerank)")
     for i, (f, m) in enumerate(zip(faith, mrr)):
-        ax1.annotate(f"{f:.3f}", (i, f), textcoords="offset points", xytext=(0, 12),
-                     ha="center", fontsize=10, fontweight="bold", color=BLUE)
-        ax2.annotate(f"{m:.3f}", (i, m), textcoords="offset points", xytext=(0, -18),
-                     ha="center", fontsize=10, fontweight="bold", color=RED)
-
-    # Judge change annotation
+        ax1.annotate(f"{f:.3f}", (i, f), textcoords="offset points", xytext=(0, 12),  ha="center", fontsize=10, fontweight="bold", color=BLUE)
+        ax2.annotate(f"{m:.3f}", (i, m), textcoords="offset points", xytext=(0, -18), ha="center", fontsize=10, fontweight="bold", color=RED)
     ax1.axvline(x=1.5, color="#999", linestyle=":", linewidth=1.2)
-    ax1.annotate("Judge changed:\nGPT-4o → Claude Sonnet 4\n(stricter grading)",
-                 xy=(1.5, 0.83), xytext=(2.5, 0.95),
-                 arrowprops=dict(arrowstyle="->", color="#666"),
+    ax1.annotate("Judge changed:\nGPT-4o -> Claude Sonnet 4\n(stricter grading)",
+                 xy=(1.5, 0.83), xytext=(2.5, 0.95), arrowprops=dict(arrowstyle="->", color="#666"),
                  fontsize=9, color="#666", ha="center",
                  bbox=dict(boxstyle="round,pad=0.3", facecolor="#f0f0f0", edgecolor="#ccc"))
-
-    ax1.set_ylabel("Faithfulness", color=BLUE)
-    ax2.set_ylabel("MRR", color=RED)
-    ax1.set_ylim(0.0, 1.1)
-    ax2.set_ylim(0.0, 0.7)
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(iters)
-    ax1.set_title("Chart 1 — Iteration Progression: Faithfulness & MRR")
-
-    lines = [l1, l2]
-    ax1.legend(lines, [l.get_label() for l in lines], loc="lower left")
-    fig.tight_layout()
-    save(fig, "chart01_iteration_progression.png")
+    ax1.set_ylabel("Faithfulness", color=BLUE); ax2.set_ylabel("MRR", color=RED)
+    ax1.set_ylim(0.0, 1.1); ax2.set_ylim(0.0, 0.7)
+    ax1.set_xticks(x); ax1.set_xticklabels(iters)
+    ax1.set_title("Chart 1 - Iteration Progression: Faithfulness & MRR")
+    ax1.legend([l1, l2], [l1.get_label(), l2.get_label()], loc="lower left")
+    fig.tight_layout(); save(fig, "chart01_iteration_progression.png")
 
 
 # ======================================================================
-# Chart 2: Corpus Growth (docs + chunks over iterations)
+# Chart 2: Corpus Growth
 # ======================================================================
 def chart2():
-    iters = ["Iter 1", "Iter 2", "Iter 4", "Iter 5"]
-    docs =   [112, 112, 146, 249]
+    iters  = ["Iter 1", "Iter 2", "Iter 4", "Iter 5"]
+    docs   = [112, 112, 146, 249]
     chunks = [1068, 617, 871, 967]
-
-    x = np.arange(len(iters))
-    width = 0.35
-
-    fig, ax1 = plt.subplots(figsize=(8, 5))
-    ax2 = ax1.twinx()
-
-    bars1 = ax1.bar(x - width/2, docs, width, label="Documents", color=BLUE, edgecolor="white")
-    bars2 = ax2.bar(x + width/2, chunks, width, label="Chunks", color=ORANGE, edgecolor="white")
-
-    for bar in bars1:
-        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 3,
-                 str(int(bar.get_height())), ha="center", fontsize=10, fontweight="bold", color=BLUE)
-    for bar in bars2:
-        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 12,
-                 str(int(bar.get_height())), ha="center", fontsize=10, fontweight="bold", color=ORANGE)
-
-    ax1.set_ylabel("Documents", color=BLUE)
-    ax2.set_ylabel("Chunks", color=ORANGE)
-    ax1.set_ylim(0, 320)
-    ax2.set_ylim(0, 1300)
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(iters)
-    ax1.set_title("Chart 2 — Corpus Growth Across Iterations")
-
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc="upper left")
-    fig.tight_layout()
-    save(fig, "chart02_corpus_growth.png")
+    x = np.arange(len(iters)); width = 0.35
+    fig, ax1 = plt.subplots(figsize=(8, 5)); ax2 = ax1.twinx()
+    bars1 = ax1.bar(x - width/2, docs,   width, label="Documents", color=BLUE,   edgecolor="white")
+    bars2 = ax2.bar(x + width/2, chunks, width, label="Chunks",    color=ORANGE, edgecolor="white")
+    for b in bars1: ax1.text(b.get_x()+b.get_width()/2, b.get_height()+3,  str(int(b.get_height())), ha="center", fontsize=10, fontweight="bold", color=BLUE)
+    for b in bars2: ax2.text(b.get_x()+b.get_width()/2, b.get_height()+12, str(int(b.get_height())), ha="center", fontsize=10, fontweight="bold", color=ORANGE)
+    ax1.set_ylabel("Documents", color=BLUE); ax2.set_ylabel("Chunks", color=ORANGE)
+    ax1.set_ylim(0, 320); ax2.set_ylim(0, 1300)
+    ax1.set_xticks(x); ax1.set_xticklabels(iters)
+    ax1.set_title("Chart 2 - Corpus Growth Across Iterations")
+    l1, lb1 = ax1.get_legend_handles_labels(); l2, lb2 = ax2.get_legend_handles_labels()
+    ax1.legend(l1 + l2, lb1 + lb2, loc="upper left")
+    fig.tight_layout(); save(fig, "chart02_corpus_growth.png")
 
 
 # ======================================================================
-# Chart 3: Retriever Comparison — Generation Metrics (Iter 4)
+# Chart 3: Retriever Comparison (Generation + Retrieval, live data)
 # ======================================================================
 def chart3():
-    configs = ["Baseline", "Vector", "BM25", "Hybrid", "Rerank"]
-    faith =     [0.100, 0.738, 0.688, 0.738, 0.762]
-    relevancy = [1.000, 1.000, 1.000, 1.000, 1.000]
-    correct =   [0.463, 0.388, 0.287, 0.425, 0.412]
+    SUMMARY, RET = _load_eval()
+    configs   = ["Baseline\n(no RAG)", "Vector", "BM25", "Hybrid", "Rerank"]
+    keys      = ["baseline", "rag_vector", "rag_bm25", "rag_hybrid", "rag_rerank"]
+    faith     = [SUMMARY[k]["faithfulness_mean"] for k in keys]
+    relevancy = [SUMMARY[k]["relevancy_mean"]    for k in keys]
+    correct   = [SUMMARY[k]["correctness_mean"]  for k in keys]
+    ret_names = ["BM25", "Hybrid", "Rerank"]
+    ret_keys  = ["bm25", "hybrid", "rerank"]
+    mrr      = [RET[k]["mrr"]         for k in ret_keys]
+    hit_rate = [RET[k]["hit_rate"]    for k in ret_keys]
+    recall   = [RET[k]["recall_at_k"] for k in ret_keys]
+    ndcg     = [RET[k]["ndcg_at_k"]   for k in ret_keys]
 
-    x = np.arange(len(configs))
-    width = 0.25
-
-    fig, ax = plt.subplots(figsize=(10, 5.5))
-    b1 = ax.bar(x - width, faith, width, label="Faithfulness", color=BLUE)
-    b2 = ax.bar(x, relevancy, width, label="Relevancy", color=GREEN)
-    b3 = ax.bar(x + width, correct, width, label="Correctness", color=ORANGE)
-
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 5.5))
+    x = np.arange(len(configs)); w = 0.25
+    b1 = ax1.bar(x - w, faith,     w, label="Faithfulness", color=BLUE)
+    b2 = ax1.bar(x,     relevancy, w, label="Relevancy",    color=GREEN)
+    b3 = ax1.bar(x + w, correct,   w, label="Correctness",  color=ORANGE)
     for bars in [b1, b3]:
-        for bar in bars:
-            h = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                    f"{h:.2f}", ha="center", va="bottom", fontsize=8.5, fontweight="bold")
+        for b in bars:
+            h = b.get_height()
+            ax1.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
+    ax1.set_ylabel("Score"); ax1.set_ylim(0, 1.15)
+    ax1.set_xticks(x); ax1.set_xticklabels(configs, fontsize=9)
+    ax1.set_title("Generation Metrics\n(GPT-4o, 89 questions)")
+    ax1.legend(loc="upper right", fontsize=9)
+    ax1.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.5)
 
-    ax.set_ylabel("Score")
-    ax.set_title("Chart 3 — Retriever Comparison: Generation Metrics\n(GPT-4o, 80 questions, Claude Sonnet 4 judge)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(configs)
-    ax.set_ylim(0, 1.15)
-    ax.legend(loc="upper right")
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.5)
-    fig.tight_layout()
-    save(fig, "chart03_retriever_generation.png")
+    xr = np.arange(len(ret_names)); wr = 0.18
+    b4 = ax2.bar(xr - 1.5*wr, mrr,      wr, label="MRR@5",      color=RED)
+    b5 = ax2.bar(xr - 0.5*wr, hit_rate, wr, label="Hit Rate@5", color=TEAL)
+    b6 = ax2.bar(xr + 0.5*wr, recall,   wr, label="Recall@5",   color=BLUE)
+    b7 = ax2.bar(xr + 1.5*wr, ndcg,     wr, label="NDCG@5",     color=PURPLE)
+    for bars in [b4, b5, b6, b7]:
+        for b in bars:
+            h = b.get_height()
+            ax2.text(b.get_x()+b.get_width()/2, h+0.005, f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
+    ax2.set_ylabel("Score"); ax2.set_ylim(0, 0.55)
+    ax2.set_xticks(xr); ax2.set_xticklabels(ret_names)
+    ax2.set_title("Retrieval Metrics\n(89 QA pairs, k=5)")
+    ax2.legend(loc="upper left", fontsize=9)
+    ax2.text(0.5, -0.12, "Vector excluded: chunk ID mismatch artifact (MRR=0.000)",
+             transform=ax2.transAxes, ha="center", fontsize=8, color="#888", style="italic")
+    fig.suptitle("Chart 3 - Retriever Comparison: Generation & Retrieval Metrics (Final Evaluation)", fontsize=13, fontweight="bold")
+    fig.tight_layout(); save(fig, "chart03_retriever_comparison.png")
 
 
 # ======================================================================
-# Chart 4: Retriever Comparison — Retrieval Metrics (Iter 4)
+# Chart 4: Multi-Model Full Comparison (live data, all 5 models)
 # ======================================================================
 def chart4():
-    retrievers = ["Vector", "BM25", "Hybrid", "Rerank"]
-    mrr =       [0.189, 0.062, 0.187, 0.243]
-    hit_rate =  [0.312, 0.109, 0.312, 0.328]
-
-    x = np.arange(len(retrievers))
-    width = 0.3
-
-    fig, ax = plt.subplots(figsize=(8, 5))
-    b1 = ax.bar(x - width/2, mrr, width, label="MRR", color=RED)
-    b2 = ax.bar(x + width/2, hit_rate, width, label="Hit Rate", color=TEAL)
-
-    for bars in [b1, b2]:
-        for bar in bars:
-            h = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, h + 0.005,
-                    f"{h:.3f}", ha="center", va="bottom", fontsize=9, fontweight="bold")
-
-    ax.set_ylabel("Score")
-    ax.set_title("Chart 4 — Retriever Comparison: Retrieval Metrics\n(64 QA pairs, top_k=5)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(retrievers)
-    ax.set_ylim(0, 0.5)
-    ax.legend()
-    fig.tight_layout()
-    save(fig, "chart04_retriever_retrieval.png")
-
-
-# ======================================================================
-# Chart 5: Multi-Model Comparison (7 configs, faith/correct)
-# ======================================================================
-def chart5():
-    configs = [
-        "GPT-4o\nbaseline", "GPT-4o\nrerank", "GPT-4o\nparent_child",
-        "Llama\nbaseline", "Llama\nrerank",
-        "Mistral\nbaseline", "Mistral\nrerank",
-    ]
-    faith =   [0.071, 0.857, 0.786, 0.071, 0.500, 0.071, 0.643]
-    correct = [0.393, 0.357, 0.321, 0.357, 0.357, 0.250, 0.393]
-    colors =  [BLUE, BLUE, BLUE, ORANGE, ORANGE, GREEN, GREEN]
-
-    x = np.arange(len(configs))
-    width = 0.35
-
-    fig, ax = plt.subplots(figsize=(12, 5.5))
-    b1 = ax.bar(x - width/2, faith, width, label="Faithfulness",
-                color=colors, edgecolor="white", alpha=0.9)
-    b2 = ax.bar(x + width/2, correct, width, label="Correctness",
-                color=colors, edgecolor="white", alpha=0.5, hatch="//")
-
-    for bar in b1:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
-    for bar in b2:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                f"{h:.3f}", ha="center", va="bottom", fontsize=8)
-
-    ax.set_ylabel("Score")
-    ax.set_title("Chart 5 — Multi-Model Comparison: All 7 Configurations\n(28 stratified questions, Claude Sonnet 4 judge)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(configs, fontsize=9)
-    ax.set_ylim(0, 1.1)
-    ax.legend(loc="upper right")
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
-    fig.tight_layout()
-    save(fig, "chart05_multimodel_comparison.png")
-
-
-# ======================================================================
-# Chart 6: RAG Uplift by Model (baseline vs RAG faithfulness)
-# ======================================================================
-def chart6():
-    models = ["GPT-4o", "Mistral Small\n(24B)", "Llama 3.3\n(70B)"]
-    baseline = [0.071, 0.071, 0.071]
-    rag =      [0.857, 0.643, 0.500]
-    uplift =   ["+1,107%", "+806%", "+604%"]
-
-    x = np.arange(len(models))
-    width = 0.3
-
-    fig, ax = plt.subplots(figsize=(8, 5.5))
-    b1 = ax.bar(x - width/2, baseline, width, label="Baseline (no RAG)", color="#95A5A6")
-    b2 = ax.bar(x + width/2, rag, width, label="RAG + Rerank", color=[BLUE, GREEN, ORANGE])
-
-    for i, (bar, u) in enumerate(zip(b2, uplift)):
-        h = bar.get_height()
-        ax.annotate(u, (bar.get_x() + bar.get_width()/2, h),
-                    textcoords="offset points", xytext=(0, 8),
-                    ha="center", fontsize=10, fontweight="bold", color=DARK)
-
-    ax.set_ylabel("Faithfulness")
-    ax.set_title("Chart 6 — RAG Faithfulness Uplift by Model\n(28 questions, rerank retriever, Claude Sonnet 4 judge)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(models)
-    ax.set_ylim(0, 1.15)
-    ax.legend(loc="upper right")
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
-    fig.tight_layout()
-    save(fig, "chart06_rag_uplift.png")
-
-
-# ======================================================================
-# Chart 7: Self-Evaluation Bias (Claude vs self-judge)
-# ======================================================================
-def chart7():
-    models = ["GPT-4o", "Llama 3.3", "Mistral Small"]
-
-    # Faithfulness: Claude judge vs self-judge
-    claude_faith = [0.857, 0.500, 0.643]
-    self_faith =   [0.964, 0.929, 0.857]
-
-    # Correctness: Claude judge vs self-judge
-    claude_corr = [0.357, 0.357, 0.393]
-    self_corr =   [0.750, 0.357, 0.286]
-
-    x = np.arange(len(models))
-    width = 0.2
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5.5))
-
-    # Faithfulness panel
-    b1 = ax1.bar(x - width/2, claude_faith, width, label="Claude Sonnet 4 judge", color=BLUE)
-    b2 = ax1.bar(x + width/2, self_faith, width, label="Self-judge", color=RED, alpha=0.7)
-
-    for bars in [b1, b2]:
-        for bar in bars:
-            h = bar.get_height()
-            ax1.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                     f"{h:.3f}", ha="center", va="bottom", fontsize=9, fontweight="bold")
-
-    # Add delta annotations
-    for i in range(len(models)):
-        delta = self_faith[i] - claude_faith[i]
-        mid_y = (claude_faith[i] + self_faith[i]) / 2
-        ax1.annotate(f"+{delta:.3f}", (x[i] + width/2 + 0.05, mid_y),
-                     fontsize=8, color=RED, fontweight="bold", ha="left")
-
-    ax1.set_ylabel("Score")
-    ax1.set_title("Faithfulness")
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(models, fontsize=10)
-    ax1.set_ylim(0, 1.15)
-    ax1.legend(fontsize=9)
-
-    # Correctness panel
-    b3 = ax2.bar(x - width/2, claude_corr, width, label="Claude Sonnet 4 judge", color=BLUE)
-    b4 = ax2.bar(x + width/2, self_corr, width, label="Self-judge", color=RED, alpha=0.7)
-
-    for bars in [b3, b4]:
-        for bar in bars:
-            h = bar.get_height()
-            ax2.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                     f"{h:.3f}", ha="center", va="bottom", fontsize=9, fontweight="bold")
-
-    ax2.set_ylabel("Score")
-    ax2.set_title("Correctness")
-    ax2.set_xticks(x)
-    ax2.set_xticklabels(models, fontsize=10)
-    ax2.set_ylim(0, 1.0)
-    ax2.legend(fontsize=9)
-
-    fig.suptitle("Chart 7 — Self-Evaluation Bias: Independent vs Self-Judge\n(28 questions, rerank retriever)",
-                 fontsize=13, fontweight="bold", y=1.03)
-    fig.tight_layout()
-    save(fig, "chart07_self_eval_bias.png")
-
-
-# ======================================================================
-# Chart 8: top_k Experiment (k=5 vs k=10, all models)
-# ======================================================================
-def chart8():
-    models = ["GPT-4o", "Llama 3.3", "Mistral Small"]
-    faith_k5 =  [0.857, 0.500, 0.643]
-    faith_k10 = [0.857, 0.607, 0.750]
-    corr_k5 =   [0.357, 0.357, 0.393]
-    corr_k10 =  [0.464, 0.357, 0.393]
-
-    x = np.arange(len(models))
-    width = 0.18
-
-    fig, ax = plt.subplots(figsize=(10, 5.5))
-    b1 = ax.bar(x - 1.5*width, faith_k5, width, label="Faith k=5", color=BLUE, alpha=0.7)
-    b2 = ax.bar(x - 0.5*width, faith_k10, width, label="Faith k=10", color=BLUE)
-    b3 = ax.bar(x + 0.5*width, corr_k5, width, label="Correct k=5", color=ORANGE, alpha=0.7)
-    b4 = ax.bar(x + 1.5*width, corr_k10, width, label="Correct k=10", color=ORANGE)
-
-    for bars in [b1, b2, b3, b4]:
-        for bar in bars:
-            h = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                    f"{h:.3f}", ha="center", va="bottom", fontsize=7.5, fontweight="bold")
-
-    ax.set_ylabel("Score")
-    ax.set_title("Chart 8 — Context Window Experiment: top_k=5 vs top_k=10\n(rerank retriever, 28 questions, Claude Sonnet 4 judge)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(models)
-    ax.set_ylim(0, 1.1)
-    ax.legend(loc="upper right", fontsize=9)
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
-    fig.tight_layout()
-    save(fig, "chart08_topk_experiment.png")
-
-
-# ======================================================================
-# Chart 9: Structured Prompt Experiment
-# ======================================================================
-def chart9():
-    configs = [
-        "Old prompt\nk=5",
-        "Old prompt\nk=10",
-        "Structured\nk=5",
-        "Structured\nk=10",
-    ]
-    # GPT-4o results
-    faith_gpt = [0.857, 0.857, 0.893, 0.929]
-    corr_gpt  = [0.357, 0.464, 0.321, 0.321]
-
-    x = np.arange(len(configs))
-    width = 0.3
-
-    fig, ax = plt.subplots(figsize=(9, 5.5))
-    b1 = ax.bar(x - width/2, faith_gpt, width, label="Faithfulness", color=BLUE)
-    b2 = ax.bar(x + width/2, corr_gpt, width, label="Correctness", color=ORANGE)
-
-    for bars in [b1, b2]:
-        for bar in bars:
-            h = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                    f"{h:.3f}", ha="center", va="bottom", fontsize=10, fontweight="bold")
-
-    # Highlight best faithfulness
-    ax.annotate("Best faithfulness\nin project (0.929)",
-                xy=(3 - width/2, 0.929), xytext=(1.5, 1.02),
-                arrowprops=dict(arrowstyle="->", color=DARK),
-                fontsize=9, fontweight="bold", color=DARK, ha="center")
-
-    ax.set_ylabel("Score")
-    ax.set_title("Chart 9 — Structured Prompt Experiment (GPT-4o + Rerank)\n(28 questions, Claude Sonnet 4 judge)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(configs)
-    ax.set_ylim(0, 1.15)
-    ax.legend(loc="lower right")
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
-    fig.tight_layout()
-    save(fig, "chart09_structured_prompt.png")
-
-
-# ======================================================================
-# Chart 10: Best Configs Summary (faith vs correct, labeled)
-# ======================================================================
-def chart10():
-    configs = [
-        ("Mistral struct k=10", 0.929, 0.357, "$0.35", GREEN),
-        ("GPT-4o struct k=10",  0.929, 0.321, "$2.50", BLUE),
-        ("GPT-4o old k=10",     0.857, 0.464, "$2.50", BLUE),
-        ("Llama struct k=10",   0.821, 0.321, "$0.10", ORANGE),
-        ("GPT-4o struct k=5",   0.893, 0.321, "$2.50", BLUE),
-    ]
-
-    fig, ax = plt.subplots(figsize=(9, 6))
-    for label, faith, corr, cost, color in configs:
-        ax.scatter(faith, corr, s=200, color=color, edgecolor="white", linewidth=1.5, zorder=5)
-        ax.annotate(f"{label}\n({cost}/1M in)",
-                    (faith, corr), textcoords="offset points",
-                    xytext=(12, -5), fontsize=8.5, ha="left",
-                    bbox=dict(boxstyle="round,pad=0.2", facecolor="#f8f8f8", edgecolor="#ddd"))
-
-    ax.set_xlabel("Faithfulness (higher = better grounding)")
-    ax.set_ylabel("Correctness (higher = better key-fact recall)")
-    ax.set_title("Chart 10 — Best Configurations: Faithfulness vs Correctness\n(cost per 1M input tokens shown)")
-    ax.set_xlim(0.78, 0.96)
-    ax.set_ylim(0.25, 0.52)
-    ax.axhline(y=0.35, color="#eee", linewidth=0.8)
-    ax.axvline(x=0.9, color="#eee", linewidth=0.8)
-
-    # Add quadrant labels
-    ax.text(0.94, 0.50, "High faith\nHigh correct", fontsize=8, color="#aaa", ha="center", style="italic")
-    ax.text(0.82, 0.50, "Low faith\nHigh correct", fontsize=8, color="#aaa", ha="center", style="italic")
-
-    # Legend for model colors
-    from matplotlib.lines import Line2D
-    legend_elements = [
-        Line2D([0], [0], marker="o", color="w", markerfacecolor=BLUE, markersize=10, label="GPT-4o"),
-        Line2D([0], [0], marker="o", color="w", markerfacecolor=GREEN, markersize=10, label="Mistral Small"),
-        Line2D([0], [0], marker="o", color="w", markerfacecolor=ORANGE, markersize=10, label="Llama 3.3"),
-    ]
-    ax.legend(handles=legend_elements, loc="upper left")
-    fig.tight_layout()
-    save(fig, "chart10_best_configs.png")
-
-
-# ======================================================================
-# Chart 11: Corpus Composition (current: 249 docs / 967 chunks)
-# ======================================================================
-def chart11():
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-
-    # By source (docs)
-    src_labels = ["masslegalhelp.org\n(18)", "mass.gov\n(34)", "boston.gov\n(35)",
-                  "bostonhousing.org\n(59)", "GBLS\n(5)", "MCAD/DHCD\n(3)",
-                  "MGL statutes\n(26)", "Court/ISD\n(7)"]
-    # Approximate breakdown from the report's expansion details
-    # masslegalhelp: 18 docs, mass.gov: 34, boston.gov: 35, bostonhousing: 59
-    # Priority 1 (26 statutes) + Priority 2 (5 court) + Priority 3 (5 GBLS) +
-    # Priority 4 (2 MCAD) + Priority 5 (1 MRVP) + Priority 6 (2 ISD)
-    # Simplify to source-level for the pie chart
-
-    src_labels2 = ["masslegalhelp.org", "mass.gov", "boston.gov",
-                   "bostonhousing.org", "Other (GBLS, MCAD,\nDHCD, ISD)"]
-    src_chunks = [422, 228, 162, 59, 96]  # 422+228+162+59+96=967
-    src_colors = [PINK, DARK, TEAL, PURPLE, ORANGE]
-
-    wedges1, texts1, autotexts1 = ax1.pie(
-        src_chunks, labels=src_labels2, autopct="%1.0f%%",
-        colors=src_colors, startangle=90, textprops={"fontsize": 9.5},
-        pctdistance=0.78
-    )
-    for at in autotexts1:
-        at.set_fontweight("bold")
-    ax1.set_title("Chunks by Source", fontweight="bold")
-
-    # By content type (estimated from report)
-    type_labels = ["Legal Tactics\n(guides)", "Statutes", "FAQ",
-                   "Regulations", "Court/Procedural", "Other guides"]
-    type_chunks = [422, 180, 59, 148, 78, 80]  # sums to 967
-    type_colors = [BLUE, RED, GREEN, ORANGE, PURPLE, TEAL]
-
-    wedges2, texts2, autotexts2 = ax2.pie(
-        type_chunks, labels=type_labels, autopct="%1.0f%%",
-        colors=type_colors, startangle=90, textprops={"fontsize": 9.5},
-        pctdistance=0.78
-    )
-    for at in autotexts2:
-        at.set_fontweight("bold")
-    ax2.set_title("Chunks by Content Type", fontweight="bold")
-
-    fig.suptitle("Chart 11 — Current Corpus Composition (249 docs, 967 chunks)",
-                 fontsize=13, fontweight="bold")
-    fig.tight_layout()
-    save(fig, "chart11_corpus_composition.png")
-
-
-# ======================================================================
-# Chart 12: Judge Methodology Validation (Custom vs LlamaIndex)
-# ======================================================================
-def chart12():
-    methods = ["Our Method\n(single-call)", "LlamaIndex-style\n(iterative refine)"]
-    faith = [0.964, 0.964]
-    relev = [1.000, 1.000]
-
-    x = np.arange(len(methods))
-    width = 0.28
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw={"width_ratios": [1.2, 1]})
-
-    # Left panel: score comparison
-    b1 = ax1.bar(x - width/2, faith, width, label="Faithfulness", color=BLUE)
-    b2 = ax1.bar(x + width/2, relev, width, label="Relevancy", color=GREEN)
-
-    for bars in [b1, b2]:
-        for bar in bars:
-            h = bar.get_height()
-            ax1.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                     f"{h:.3f}", ha="center", va="bottom", fontsize=11, fontweight="bold")
-
-    ax1.set_ylabel("Score")
-    ax1.set_title("Aggregate Scores")
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(methods, fontsize=10)
-    ax1.set_ylim(0, 1.15)
-    ax1.legend(loc="lower right")
+    SUMMARY, _ = _load_eval()
+    models        = ["GPT-4o", "Llama 3.3\n(70B)", "Mistral\n(24B)", "Qwen3 4B\n(Base)", "Qwen3 4B\n(Fine-tuned)"]
+    baseline_keys = ["baseline",   "llama_baseline",   "mistral_baseline",   "qwen3_base_baseline",      "qwen3_finetuned_baseline"]
+    rerank_keys   = ["rag_rerank", "llama_rerank",     "mistral_rerank",     "qwen3_base_rerank",        "qwen3_finetuned_rerank"]
+    colors        = [BLUE, ORANGE, GREEN, PURPLE, PINK]
+    base_f = [SUMMARY[k]["faithfulness_mean"] for k in baseline_keys]
+    rnk_f  = [SUMMARY[k]["faithfulness_mean"] for k in rerank_keys]
+    base_c = [SUMMARY[k]["correctness_mean"]  for k in baseline_keys]
+    rnk_c  = [SUMMARY[k]["correctness_mean"]  for k in rerank_keys]
+    rnk_r  = [SUMMARY[k]["relevancy_mean"]    for k in rerank_keys]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 5.5))
+    x = np.arange(len(models)); w = 0.3
+    b1 = ax1.bar(x - w/2, base_f, w, label="Baseline",    color="#95A5A6", alpha=0.8)
+    b2 = ax1.bar(x + w/2, rnk_f,  w, label="RAG+Rerank",  color=colors,   alpha=0.9)
+    for b in b1:
+        h = b.get_height()
+        ax1.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=8, color="#666", fontweight="bold")
+    for i, (b, col) in enumerate(zip(b2, colors)):
+        h = b.get_height()
+        ax1.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold", color=col)
+        lbl = f"+{(rnk_f[i]-base_f[i])/base_f[i]*100:.0f}%" if base_f[i] > 0 else "base~0"
+        ax1.annotate(lbl, xy=(b.get_x()+b.get_width()/2, h), xytext=(0, 13),
+                     textcoords="offset points", ha="center", fontsize=8.5, fontweight="bold", color=DARK)
+    ax1.set_ylabel("Faithfulness"); ax1.set_ylim(0, 1.15)
+    ax1.set_xticks(x); ax1.set_xticklabels(models, fontsize=9)
+    ax1.set_title("Faithfulness: Baseline vs RAG+Rerank")
+    ax1.legend(loc="upper right")
     ax1.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
 
-    # Right panel: agreement + cost comparison
-    categories = ["Faithfulness\nAgreement", "Relevancy\nAgreement"]
-    agreement = [93, 100]
-    bar_colors = [BLUE, GREEN]
+    w2 = 0.22
+    b3 = ax2.bar(x - w2, base_c, w2, label="Correctness (baseline)", color="#95A5A6", alpha=0.8)
+    b4 = ax2.bar(x,      rnk_c,  w2, label="Correctness (rerank)",   color=colors,   alpha=0.9)
+    b5 = ax2.bar(x + w2, rnk_r,  w2, label="Relevancy (rerank)",     color=colors,   alpha=0.4, hatch="//")
+    for b in b3:
+        h = b.get_height()
+        ax2.text(b.get_x()+b.get_width()/2, h+0.005, f"{h:.3f}", ha="center", va="bottom", fontsize=7.5, color="#666")
+    for i, (b, col) in enumerate(zip(b4, colors)):
+        h = b.get_height()
+        ax2.text(b.get_x()+b.get_width()/2, h+0.005, f"{h:.3f}", ha="center", va="bottom", fontsize=7.5, fontweight="bold", color=col)
+    ax2.set_ylabel("Score"); ax2.set_ylim(0, 1.15)
+    ax2.set_xticks(x); ax2.set_xticklabels(models, fontsize=9)
+    ax2.set_title("Correctness & Relevancy")
+    ax2.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+    from matplotlib.patches import Patch
+    ax2.legend(handles=[
+        Patch(facecolor=BLUE,   label="GPT-4o (cloud)"),
+        Patch(facecolor=ORANGE, label="Llama 3.3 70B"),
+        Patch(facecolor=GREEN,  label="Mistral Small 24B"),
+        Patch(facecolor=PURPLE, label="Qwen3 4B Base (local)"),
+        Patch(facecolor=PINK,   label="Qwen3 4B FT (local)"),
+    ], loc="lower right", fontsize=8.5)
+    fig.suptitle("Chart 4 - Multi-Model Comparison: All 5 Models x Baseline & RAG+Rerank\n(89 questions, Claude Sonnet 4 judge)", fontsize=13, fontweight="bold")
+    fig.tight_layout(); save(fig, "chart04_multimodel_comparison.png")
 
-    bars = ax2.bar(categories, agreement, color=bar_colors, width=0.5, alpha=0.8)
-    for bar, val in zip(bars, agreement):
-        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1,
-                 f"{val}%", ha="center", va="bottom", fontsize=12, fontweight="bold")
 
-    # Add cost annotation
-    ax2.annotate("Our method: 2 API calls/question\nLlamaIndex: ~10 API calls/question\n→ 5x cheaper, same quality",
+# ======================================================================
+# Chart 5: Ablation Experiments (top_k + structured prompt)
+# ======================================================================
+def chart5():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+    models = ["GPT-4o", "Llama 3.3", "Mistral Small"]
+    faith_k5  = [0.857, 0.500, 0.643]; faith_k10 = [0.857, 0.607, 0.750]
+    corr_k5   = [0.357, 0.357, 0.393]; corr_k10  = [0.464, 0.357, 0.393]
+    x = np.arange(len(models)); w = 0.18
+    b1 = ax1.bar(x - 1.5*w, faith_k5,  w, label="Faith k=5",  color=BLUE,   alpha=0.7)
+    b2 = ax1.bar(x - 0.5*w, faith_k10, w, label="Faith k=10", color=BLUE)
+    b3 = ax1.bar(x + 0.5*w, corr_k5,   w, label="Corr k=5",   color=ORANGE, alpha=0.7)
+    b4 = ax1.bar(x + 1.5*w, corr_k10,  w, label="Corr k=10",  color=ORANGE)
+    for bars in [b1, b2, b3, b4]:
+        for b in bars:
+            h = b.get_height()
+            ax1.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=7.5, fontweight="bold")
+    ax1.set_ylabel("Score"); ax1.set_ylim(0, 1.1)
+    ax1.set_xticks(x); ax1.set_xticklabels(models)
+    ax1.set_title("top_k=5 vs top_k=10\n(rerank, 28 questions, GPT-4o/Llama/Mistral)")
+    ax1.legend(loc="upper right", fontsize=9)
+    ax1.text(0.5, -0.12, "Note: Qwen3 not tested in top_k experiment (added in final eval)",
+             transform=ax1.transAxes, ha="center", fontsize=8, color="#888", style="italic")
+
+    configs = ["Old prompt\nk=5", "Old prompt\nk=10", "Structured\nk=5", "Structured\nk=10"]
+    faith_gpt = [0.857, 0.857, 0.893, 0.929]; corr_gpt = [0.357, 0.464, 0.321, 0.321]
+    xr = np.arange(len(configs)); w2 = 0.3
+    b5 = ax2.bar(xr - w2/2, faith_gpt, w2, label="Faithfulness", color=BLUE)
+    b6 = ax2.bar(xr + w2/2, corr_gpt,  w2, label="Correctness",  color=ORANGE)
+    for bars in [b5, b6]:
+        for b in bars:
+            h = b.get_height()
+            ax2.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=10, fontweight="bold")
+    ax2.annotate("Best faithfulness\nin project (0.929)",
+                 xy=(3 - w2/2, 0.929), xytext=(1.5, 1.02),
+                 arrowprops=dict(arrowstyle="->", color=DARK), fontsize=9, fontweight="bold", color=DARK, ha="center")
+    ax2.set_ylabel("Score"); ax2.set_ylim(0, 1.15)
+    ax2.set_xticks(xr); ax2.set_xticklabels(configs)
+    ax2.set_title("Structured Prompt Experiment\n(GPT-4o + Rerank, 28 questions)")
+    ax2.legend(loc="lower right")
+    ax2.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+    fig.suptitle("Chart 5 - Ablation Experiments: top_k & Structured Prompt", fontsize=13, fontweight="bold")
+    fig.tight_layout(); save(fig, "chart05_experiments.png")
+
+
+# ======================================================================
+# Chart 6: Faithfulness vs Correctness Scatter (live data, all models)
+# ======================================================================
+def chart6():
+    SUMMARY, _ = _load_eval()
+    configs = [
+        ("GPT-4o Baseline",      "baseline",                 "$3/1M",    BLUE,   80),
+        ("GPT-4o + Rerank",      "rag_rerank",               "$3/1M",    BLUE,   200),
+        ("Llama + Rerank",       "llama_rerank",             "$0.10/1M", ORANGE, 180),
+        ("Mistral + Rerank",     "mistral_rerank",           "$0.14/1M", GREEN,  180),
+        ("Qwen3 Base Baseline",  "qwen3_base_baseline",      "local",    PURPLE, 80),
+        ("Qwen3 Base + Rerank",  "qwen3_base_rerank",        "local",    PURPLE, 200),
+        ("Qwen3 FT Baseline",    "qwen3_finetuned_baseline", "local",    PINK,   80),
+        ("Qwen3 FT + Rerank",    "qwen3_finetuned_rerank",   "local",    PINK,   160),
+    ]
+    fig, ax = plt.subplots(figsize=(11, 6.5))
+    for label, key, cost, color, size in configs:
+        faith = SUMMARY[key]["faithfulness_mean"]; corr = SUMMARY[key]["correctness_mean"]
+        ax.scatter(faith, corr, s=size, color=color, edgecolor="white", linewidth=1.5, zorder=5)
+        ax.annotate(f"{label} ({cost})", (faith, corr), textcoords="offset points",
+                    xytext=(10, -4), fontsize=8, ha="left",
+                    bbox=dict(boxstyle="round,pad=0.2", facecolor="#f8f8f8", edgecolor="#ddd"))
+    ax.set_xlabel("Faithfulness (higher = better grounding)")
+    ax.set_ylabel("Correctness (higher = better key-fact recall)")
+    ax.set_title("Chart 6 - All Configurations: Faithfulness vs Correctness\n(89 questions; dot size = larger means RAG enabled)")
+    ax.set_xlim(-0.05, 1.0); ax.set_ylim(0.26, 0.54)
+    ax.axhline(y=0.43, color="#eee", linewidth=0.8); ax.axvline(x=0.5, color="#eee", linewidth=0.8)
+    ax.text(0.85, 0.535, "High faith\nHigh correct", fontsize=8, color="#aaa", ha="center", style="italic")
+    ax.text(0.15, 0.535, "Low faith\nHigh correct",  fontsize=8, color="#aaa", ha="center", style="italic")
+    from matplotlib.lines import Line2D
+    ax.legend(handles=[
+        Line2D([0],[0],marker="o",color="w",markerfacecolor=BLUE,  markersize=10,label="GPT-4o (cloud)"),
+        Line2D([0],[0],marker="o",color="w",markerfacecolor=ORANGE,markersize=10,label="Llama 3.3 70B"),
+        Line2D([0],[0],marker="o",color="w",markerfacecolor=GREEN, markersize=10,label="Mistral Small 24B"),
+        Line2D([0],[0],marker="o",color="w",markerfacecolor=PURPLE,markersize=10,label="Qwen3 4B Base (local)"),
+        Line2D([0],[0],marker="o",color="w",markerfacecolor=PINK,  markersize=10,label="Qwen3 4B FT (local)"),
+    ], loc="upper left", fontsize=8.5)
+    fig.tight_layout(); save(fig, "chart06_best_configs_scatter.png")
+
+
+# ======================================================================
+# Chart 7: Corpus Composition
+# ======================================================================
+def chart7():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    src_labels = ["masslegalhelp.org", "mass.gov", "boston.gov", "bostonhousing.org", "Other"]
+    src_chunks = [422, 228, 162, 59, 96]
+    src_colors = [PINK, DARK, TEAL, PURPLE, ORANGE]
+    w1, t1, at1 = ax1.pie(src_chunks, labels=src_labels, autopct="%1.0f%%",
+        colors=src_colors, startangle=90, textprops={"fontsize": 9.5}, pctdistance=0.78)
+    for at in at1: at.set_fontweight("bold")
+    ax1.set_title("Chunks by Source", fontweight="bold")
+    type_labels = ["Legal Tactics\n(guides)", "Statutes", "FAQ", "Regulations", "Court/Procedural", "Other guides"]
+    type_chunks = [422, 180, 59, 148, 78, 80]
+    type_colors = [BLUE, RED, GREEN, ORANGE, PURPLE, TEAL]
+    w2, t2, at2 = ax2.pie(type_chunks, labels=type_labels, autopct="%1.0f%%",
+        colors=type_colors, startangle=90, textprops={"fontsize": 9.5}, pctdistance=0.78)
+    for at in at2: at.set_fontweight("bold")
+    ax2.set_title("Chunks by Content Type", fontweight="bold")
+    fig.suptitle("Chart 7 - Current Corpus Composition (249 docs, 967 chunks)", fontsize=13, fontweight="bold")
+    fig.tight_layout(); save(fig, "chart07_corpus_composition.png")
+
+
+# ======================================================================
+# Chart 8: Judge Methodology Validation
+# ======================================================================
+def chart8():
+    methods = ["Our Method\n(single-call)", "LlamaIndex-style\n(iterative refine)"]
+    faith = [0.964, 0.964]; relev = [1.000, 1.000]
+    x = np.arange(len(methods)); width = 0.28
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw={"width_ratios": [1.2, 1]})
+    b1 = ax1.bar(x - width/2, faith, width, label="Faithfulness", color=BLUE)
+    b2 = ax1.bar(x + width/2, relev, width, label="Relevancy",    color=GREEN)
+    for bars in [b1, b2]:
+        for b in bars:
+            h = b.get_height()
+            ax1.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=11, fontweight="bold")
+    ax1.set_ylabel("Score"); ax1.set_title("Aggregate Scores")
+    ax1.set_xticks(x); ax1.set_xticklabels(methods, fontsize=10)
+    ax1.set_ylim(0, 1.15); ax1.legend(loc="lower right")
+    ax1.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+    categories = ["Faithfulness\nAgreement", "Relevancy\nAgreement"]; agreement = [93, 100]
+    bars2 = ax2.bar(categories, agreement, color=[BLUE, GREEN], width=0.5, alpha=0.8)
+    for b, val in zip(bars2, agreement):
+        ax2.text(b.get_x()+b.get_width()/2, b.get_height()+1, f"{val}%", ha="center", va="bottom", fontsize=12, fontweight="bold")
+    ax2.annotate("Our method: 2 API calls/question\nLlamaIndex: ~10 API calls/question\n-> 5x cheaper, same quality",
                  xy=(0.5, 50), fontsize=9, ha="center",
                  bbox=dict(boxstyle="round,pad=0.5", facecolor="#f0f8ff", edgecolor=BLUE, alpha=0.8))
-
-    ax2.set_ylabel("Per-Question Agreement (%)")
-    ax2.set_title("Per-Question Agreement")
-    ax2.set_ylim(0, 115)
-
-    fig.suptitle("Chart 12 — Judge Methodology Validation: Custom vs LlamaIndex Evaluators\n(28 questions, GPT-4o structured prompt, Claude Sonnet 4 judge)",
+    ax2.set_ylabel("Per-Question Agreement (%)"); ax2.set_title("Per-Question Agreement"); ax2.set_ylim(0, 115)
+    fig.suptitle("Chart 8 - Judge Methodology Validation: Custom vs LlamaIndex Evaluators\n(28 questions, GPT-4o structured prompt, Claude Sonnet 4 judge)",
                  fontsize=12, fontweight="bold", y=1.04)
-    fig.tight_layout()
-    save(fig, "chart12_judge_methodology.png")
+    fig.tight_layout(); save(fig, "chart08_judge_methodology.png")
 
 
 # ======================================================================
-# Chart 13: Generator-Judge Swap — Cross-Model Heatmaps
+# Chart 9: Negative Results (prompt completeness + self-eval bias)
 # ======================================================================
-def chart13():
-    generators = ["GPT-4o", "Claude S4", "Llama 3.3", "Mistral"]
-    judges = ["Claude S4", "GPT-4o", "Llama 3.3", "Mistral"]
-
-    # Faithfulness matrix [generator x judge] — NaN where not tested
-    faith = np.array([
-        [0.929, 0.964, np.nan, np.nan],   # GPT-4o gen
-        [np.nan, 0.929, 0.893, 0.929],     # Claude S4 gen (Claude self inferred)
-        [0.821, np.nan, 0.929, np.nan],    # Llama gen
-        [0.929, np.nan, np.nan, 0.857],    # Mistral gen
-    ])
-
-    # Correctness matrix [generator x judge]
-    correct = np.array([
-        [0.321, 0.750, np.nan, np.nan],
-        [np.nan, 0.750, 0.357, 0.464],
-        [0.321, np.nan, 0.357, np.nan],
-        [0.357, np.nan, np.nan, 0.286],
-    ])
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
-
-    for ax, data, title, cmap, vmin in [
-        (ax1, faith, "Faithfulness", "Blues", 0.8),
-        (ax2, correct, "Correctness", "Oranges", 0.2),
-    ]:
-        masked = np.ma.masked_invalid(data)
-        im = ax.imshow(masked, cmap=cmap, vmin=vmin, vmax=1.0, aspect="auto")
-
-        ax.set_xticks(range(len(judges)))
-        ax.set_xticklabels(judges, fontsize=10)
-        ax.set_yticks(range(len(generators)))
-        ax.set_yticklabels(generators, fontsize=10)
-        ax.set_xlabel("Judge Model")
-        ax.set_ylabel("Generator Model")
-        ax.set_title(title, fontweight="bold")
-
-        # Annotate cells
-        for i in range(len(generators)):
-            for j in range(len(judges)):
-                val = data[i, j]
-                if not np.isnan(val):
-                    # Bold diagonal (self-judge)
-                    is_self = (generators[i] == judges[j]) or \
-                              (generators[i] == "Claude S4" and judges[j] == "Claude S4")
-                    color = "white" if val > (vmin + (1.0 - vmin) * 0.6) else "black"
-                    ax.text(j, i, f"{val:.3f}",
-                            ha="center", va="center", fontsize=11,
-                            fontweight="bold" if is_self else "normal",
-                            color=color)
-                else:
-                    ax.text(j, i, "—", ha="center", va="center",
-                            fontsize=11, color="#ccc")
-
-        fig.colorbar(im, ax=ax, shrink=0.8)
-
-    fig.suptitle("Chart 13 — Generator-Judge Swap: Cross-Model Evaluation\n"
-                 "(structured prompt + rerank + k=10, 28 questions)",
-                 fontsize=13, fontweight="bold", y=1.04)
-    fig.tight_layout()
-    save(fig, "chart13_generator_judge_swap.png")
-
-
-# ======================================================================
-# Chart 14: Prompt Completeness Experiment (Section 7.16) — Negative Result
-# ======================================================================
-def chart14():
-    questions_changed = [
-        "golden_017", "golden_025", "golden_026",
-        "golden_039", "golden_041", "golden_047", "golden_050", "reddit_q026",
-    ]
+def chart9():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 5.5))
+    questions = ["g017", "g025", "g026", "g039", "g041", "g047", "g050", "r026"]
     base_gen = [0.500, 0.333, 0.333, 0.333, 0.667, 1.000, 1.000, 0.000]
     new_gen  = [1.000, 0.667, 0.667, 0.000, 0.333, 0.500, 0.667, 0.500]
-
-    x = np.arange(len(questions_changed))
-    width = 0.35
-
-    fig, ax = plt.subplots(figsize=(12, 5.5))
-    b1 = ax.bar(x - width/2, base_gen, width, label="Baseline prompt", color=BLUE, alpha=0.8)
-    b2 = ax.bar(x + width/2, new_gen, width, label="Completeness prompt", color=ORANGE, alpha=0.8)
-
-    for bars in [b1, b2]:
-        for bar in bars:
-            h = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, h + 0.02,
-                    f"{h:.2f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
-
-    # Mark improved vs regressed
-    for i in range(len(questions_changed)):
+    x = np.arange(len(questions)); width = 0.35
+    b1 = ax1.bar(x - width/2, base_gen, width, label="Baseline prompt",     color=BLUE,   alpha=0.8)
+    b2 = ax1.bar(x + width/2, new_gen,  width, label="Completeness prompt", color=ORANGE, alpha=0.8)
+    for i in range(len(questions)):
         delta = new_gen[i] - base_gen[i]
-        if delta > 0:
-            ax.annotate("▲", (x[i], 1.08), ha="center", fontsize=10, color=GREEN, fontweight="bold")
-        elif delta < 0:
-            ax.annotate("▼", (x[i], 1.08), ha="center", fontsize=10, color=RED, fontweight="bold")
+        if delta != 0:
+            sym = "^" if delta > 0 else "v"
+            col = GREEN if delta > 0 else RED
+            ax1.annotate(sym, (x[i], 1.08), ha="center", fontsize=10, color=col, fontweight="bold")
+    ax1.set_ylabel("Correctness"); ax1.set_title("Prompt Completeness Experiment\n(8/28 questions changed - net zero effect)")
+    ax1.set_xticks(x); ax1.set_xticklabels(questions, fontsize=8, rotation=30, ha="right")
+    ax1.set_ylim(0, 1.2); ax1.legend(loc="upper right")
+    ax1.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
 
-    ax.set_ylabel("Generation Correctness")
-    ax.set_title("Chart 14 — Prompt Completeness Experiment: Per-Question Deltas\n"
-                 "(only 8/28 questions changed; 4 improved ▲, 4 regressed ▼ — net zero)")
-    ax.set_xticks(x)
-    ax.set_xticklabels(questions_changed, fontsize=8, rotation=30, ha="right")
-    ax.set_ylim(0, 1.2)
-    ax.legend(loc="upper right")
-    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
-    fig.tight_layout()
-    save(fig, "chart14_prompt_completeness.png")
-
-
-# ======================================================================
-# Chart 15: Multi-Model Retrieval-Aware Correctness (Section 7.17)
-# ======================================================================
-def chart15():
-    models = ["GPT-4o", "Mistral Small\n(24B)", "Llama 3.3\n(70B)"]
-    colors = [BLUE, GREEN, ORANGE]
-
-    # Coverage metrics
-    ret_cov =   [0.757, 0.757, 0.743]
-    gen_cov =   [0.554, 0.595, 0.541]
-    gen_ret =   [0.714, 0.768, 0.655]
-
-    # Attribution counts
-    covered =  [40, 43, 36]
-    gen_miss = [16, 13, 19]
-    ret_miss = [17, 17, 15]
-    halluc =   [1, 1, 4]
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
-
-    # Left panel: coverage metrics grouped bars
-    x = np.arange(len(models))
-    width = 0.22
-
-    b1 = ax1.bar(x - width, ret_cov, width, label="Retrieval coverage", color=[c for c in colors], alpha=0.5)
-    b2 = ax1.bar(x, gen_cov, width, label="Generation coverage", color=colors, alpha=0.75)
-    b3 = ax1.bar(x + width, gen_ret, width, label="Gen coverage | retrieved", color=colors)
-
-    for bars in [b1, b2, b3]:
-        for bar in bars:
-            h = bar.get_height()
-            ax1.text(bar.get_x() + bar.get_width()/2, h + 0.01,
-                     f"{h:.3f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
-
-    ax1.set_ylabel("Score")
-    ax1.set_title("Coverage Metrics by Model")
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(models, fontsize=10)
-    ax1.set_ylim(0, 1.05)
-    ax1.legend(fontsize=8.5, loc="lower left")
-
-    # Right panel: stacked bar — fact attribution
-    x2 = np.arange(len(models))
-    width2 = 0.5
-
-    p1 = ax2.bar(x2, covered, width2, label="Covered", color=GREEN, edgecolor="white")
-    p2 = ax2.bar(x2, gen_miss, width2, bottom=covered, label="Generation miss", color=ORANGE, edgecolor="white")
-    bottoms2 = [c + g for c, g in zip(covered, gen_miss)]
-    p3 = ax2.bar(x2, ret_miss, width2, bottom=bottoms2, label="Retrieval miss", color=RED, alpha=0.7, edgecolor="white")
-    bottoms3 = [b + r for b, r in zip(bottoms2, ret_miss)]
-    p4 = ax2.bar(x2, halluc, width2, bottom=bottoms3, label="Hallucinated", color=DARK, edgecolor="white")
-
-    # Add count labels inside bars
+    models = ["GPT-4o", "Llama 3.3", "Mistral Small"]
+    claude_faith = [0.857, 0.500, 0.643]; self_faith = [0.964, 0.929, 0.857]
+    xr = np.arange(len(models)); w2 = 0.3
+    b3 = ax2.bar(xr - w2/2, claude_faith, w2, label="Claude Sonnet 4 judge", color=BLUE)
+    b4 = ax2.bar(xr + w2/2, self_faith,   w2, label="Self-judge",            color=RED, alpha=0.7)
+    for bars in [b3, b4]:
+        for b in bars:
+            h = b.get_height()
+            ax2.text(b.get_x()+b.get_width()/2, h+0.01, f"{h:.3f}", ha="center", va="bottom", fontsize=9, fontweight="bold")
     for i in range(len(models)):
-        # Covered
-        ax2.text(i, covered[i] / 2, str(covered[i]),
-                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
-        # Gen miss
-        ax2.text(i, covered[i] + gen_miss[i] / 2, str(gen_miss[i]),
-                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
-        # Ret miss
-        ax2.text(i, bottoms2[i] + ret_miss[i] / 2, str(ret_miss[i]),
-                 ha="center", va="center", fontsize=11, fontweight="bold", color="white")
-        # Hallucinated (only if > 1 for readability)
-        if halluc[i] > 1:
-            ax2.text(i, bottoms3[i] + halluc[i] / 2, str(halluc[i]),
-                     ha="center", va="center", fontsize=10, fontweight="bold", color="white")
+        delta = self_faith[i] - claude_faith[i]
+        ax2.annotate(f"+{delta:.3f}", (xr[i] + w2/2 + 0.05, (claude_faith[i]+self_faith[i])/2),
+                     fontsize=8, color=RED, fontweight="bold", ha="left")
+    ax2.set_ylabel("Faithfulness"); ax2.set_title("Self-Evaluation Bias\n(Claude vs self-judge, 28 questions)")
+    ax2.set_xticks(xr); ax2.set_xticklabels(models, fontsize=10); ax2.set_ylim(0, 1.15); ax2.legend(fontsize=9)
+    ax2.text(0.5, -0.12, "Note: Qwen3 not tested in self-eval experiment (added in final eval)",
+             transform=ax2.transAxes, ha="center", fontsize=8, color="#888", style="italic")
+    fig.suptitle("Chart 9 - Negative Results & Ablations: Prompt Completeness + Self-Eval Bias", fontsize=13, fontweight="bold")
+    fig.tight_layout(); save(fig, "chart09_negative_results.png")
 
-    ax2.set_ylabel("Number of Facts (out of 74)")
-    ax2.set_title("Fact Attribution by Model")
-    ax2.set_xticks(x2)
-    ax2.set_xticklabels(["GPT-4o", "Mistral\n(24B)", "Llama\n(70B)"], fontsize=10)
-    ax2.set_ylim(0, 82)
-    ax2.legend(loc="upper right", fontsize=9)
 
-    fig.suptitle("Chart 15 — Multi-Model Retrieval-Aware Correctness\n"
-                 "(rerank + k=10 + structured prompt, 28 questions, Claude S4 judge)",
-                 fontsize=13, fontweight="bold", y=1.04)
-    fig.tight_layout()
-    save(fig, "chart15_multimodel_fact_attribution.png")
+# ======================================================================
+# Chart 10: Final Summary - All Models x All Metrics (live data)
+# ======================================================================
+def chart10():
+    SUMMARY, _ = _load_eval()
+    configs = [
+        "GPT-4o\nBaseline", "GPT-4o\n+Rerank",
+        "Llama\n+Rerank",   "Mistral\n+Rerank",
+        "Qwen3 Base\nBaseline", "Qwen3 Base\n+Rerank",
+        "Qwen3 FT\nBaseline",   "Qwen3 FT\n+Rerank",
+    ]
+    keys = ["baseline", "rag_rerank", "llama_rerank", "mistral_rerank",
+            "qwen3_base_baseline", "qwen3_base_rerank",
+            "qwen3_finetuned_baseline", "qwen3_finetuned_rerank"]
+    colors  = [BLUE, BLUE, ORANGE, GREEN, PURPLE, PURPLE, PINK, PINK]
+    hatches = ["", "///", "///", "///", "", "///", "", "///"]
+    faith   = [SUMMARY[k]["faithfulness_mean"] for k in keys]
+    correct = [SUMMARY[k]["correctness_mean"]  for k in keys]
+    relev   = [SUMMARY[k]["relevancy_mean"]    for k in keys]
+
+    x = np.arange(len(configs)); w = 0.22
+    fig, ax = plt.subplots(figsize=(16, 5.5))
+    for i, (f, c, r, col, hat) in enumerate(zip(faith, correct, relev, colors, hatches)):
+        ax.bar(x[i] - w, f, w, color=col,   alpha=0.9, hatch=hat, edgecolor="white")
+        ax.bar(x[i],     r, w, color=GREEN,  alpha=0.5, hatch=hat, edgecolor="white")
+        ax.bar(x[i] + w, c, w, color=ORANGE, alpha=0.9, hatch=hat, edgecolor="white")
+    for i, (f, c) in enumerate(zip(faith, correct)):
+        ax.text(x[i] - w, f + 0.01, f"{f:.2f}", ha="center", va="bottom", fontsize=7.5, fontweight="bold")
+        ax.text(x[i] + w, c + 0.01, f"{c:.2f}", ha="center", va="bottom", fontsize=7.5, fontweight="bold")
+    from matplotlib.patches import Patch
+    ax.legend(handles=[
+        Patch(facecolor=BLUE,   label="GPT-4o (cloud)"),
+        Patch(facecolor=ORANGE, label="Llama 3.3 70B"),
+        Patch(facecolor=GREEN,  label="Mistral Small 24B"),
+        Patch(facecolor=PURPLE, label="Qwen3 4B Base (local)"),
+        Patch(facecolor=PINK,   label="Qwen3 4B FT (local)"),
+        Patch(facecolor="#aaa", hatch="///", label="RAG+Rerank enabled"),
+        Patch(facecolor=BLUE,   alpha=0.5,   label="Left bar = Faithfulness"),
+        Patch(facecolor=GREEN,  alpha=0.5,   label="Mid bar = Relevancy"),
+        Patch(facecolor=ORANGE, alpha=0.9,   label="Right bar = Correctness"),
+    ], fontsize=7.5, loc="upper right", ncol=3)
+    ax.set_ylabel("Score")
+    ax.set_title("Chart 10 - Final Summary: All Models x All Metrics\n(89 questions, Claude Sonnet 4 judge; hatch = RAG+Rerank enabled)")
+    ax.set_xticks(x); ax.set_xticklabels(configs, fontsize=8.5); ax.set_ylim(0, 1.15)
+    ax.axhline(y=1.0, color="#999", linestyle="--", linewidth=0.8, alpha=0.3)
+    fig.tight_layout(); save(fig, "chart10_final_summary.png")
 
 
 # ======================================================================
@@ -775,19 +439,6 @@ def chart15():
 # ======================================================================
 if __name__ == "__main__":
     print("Generating evaluation charts...")
-    chart1()
-    chart2()
-    chart3()
-    chart4()
-    chart5()
-    chart6()
-    chart7()
-    chart8()
-    chart9()
-    chart10()
-    chart11()
-    chart12()
-    chart13()
-    chart14()
-    chart15()
-    print(f"\nAll 15 charts saved to {OUTPUT_DIR}/")
+    chart1(); chart2(); chart3(); chart4(); chart5()
+    chart6(); chart7(); chart8(); chart9(); chart10()
+    print(f"\nAll 10 charts saved to {OUTPUT_DIR}/")
