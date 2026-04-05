@@ -115,6 +115,12 @@ def retrieve_hybrid(
     vector_results = retrieve_vector(query, top_k=pool_k)
     bm25_results = retrieve_bm25(query, top_k=pool_k)
 
+    # Guard against empty results
+    if not vector_results:
+        return bm25_results[:top_k]
+    if not bm25_results:
+        return vector_results[:top_k]
+
     # Normalize vector scores: cosine distance (lower=better) -> similarity (higher=better)
     v_distances = [r["distance"] for r in vector_results]
     v_min, v_max = min(v_distances), max(v_distances)

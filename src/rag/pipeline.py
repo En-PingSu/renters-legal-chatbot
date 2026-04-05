@@ -1,6 +1,29 @@
 """
 RAG pipeline: ChromaDB retrieval + LLM generation with citations.
 Architecture: Query -> ChromaDB (top-k=5) -> Prompt Assembly -> GPT-4o-mini -> Citation Check -> Response
+
+Models available:
+  OpenRouter (cloud):
+    - openai/gpt-4o
+    - meta-llama/llama-3.1-70b-instruct
+    - mistralai/mistral-small-3.1-24b-instruct
+
+  Local llama-server (localhost:8080):
+    - local/qwen3-finetuned   → Fine-Tuneing/finetuned-qwen3-f16.gguf  (domain fine-tuned)
+    - local/qwen3-base        → Fine-Tuneing/Qwen3/  (base instruct, no fine-tune)
+
+  Start local server (finetuned):
+    llama.cpp\build\bin\Release\llama-server.exe \
+      -m Fine-Tuneing\finetuned-qwen3-f16.gguf \
+      -ngl 999 --port 8080 --ctx-size 4096 \
+      --repeat-penalty 1.3 --temp 0.7 --top-p 0.9
+
+  Start local server (base):
+    llama.cpp\build\bin\Release\llama-server.exe \
+      -m Fine-Tuneing\Qwen3\  (needs GGUF — quantize first or use HF transformers)
+      -ngl 999 --port 8081 --ctx-size 4096
+
+  Note: run finetuned on port 8080, base on port 8081 to test both simultaneously.
 """
 
 import json
@@ -18,6 +41,20 @@ load_dotenv()
 CHROMA_DIR = PROJECT_ROOT / "data" / "chroma_db"
 CHUNKS_PATH = PROJECT_ROOT / "data" / "chunks" / "all_chunks.json"
 COLLECTION_NAME = "ma_tenant_law"
+
+# ── Local model config ────────────────────────────────────────────────────────
+LOCAL_MODELS = {
+    "local/qwen3-finetuned": {
+        "base_url": "http://localhost:8080/v1",
+        "model_id": "qwen3-finetuned",
+        "description": "Qwen3 4B fine-tuned on MA tenant law corpus",
+    },
+    "local/qwen3-base": {
+        "base_url": "http://localhost:8081/v1",
+        "model_id": "qwen3-base",
+        "description": "Qwen3 4B base instruct (no fine-tuning)",
+    },
+}
 
 SYSTEM_PROMPT = """You are a retrieval-grounded legal information assistant for Massachusetts tenant law (Boston area).
 
@@ -77,14 +114,12 @@ def index_chunks(chunks: list[dict] | None = None):
     client = get_chroma_client()
     collection = get_or_create_collection(client)
 
-    # Check if already indexed
     existing = collection.count()
     if existing > 0:
         print(f"Collection already has {existing} chunks. Clearing and re-indexing.")
         client.delete_collection(COLLECTION_NAME)
         collection = get_or_create_collection(client)
 
-    # Batch insert (ChromaDB handles embedding via default model)
     batch_size = 100
     for i in range(0, len(chunks), batch_size):
         batch = chunks[i : i + batch_size]
@@ -149,17 +184,11 @@ def generate_response(
     context: str | None = None,
     model: str = "openai/gpt-4o",
 ) -> str:
-    """Generate a response using the LLM via OpenRouter."""
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        raise ValueError("OPENROUTER_API_KEY not set. Add it to .env file.")
-
-    client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
+    """Generate a response using the LLM — routes to local or OpenRouter."""
 
     if context:
         system_msg = SYSTEM_PROMPT.format(context=context, question=question)
     else:
-        # Baseline mode: no retrieval context
         system_msg = (
             "You are a legal information assistant. Answer the following question "
             "about Massachusetts tenant law to the best of your knowledge. "
@@ -167,12 +196,51 @@ def generate_response(
             f"QUESTION: {question}"
         )
 
+    messages = [
+        {"role": "system", "content": system_msg},
+        {"role": "user", "content": question},
+    ]
+
+    # ── Route to local llama-server ───────────────────────────────────────────
+    if model.startswith("local/"):
+        config = LOCAL_MODELS.get(model)
+        if config is None:
+            raise ValueError(
+                f"Unknown local model '{model}'. "
+                f"Available: {list(LOCAL_MODELS.keys())}"
+            )
+        try:
+            client = OpenAI(
+                api_key="not-needed",
+                base_url=config["base_url"],
+                timeout=60.0,
+            )
+            response = client.chat.completions.create(
+                model=config["model_id"],
+                messages=messages,
+                temperature=0.7,
+                max_tokens=1500,
+                extra_body={
+                    "repeat_penalty": 1.3,
+                    "top_p": 0.9,
+                },
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            raise RuntimeError(
+                f"Local model '{model}' unreachable at {config['base_url']}. "
+                f"Is llama-server running? Error: {e}"
+            )
+
+    # ── Route to OpenRouter ───────────────────────────────────────────────────
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise ValueError("OPENROUTER_API_KEY not set. Add it to .env file.")
+
+    client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1", timeout=120.0)
     response = client.chat.completions.create(
         model=model,
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": question},
-        ],
+        messages=messages,
         temperature=0.2,
         max_tokens=1500,
     )
@@ -181,15 +249,11 @@ def generate_response(
 
 def verify_citations(response: str, chunks: list[dict]) -> str:
     """Verify cited sources exist in retrieved chunks. Append sources footer."""
-    source_urls = {chunk["metadata"]["source_url"] for chunk in chunks}
-
-    # Build sources footer
     footer_lines = ["\n\n---\n**Sources:**"]
     for chunk in chunks:
         meta = chunk["metadata"]
         footer_lines.append(f"- [{meta['title']}]({meta['source_url']})")
 
-    # Deduplicate footer lines
     seen = set()
     unique_footer = [footer_lines[0]]
     for line in footer_lines[1:]:
@@ -259,9 +323,22 @@ if __name__ == "__main__":
         index_chunks()
     elif len(sys.argv) > 1 and sys.argv[1] == "sanity":
         sanity_check()
+    elif len(sys.argv) > 1 and sys.argv[1] == "test-local":
+        # Quick test of local models
+        q = "My landlord hasn't returned my security deposit after 30 days. What are my rights?"
+        for m in ["local/qwen3-finetuned", "local/qwen3-base"]:
+            print(f"\n{'='*60}")
+            print(f"Model: {m}")
+            print("="*60)
+            try:
+                result = ask(q, model=m)
+                print(result["response"][:500] + "...")
+            except RuntimeError as e:
+                print(f"ERROR: {e}")
     else:
         # Interactive mode
         print("MA Tenant Law RAG Assistant")
+        print("Models: openai/gpt-4o | local/qwen3-finetuned | local/qwen3-base")
         print("Type 'quit' to exit\n")
         while True:
             q = input("Question: ").strip()
