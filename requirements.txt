@@ -1,25 +1,38 @@
-# Scraping & parsing
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-pdfplumber>=0.10.0
-markdownify>=0.12.0
+# MA Tenant Law Chatbot — requirements.txt
+# Install with: pip install -r requirements.txt
+# NOTE: install unsloth separately (see install_deps.bat) as it needs
+#       a CUDA-version-specific wheel that pip can't resolve automatically.
 
-# RAG pipeline
-chromadb>=0.5.0
-openai>=1.30.0
+# ── Core RAG pipeline ─────────────────────────────────────────────────────
+chromadb
+openai
+python-dotenv
+tiktoken
 
-# LlamaIndex RAG pipeline
-llama-index-core>=0.12.0
-llama-index-llms-openai>=0.4.0
-llama-index-vector-stores-chroma>=0.4.0
-llama-index-embeddings-huggingface>=0.5.0
+# ── Retrieval ─────────────────────────────────────────────────────────────
+rank-bm25
+PyStemmer
 
-# Processing
-tiktoken>=0.7.0
+# ── Embeddings + cross-encoder reranker ──────────────────────────────────
+sentence-transformers
+# torch is pulled in by sentence-transformers; if CUDA version is wrong
+# install manually: pip install torch --index-url https://download.pytorch.org/whl/cu124
 
-# Reddit data collection
-praw>=7.7.0
+# ── Scraping / document processing ───────────────────────────────────────
+requests
+beautifulsoup4
+pdfplumber
+markdownify
 
-# Utilities
-python-dotenv>=1.0.0
-tqdm>=4.66.0
+# ── Evaluation / charts ───────────────────────────────────────────────────
+numpy
+matplotlib
+
+# ── Fine-tuning support libs ──────────────────────────────────────────────
+# unsloth is NOT listed here — install separately, see install_deps.bat
+datasets
+trl
+peft
+accelerate
+bitsandbytes
+transformers
