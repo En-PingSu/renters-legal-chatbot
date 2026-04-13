@@ -60,29 +60,41 @@ def get_chroma_client() -> chromadb.PersistentClient:
     return chromadb.PersistentClient(path=str(CHROMA_DIR))
 
 
-def get_or_create_collection(client: chromadb.PersistentClient) -> chromadb.Collection:
+def get_or_create_collection(
+    client: chromadb.PersistentClient,
+    collection_name: str | None = None,
+    embedding_fn=None,
+) -> chromadb.Collection:
     """Get or create the tenant law collection."""
-    return client.get_or_create_collection(
-        name=COLLECTION_NAME,
-        metadata={"hnsw:space": "cosine"},
-    )
+    kwargs = {
+        "name": collection_name or COLLECTION_NAME,
+        "metadata": {"hnsw:space": "cosine"},
+    }
+    if embedding_fn is not None:
+        kwargs["embedding_function"] = embedding_fn
+    return client.get_or_create_collection(**kwargs)
 
 
-def index_chunks(chunks: list[dict] | None = None):
+def index_chunks(chunks: list[dict] | None = None, embedding_model: str | None = None):
     """Index chunks into ChromaDB. Loads from file if chunks not provided."""
+    from src.rag.embeddings import get_collection_name, get_embedding_function
+
     if chunks is None:
         with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
             chunks = json.load(f)
 
+    embed_fn = get_embedding_function(embedding_model)
+    col_name = get_collection_name(embedding_model)
+
     client = get_chroma_client()
-    collection = get_or_create_collection(client)
+    collection = get_or_create_collection(client, col_name, embed_fn)
 
     # Check if already indexed
     existing = collection.count()
     if existing > 0:
-        print(f"Collection already has {existing} chunks. Clearing and re-indexing.")
-        client.delete_collection(COLLECTION_NAME)
-        collection = get_or_create_collection(client)
+        print(f"Collection '{col_name}' already has {existing} chunks. Clearing and re-indexing.")
+        client.delete_collection(col_name)
+        collection = get_or_create_collection(client, col_name, embed_fn)
 
     # Batch insert (ChromaDB handles embedding via default model)
     batch_size = 100
@@ -104,13 +116,18 @@ def index_chunks(chunks: list[dict] | None = None):
         )
         print(f"  Indexed {min(i + batch_size, len(chunks))}/{len(chunks)} chunks")
 
-    print(f"Done! {collection.count()} chunks in collection '{COLLECTION_NAME}'")
+    print(f"Done! {collection.count()} chunks in collection '{col_name}'")
 
 
 def retrieve(query: str, top_k: int = 5, content_type: str | None = None) -> list[dict]:
     """Retrieve relevant chunks from ChromaDB."""
+    from src.rag.embeddings import get_collection_name, get_embedding_function
+
+    embed_fn = get_embedding_function()
+    col_name = get_collection_name()
+
     client = get_chroma_client()
-    collection = get_or_create_collection(client)
+    collection = get_or_create_collection(client, col_name, embed_fn)
 
     where_filter = None
     if content_type:
@@ -167,16 +184,22 @@ def generate_response(
             f"QUESTION: {question}"
         )
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": question},
-        ],
-        temperature=0.2,
-        max_tokens=1500,
-    )
-    return response.choices[0].message.content
+    import time
+    for attempt in range(3):
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": question},
+            ],
+            temperature=0.2,
+            max_tokens=1500,
+        )
+        if response.choices:
+            return response.choices[0].message.content
+        print(f"  WARNING: Empty response from {model}, retrying ({attempt + 1}/3)...")
+        time.sleep(2)
+    raise RuntimeError(f"Failed to get response from {model} after 3 attempts")
 
 
 def verify_citations(response: str, chunks: list[dict]) -> str:
