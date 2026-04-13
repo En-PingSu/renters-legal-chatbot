@@ -2382,6 +2382,8 @@ Mistral Small 3.1 24B remains the best value cloud option (0.798 faithfulness + 
 
 ### 9.9 Mistral Small 24B Multi-Run Averaging (Judge Variance Analysis)
 
+![Chart 22 — GPT-4o vs Mistral Multi-Run Comparison](figures/chart22_multirun_model_comparison.png)
+
 **Date:** 2026-04-11
 **Config:** Mistral Small 3.1 24B + Rerank, top_k=10, all 89 questions, Claude Sonnet 4 judge
 **Runs:** 3 (matching Section 9.8 methodology for GPT-4o)
@@ -2441,6 +2443,8 @@ To enable direct comparison with the GPT-4o multi-run results (Section 9.8), we 
 
 ### 9.10 Embedding Model Comparison: all-MiniLM-L6-v2 vs BGE-large-en-v1.5
 
+![Chart 20 — Embedding Model Comparison](figures/chart20_embedding_comparison.png)
+
 **Date:** 2026-04-12
 **Config:** 89 QA pairs with ground-truth chunk IDs, top_k=10, vector and rerank retrievers
 **Cost:** $0 (retrieval metrics only, no LLM judge needed)
@@ -2479,3 +2483,69 @@ To enable direct comparison with the GPT-4o multi-run results (Section 9.8), we 
 2. **The rerank retriever attenuates but does not reverse the gap.** The cross-encoder (ms-marco-MiniLM) re-scores candidates based on content, partially compensating for embedding quality differences. But it cannot recover candidates that were never in the initial retrieval pool.
 
 3. **Recommendation:** The current all-MiniLM-L6-v2 embedding model should be retained. Future embedding experiments should prioritize legal-domain models (e.g., legal-bert embeddings or a fine-tuned embedding model on legal text) rather than larger general-purpose models.
+
+---
+
+### 9.11 End-to-End Latency Analysis
+
+![Chart 21 — End-to-End Latency Analysis](figures/chart21_latency_analysis.png)
+
+**Date:** 2026-04-13
+**Config:** Mistral Small 24B via OpenRouter, rerank retriever, top_k=5, streaming SSE
+**Platform:** FastAPI backend + Next.js frontend, local development
+
+**Pipeline stages (question submission to response rendering):**
+
+```
+User submits question (browser)
+  → [1] Frontend POST /api/chat (SSE stream)
+  → [2] Retrieval: ChromaDB vector + BM25 hybrid → cross-encoder rerank
+  → [3] Format context: concatenate top-k chunks into system prompt
+  → [4] OpenRouter API: stream LLM generation (Mistral Small 24B)
+  → [5] SSE tokens stream to frontend, ReactMarkdown renders incrementally
+  → [6] Stream ends: format sections, fix citations, render confidence badge + source cards
+```
+
+**Measured latency breakdown (3 queries, Mistral Small 24B, rerank, top_k=5):**
+
+| Stage | Cold (1st query) | Warm (subsequent) | Notes |
+|-------|-----------------|-------------------|-------|
+| Retrieval (rerank) | ~6s | ~0.2s | Cold start loads cross-encoder model (~1.3GB) |
+| Retrieval (vector only) | ~0.07s | ~0.06s | ChromaDB similarity search |
+| Context formatting | <1ms | <1ms | String concatenation |
+| LLM: time to first token | ~15s | ~15s | Processing ~17,600 char system prompt |
+| LLM: token generation | ~37s | ~37s | ~486 tokens @ 13 tok/s |
+| Frontend rendering | <0.1s | <0.1s | Incremental markdown rendering |
+| **Total end-to-end** | **~58s** | **~52s** | |
+
+**Bottleneck analysis:**
+
+| Component | % of total time | Addressable? |
+|-----------|----------------|-------------|
+| LLM input processing (prompt prefill) | ~25% | Reduce prompt size or use faster model |
+| LLM token generation | ~64% | Use faster model or reduce output length |
+| Cross-encoder cold start | ~10% (first query only) | Pre-warm on server startup |
+| Retrieval (warm) | <1% | Not a bottleneck |
+| Frontend rendering | <1% | Not a bottleneck |
+
+**Key findings:**
+
+1. **The LLM is the dominant bottleneck (~89% of warm latency).** Retrieval and rendering are negligible. The ~15s time-to-first-token means the user sees no response for 15 seconds after submitting, creating a perception of slowness even though streaming begins immediately after prefill.
+
+2. **System prompt size drives prefill time.** The structured prompt with 5 retrieved chunks produces ~17,600 characters of input. Each chunk averages ~2,500 chars (800 tokens × ~3 chars/token). Reducing to top_k=3 would cut the prompt by ~40% and reduce prefill time proportionally.
+
+3. **Structured output format increases token count.** The 5-section response format (Question Understanding, Evidence, Analysis, Final Answer, Confidence) generates ~486 tokens vs an estimated ~200-250 for a direct answer. This doubles generation time but provides the citation trail and reasoning transparency required for a legal information tool.
+
+4. **Cross-encoder cold start is a one-time cost.** The ms-marco-MiniLM-L-6-v2 model loads on the first rerank query (~6s). Subsequent queries take ~0.2s. Pre-warming the model on server startup would eliminate this.
+
+5. **Local models (Qwen3 4B) would eliminate the network round-trip and API queue time** but generate tokens slower on consumer hardware (~5-8 tok/s on RTX 5080 vs ~13 tok/s from OpenRouter). Net latency would be comparable but with zero API cost.
+
+**Potential optimizations (not implemented):**
+
+| Optimization | Expected impact | Trade-off |
+|-------------|----------------|-----------|
+| Pre-warm cross-encoder on startup | Eliminate ~6s cold start | +1.3GB RAM at idle |
+| Reduce top_k from 5 to 3 | ~40% shorter prompt, ~6s faster prefill | May reduce retrieval coverage |
+| Shorter output format (skip Evidence section) | ~30% fewer tokens, ~11s faster | Less transparency in reasoning |
+| Use GPT-4o (faster inference) | ~2-3x faster generation | ~21x higher cost per query |
+| Prompt caching (OpenRouter) | Reduce prefill on repeated system prompt | Only helps if system prompt is stable |
