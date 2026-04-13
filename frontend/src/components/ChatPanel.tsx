@@ -5,6 +5,13 @@ import { ChatConfig, Message, Source, DEFAULT_CONFIG } from "@/lib/types";
 import { sendMessage } from "@/lib/api";
 import MessageBubble from "./MessageBubble";
 
+const EXAMPLE_QUESTIONS = [
+  "Can my landlord keep my security deposit for normal wear and tear?",
+  "What are my rights if my apartment has no heat in winter?",
+  "Can I withhold rent if my landlord won't fix a health code violation?",
+  "How much notice does my landlord need to give before entering my apartment?",
+];
+
 interface ChatPanelProps {
   config: ChatConfig;
 }
@@ -13,6 +20,7 @@ export default function ChatPanel({ config }: ChatPanelProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -24,8 +32,16 @@ export default function ChatPanel({ config }: ChatPanelProps) {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  const handleSubmit = async () => {
-    const question = input.trim();
+  // Auto-resize textarea
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+    }
+  }, [input]);
+
+  const submitQuestion = async (question: string) => {
     if (!question || isStreaming) return;
 
     setInput("");
@@ -82,6 +98,8 @@ export default function ChatPanel({ config }: ChatPanelProps) {
     });
   };
 
+  const handleSubmit = () => submitQuestion(input.trim());
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -91,15 +109,47 @@ export default function ChatPanel({ config }: ChatPanelProps) {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-gray-50">
+      {/* Legal disclaimer banner */}
+      {showDisclaimer && (
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-3 flex items-center justify-between">
+          <p className="text-xs text-amber-800">
+            <span className="font-semibold">Important:</span> This tool provides
+            legal <em>information</em> about Massachusetts tenant law, not legal{" "}
+            <em>advice</em>. For your specific situation, consult a licensed
+            attorney or contact your local legal aid office.
+          </p>
+          <button
+            onClick={() => setShowDisclaimer(false)}
+            className="text-amber-600 hover:text-amber-800 ml-4 shrink-0 text-sm font-medium"
+            aria-label="Dismiss disclaimer"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
         {messages.length === 0 && (
-          <div className="flex items-center justify-center h-full text-gray-400">
-            <div className="text-center">
-              <p className="text-lg font-medium">MA Tenant Law Assistant</p>
-              <p className="text-sm mt-1">
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center max-w-lg">
+              <p className="text-lg font-medium text-gray-700">
+                MA Tenant Law Assistant
+              </p>
+              <p className="text-sm text-gray-400 mt-1 mb-6">
                 Ask a question about Massachusetts tenant rights
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {EXAMPLE_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => submitQuestion(q)}
+                    className="text-left text-sm text-gray-600 bg-white border border-gray-200 rounded-xl px-4 py-3 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -131,7 +181,7 @@ export default function ChatPanel({ config }: ChatPanelProps) {
           </button>
         </div>
         <p className="text-xs text-gray-400 text-center mt-2">
-          Legal information only — not legal advice. Consult an attorney for specific situations.
+          Legal information only — not legal advice. Press Shift+Enter for a new line.
         </p>
       </div>
     </div>
