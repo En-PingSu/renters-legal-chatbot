@@ -20,6 +20,11 @@ tiktoken>=0.7.0
 # Reddit data collection
 praw>=7.7.0
 
+# Web API
+fastapi>=0.115.0
+sse-starlette>=2.0.0
+uvicorn>=0.30.0
+
 # Utilities
 python-dotenv>=1.0.0
 tqdm>=4.66.0
