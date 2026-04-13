@@ -165,7 +165,7 @@ def chart3():
                     f"{h:.2f}", ha="center", va="bottom", fontsize=8.5, fontweight="bold")
 
     ax.set_ylabel("Score")
-    ax.set_title("Chart 3 — Retriever Comparison: Generation Metrics\n(GPT-4o, 80 questions, Claude Sonnet 4 judge)")
+    ax.set_title("Retriever Comparison: Generation Metrics\n(GPT-4o, 80 questions, Claude Sonnet 4 judge)")
     ax.set_xticks(x)
     ax.set_xticklabels(configs)
     ax.set_ylim(0, 1.15)
@@ -238,7 +238,7 @@ def chart5():
                 f"{h:.3f}", ha="center", va="bottom", fontsize=8)
 
     ax.set_ylabel("Score")
-    ax.set_title("Chart 5 — Multi-Model Comparison: All 7 Configurations\n(28 stratified questions, Claude Sonnet 4 judge)")
+    ax.set_title("Multi-Model Comparison: All 7 Configurations\n(28 stratified questions, Claude Sonnet 4 judge)")
     ax.set_xticks(x)
     ax.set_xticklabels(configs, fontsize=9)
     ax.set_ylim(0, 1.1)

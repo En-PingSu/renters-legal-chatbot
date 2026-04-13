@@ -667,7 +667,7 @@ Cross-pipeline verification (5 test queries): Custom vs LlamaIndex parent_child 
 
 ### 7.9 Multi-Model Comparison: All 5 Models (Cloud + Local)
 
-![Chart 4 — Multi-Model Comparison](figures/chart04_multimodel_comparison.png)
+![Chart 4 — Multi-Model Comparison](figures/chart05_multimodel_comparison.png)
 
 **Evaluation setup:**
 - Questions: 28 (Iterations 7–8 stratified sample) + 89 (Iteration 9 full set — see Section 9)
@@ -704,7 +704,7 @@ Cross-pipeline verification (5 test queries): Custom vs LlamaIndex parent_child 
 | `qwen3_finetuned_baseline` | Qwen3 4B FT | 4B | 0.011 | 0.607 | 0.308 | Local |
 | `qwen3_finetuned_rerank` | Qwen3 4B FT | 4B | 0.034 | 0.697 | 0.339 | Local |
 
-![Chart 6 — Best Configurations Scatter](figures/chart06_best_configs_scatter.png)
+![Chart 6 — Best Configurations Scatter](figures/chart10_best_configs.png)
 
 **RAG uplift by model (Iteration 9, 89 questions):**
 
@@ -742,7 +742,7 @@ Cross-pipeline verification (5 test queries): Custom vs LlamaIndex parent_child 
 
 ### 7.10 Self-Evaluation Bias Experiment
 
-![Chart 9 — Negative Results & Ablations](figures/chart09_negative_results.png)
+![Chart 9 — Negative Results & Ablations](figures/chart14_prompt_completeness.png)
 
 **Research question:** Does using the same model as both generator and judge inflate evaluation scores compared to an independent judge?
 
@@ -785,7 +785,7 @@ Cost: $0.76 (total tokens: 710,097)
 
 ### 7.11 Context Window Experiment: top_k=10 vs top_k=5
 
-![Chart 5 — Ablation Experiments](figures/chart05_experiments.png)
+![Chart 8 — Top-k Experiment](figures/chart08_topk_experiment.png)
 
 **Research question:** Does retrieving more chunks (10 vs 5) improve generation quality, or does the extra context introduce noise?
 
@@ -835,7 +835,7 @@ Every cloud model benefits from `top_k=10`:
 
 ### 7.12 Structured Prompt Experiment: Evidence-Before-Answer
 
-![Chart 5 — Ablation Experiments](figures/chart05_experiments.png)
+![Chart 9 — Structured Prompt Experiment](figures/chart09_structured_prompt.png)
 
 **Research question:** Does a structured prompt that forces the model to identify evidence before answering improve faithfulness?
 
@@ -919,7 +919,7 @@ The structured prompt is most impactful for weaker models:
 - **Llama 3.3** improves dramatically (+64%) but still trails at 0.821, suggesting its instruction-following is less suited to structured output.
 - The structured prompt effectively **levels the playing field** between models by providing explicit grounding instructions.
 
-![Chart 6 — Best Configurations Scatter](figures/chart06_best_configs_scatter.png)
+![Chart 6 — Best Configurations Scatter](figures/chart10_best_configs.png)
 
 **Best configuration summary (project-wide, including Iteration 9 final run):**
 
@@ -941,7 +941,7 @@ The structured prompt is most impactful for weaker models:
 
 ### 7.13 Judge Methodology Validation: Custom vs LlamaIndex Evaluators
 
-![Chart 8 — Judge Methodology Validation](figures/chart08_judge_methodology.png)
+![Chart 8 — Judge Methodology Validation](figures/chart12_judge_methodology.png)
 
 **Research question:** Does our simpler single-call judging approach produce different scores than LlamaIndex's built-in evaluators?
 
@@ -1043,7 +1043,7 @@ The 2 faithfulness disagreements cancel out:
 
 ### 7.14 Generator-Judge Swap Experiment: Cross-Model Evaluation
 
-![Chart 9 — Negative Results & Ablations](figures/chart09_negative_results.png)
+![Chart 9 — Negative Results & Ablations](figures/chart14_prompt_completeness.png)
 
 **Research question:** Does swapping the generator and judge roles reveal biases in our evaluation? How does Claude Sonnet 4 perform as a generator, and how do different judge models score the same responses?
 
@@ -1098,7 +1098,7 @@ The 2 faithfulness disagreements cancel out:
 
 **Cost:** $1.39 (Claude gen + GPT-4o judge) + $0.88 (Claude gen + Llama/Mistral judges) = $2.27 total.
 
-![Chart 7 — Corpus Composition](figures/chart07_corpus_composition.png)
+![Chart 7 — Corpus Composition](figures/chart11_corpus_composition.png)
 
 ### 7.15 Retrieval-Aware Correctness: Decomposing Retrieval vs Generation Failures
 
@@ -1231,7 +1231,7 @@ Each fact is then attributed to one of four categories:
 | golden_050 | tenant_rights_general | 1.000 | 0.667 | −0.333 | covered → generation_miss |
 | reddit_q026 | (reddit) | 0.000 | 0.500 | +0.500 | retrieval_miss → hallucinated |
 
-![Chart 9 — Negative Results: Prompt Completeness Panel](figures/chart09_negative_results.png)
+![Chart 9 — Negative Results: Prompt Completeness Panel](figures/chart14_prompt_completeness.png)
 
 **Result: 4 improved, 4 regressed, 20 unchanged. Net effect: zero.**
 
@@ -1255,7 +1255,7 @@ Each fact is then attributed to one of four categories:
 
 **Config:** rerank + k=10 + structured prompt + Claude S4 judge. 28 stratified questions (seed=42).
 
-![Chart 4 — Multi-Model Comparison](figures/chart04_multimodel_comparison.png)
+![Chart 4 — Multi-Model Comparison](figures/chart05_multimodel_comparison.png)
 
 **Aggregate Results:**
 
@@ -2168,7 +2168,7 @@ Both models served via `llama.cppuildin\Release\llama-server.exe`. Context rai
 
 ### 9.3 Retriever Comparison (GPT-4o Fixed, 89 Questions)
 
-![Chart 3 — Retriever Comparison](figures/chart03_retriever_comparison.png)
+![Chart 3 — Retriever Comparison](figures/chart03_retriever_generation.png)
 
 | Config | Faithfulness | Relevancy | Correctness |
 |--------|-------------|-----------|-------------|
@@ -2197,7 +2197,7 @@ Both models served via `llama.cppuildin\Release\llama-server.exe`. Context rai
 
 ### 9.4 Model Comparison (Rerank Retriever Fixed, 89 Questions)
 
-![Chart 4 — Multi-Model Comparison](figures/chart04_multimodel_comparison.png)
+![Chart 4 — Multi-Model Comparison](figures/chart05_multimodel_comparison.png)
 
 | Config | Faithfulness | Relevancy | Correctness |
 |--------|-------------|-----------|-------------|
@@ -2236,7 +2236,7 @@ Both models served via `llama.cppuildin\Release\llama-server.exe`. Context rai
 
 ### 9.5 Best Configurations Summary
 
-![Chart 6 — Best Configurations Scatter](figures/chart06_best_configs_scatter.png)
+![Chart 6 — Best Configurations Scatter](figures/chart10_best_configs.png)
 
 | Config | Faithfulness | Correctness | Cost/1M input | Deployment |
 |--------|-------------|-------------|--------------|------------|
