@@ -13,6 +13,7 @@ Usage:
 """
 
 import json
+import os
 import math
 import random
 from datetime import datetime, timezone
@@ -457,6 +458,7 @@ def run(
 
     output = {
         "config": {
+            "embedding_model": os.getenv("EMBEDDING_MODEL", "default"),
             "gen_model": gen_model,
             "judge_model": judge_model,
             "retriever": retriever_name,

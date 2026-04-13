@@ -2436,3 +2436,46 @@ To enable direct comparison with the GPT-4o multi-run results (Section 9.8), we 
 **Updated production recommendation:** For maximum faithfulness in a legal information tool, GPT-4o + Rerank + k=10 remains the best choice (0.891 faithfulness, ~2 hallucinations). For cost-sensitive deployments with human review, Mistral Small + Rerank + k=10 offers 95% of the faithfulness at 5% of the cost, but users should be aware of the 3x higher hallucination rate.
 
 **Result files:** `data/evaluation/results/retrieval_coverage_20260411_054303.json`, `retrieval_coverage_20260411_213144.json`, `retrieval_coverage_20260411_232123.json`
+
+---
+
+### 9.10 Embedding Model Comparison: all-MiniLM-L6-v2 vs BGE-large-en-v1.5
+
+**Date:** 2026-04-12
+**Config:** 89 QA pairs with ground-truth chunk IDs, top_k=10, vector and rerank retrievers
+**Cost:** $0 (retrieval metrics only, no LLM judge needed)
+
+**Research question:** Does upgrading from ChromaDB's default all-MiniLM-L6-v2 (384-dim) to BGE-large-en-v1.5 (1024-dim) improve retrieval quality?
+
+**Setup:**
+- Indexed 967 chunks into separate ChromaDB collections: `ma_tenant_law` (default) and `ma_tenant_law_bge_large` (BGE-large)
+- Computed chunk-level retrieval metrics using ground-truth source_chunks from golden_qa.json and reddit_questions.json (89 QA pairs)
+- Tested both vector (pure embedding similarity) and rerank (hybrid + cross-encoder) retrievers
+
+**Results (vector retriever, isolates embedding quality):**
+
+| Metric | all-MiniLM-L6-v2 (384d) | BGE-large-en-v1.5 (1024d) | Delta |
+|--------|------------------------|--------------------------|-------|
+| MRR@10 | 0.357 | 0.336 | -0.021 |
+| Hit Rate@10 | 0.573 | 0.562 | -0.011 |
+| Recall@10 | 0.362 | 0.340 | -0.023 |
+| NDCG@10 | 0.295 | 0.267 | -0.028 |
+
+**Results (rerank retriever, downstream pipeline impact):**
+
+| Metric | all-MiniLM-L6-v2 (384d) | BGE-large-en-v1.5 (1024d) | Delta |
+|--------|------------------------|--------------------------|-------|
+| MRR@10 | 0.338 | 0.325 | -0.013 |
+| Hit Rate@10 | 0.562 | 0.539 | -0.023 |
+| Recall@10 | 0.373 | 0.347 | -0.027 |
+| NDCG@10 | 0.298 | 0.278 | -0.020 |
+
+**Conclusion: BGE-large does not improve retrieval for this corpus.** All metrics are slightly worse (-1% to -3%) across both retrievers. The full judge-based evaluation was skipped based on this negative signal — if the embedding model retrieves worse chunks, downstream generation quality cannot improve.
+
+**Analysis:**
+
+1. **Domain specificity matters more than dimensionality.** The 384-dim all-MiniLM-L6-v2 outperforms the 1024-dim BGE-large on this legal corpus. Both are general-purpose models, but the legal domain's specialized vocabulary (statute numbers, legal terms, procedural language) may interact differently with each model's training distribution.
+
+2. **The rerank retriever attenuates but does not reverse the gap.** The cross-encoder (ms-marco-MiniLM) re-scores candidates based on content, partially compensating for embedding quality differences. But it cannot recover candidates that were never in the initial retrieval pool.
+
+3. **Recommendation:** The current all-MiniLM-L6-v2 embedding model should be retained. Future embedding experiments should prioritize legal-domain models (e.g., legal-bert embeddings or a fine-tuned embedding model on legal text) rather than larger general-purpose models.
