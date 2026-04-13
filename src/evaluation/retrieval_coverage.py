@@ -23,6 +23,8 @@ from src.evaluation.scorer import (
     RESULTS_DIR,
     get_openrouter_client,
     judge_correctness,
+    judge_faithfulness,
+    judge_relevancy,
     judge_retrieval_coverage,
     load_eval_questions,
 )
@@ -125,8 +127,14 @@ def run(
     gen_model: str = "openai/gpt-4o",
     retriever_name: str = "rerank",
     top_k: int = 10,
+    use_all_questions: bool = False,
 ):
-    """Run retrieval-aware correctness scoring on fixed stratified questions."""
+    """Run retrieval-aware correctness scoring.
+
+    Args:
+        use_all_questions: If True, use all 89 questions (matching Iteration 9).
+                           If False, use the 37 fixed stratified subset.
+    """
     print("=" * 60)
     print("Retrieval-Aware Correctness Scoring (Section 7.15)")
     print("=" * 60)
@@ -134,9 +142,40 @@ def run(
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     client = get_openrouter_client()
 
-    # Load fixed question set (27 standard + 10 hard)
     all_questions = load_eval_questions_with_topics()
-    questions = load_fixed_questions(all_questions)
+    if use_all_questions:
+        questions = all_questions
+        # Tag difficulty and attach source_chunks for all questions
+        fixed_path = EVAL_DIR / "stratified_questions.json"
+        hard_ids = set()
+        if fixed_path.exists():
+            with open(fixed_path, "r") as f:
+                fixed = json.load(f)
+            hard_ids = set(fixed.get("hard", []))
+        for q in questions:
+            q["difficulty"] = "hard" if q["id"] in hard_ids else "standard"
+
+        # Attach source_chunks
+        source_chunks_map = {}
+        golden_path = EVAL_DIR / "golden_qa.json"
+        if golden_path.exists():
+            with open(golden_path, "r") as f:
+                for item in json.load(f):
+                    source_chunks_map[item["id"]] = item.get("source_chunks", [])
+        reddit_path = EVAL_DIR / "reddit_questions.json"
+        if reddit_path.exists():
+            with open(reddit_path, "r") as f:
+                for item in json.load(f):
+                    qid = f"reddit_{item['id']}" if not item["id"].startswith("reddit_") else item["id"]
+                    source_chunks_map[qid] = item.get("source_chunks", [])
+        for q in questions:
+            q["source_chunk_ids"] = [s["chunk_id"] for s in source_chunks_map.get(q["id"], [])]
+
+        print(f"Using ALL {len(questions)} questions (matching Iteration 9)")
+    else:
+        # Load fixed question set (27 standard + 10 hard)
+        questions = load_fixed_questions(all_questions)
+
     # Keep only questions with key_facts
     questions = [q for q in questions if q.get("key_facts")]
     print(f"Selected {len(questions)} questions with key_facts")
@@ -198,6 +237,15 @@ def run(
             q["question"], response, q["key_facts"], client, judge_model
         )
 
+        # 4b. Judge faithfulness and relevancy
+        print(f"  Judging faithfulness & relevancy...")
+        faith = judge_faithfulness(
+            q["question"], response, retrieved_context, client, judge_model
+        )
+        relev = judge_relevancy(
+            q["question"], response, client, judge_model
+        )
+
         # 5. Per-fact attribution: retrieval miss vs generation miss
         per_fact_attribution = []
         for fi, fact in enumerate(q["key_facts"]):
@@ -231,6 +279,8 @@ def run(
             "generation_correctness": gen_cor["score"],
             "generation_hits": gen_cor["hits"],
             "generation_total": gen_cor["total"],
+            "faithfulness": faith["score"],
+            "relevancy": relev["score"],
             "chunk_metrics": {
                 "hit_rate": q_hit,
                 "mrr": round(q_mrr, 4),
@@ -247,6 +297,7 @@ def run(
               f"({ret_cov['score']:.3f})  "
               f"Generation: {gen_cor['hits']}/{gen_cor['total']} "
               f"({gen_cor['score']:.3f})  "
+              f"Faith: {faith['score']:.0f}  Rel: {relev['score']:.0f}  "
               f"Recall@K: {q_recall:.3f} ({len(q_found) if gt_ids else 0}/{len(gt_ids)})")
 
     # ── Aggregate results ───────────────────────────────────────────────
@@ -274,10 +325,18 @@ def run(
     gen_given_ret = (round(attr_counts["covered"] / retrieved_facts, 3)
                      if retrieved_facts else 0)
 
+    # Faithfulness and relevancy aggregates
+    valid_faith = [r["faithfulness"] for r in results if r["faithfulness"] >= 0]
+    valid_relev = [r["relevancy"] for r in results if r["relevancy"] >= 0]
+    avg_faith = round(sum(valid_faith) / len(valid_faith), 3) if valid_faith else 0
+    avg_relev = round(sum(valid_relev) / len(valid_relev), 3) if valid_relev else 0
+
     print(f"\nTotal facts evaluated: {total_facts}")
     print(f"Retrieval coverage:   {total_ret_hits}/{total_facts} = {ret_coverage:.3f}")
     print(f"Generation coverage:  {total_gen_hits}/{total_facts} = {gen_coverage:.3f}")
     print(f"Gen coverage | retrieved: {attr_counts['covered']}/{retrieved_facts} = {gen_given_ret:.3f}")
+    print(f"Faithfulness:         {sum(1 for f in valid_faith if f == 1.0)}/{len(valid_faith)} = {avg_faith:.3f}")
+    print(f"Relevancy:            {sum(1 for r in valid_relev if r == 1.0)}/{len(valid_relev)} = {avg_relev:.3f}")
     print(f"\nPer-fact attribution:")
     print(f"  Covered (ret+gen):    {attr_counts['covered']}")
     print(f"  Generation miss:      {attr_counts['generation_miss']}")
@@ -409,6 +468,8 @@ def run(
             "retrieval_coverage": ret_coverage,
             "generation_coverage": gen_coverage,
             "generation_coverage_given_retrieval": gen_given_ret,
+            "faithfulness": avg_faith,
+            "relevancy": avg_relev,
             "attribution": attr_counts,
             "chunk_metrics": chunk_metrics_agg,
         },
@@ -425,4 +486,10 @@ def run(
 
 
 if __name__ == "__main__":
-    run()
+    import sys
+    use_all = "--all" in sys.argv
+    model = "openai/gpt-4o"
+    for arg in sys.argv[1:]:
+        if arg.startswith("--model="):
+            model = arg.split("=", 1)[1]
+    run(gen_model=model, use_all_questions=use_all)
