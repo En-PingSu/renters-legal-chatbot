@@ -1,0 +1,4131 @@
+{
+  "config": {
+    "n_runs": 3,
+    "eval_type": "retrieval_coverage"
+  },
+  "run_files": [
+    "retrieval_coverage_20260409_215905.json",
+    "retrieval_coverage_20260409_215909.json",
+    "retrieval_coverage_20260409_215915.json"
+  ],
+  "aggregate": {
+    "retrieval_coverage": {
+      "mean": 0.6797,
+      "std": 0.0046,
+      "ci_95_low": 0.6744,
+      "ci_95_high": 0.6849,
+      "values": [
+        0.677,
+        0.685,
+        0.677
+      ]
+    },
+    "generation_coverage": {
+      "mean": 0.4827,
+      "std": 0.0122,
+      "ci_95_low": 0.4688,
+      "ci_95_high": 0.4965,
+      "values": [
+        0.472,
+        0.496,
+        0.48
+      ]
+    },
+    "generation_coverage_given_retrieval": {
+      "mean": 0.664,
+      "std": 0.0135,
+      "ci_95_low": 0.6487,
+      "ci_95_high": 0.6793,
+      "values": [
+        0.651,
+        0.678,
+        0.663
+      ]
+    },
+    "mrr": {
+      "mean": 0.3135,
+      "std": 0.0,
+      "ci_95_low": 0.3135,
+      "ci_95_high": 0.3135,
+      "values": [
+        0.3135,
+        0.3135,
+        0.3135
+      ]
+    },
+    "hit_rate": {
+      "mean": 0.4865,
+      "std": 0.0,
+      "ci_95_low": 0.4865,
+      "ci_95_high": 0.4865,
+      "values": [
+        0.4865,
+        0.4865,
+        0.4865
+      ]
+    },
+    "recall_at_k": {
+      "mean": 0.3198,
+      "std": 0.0,
+      "ci_95_low": 0.3198,
+      "ci_95_high": 0.3198,
+      "values": [
+        0.3198,
+        0.3198,
+        0.3198
+      ]
+    },
+    "ndcg_at_k": {
+      "mean": 0.2607,
+      "std": 0.0,
+      "ci_95_low": 0.2607,
+      "ci_95_high": 0.2607,
+      "values": [
+        0.2607,
+        0.2607,
+        0.2607
+      ]
+    },
+    "attribution": {
+      "covered": {
+        "mean": 57.3333,
+        "std": 1.5275,
+        "ci_95_low": 55.6048,
+        "ci_95_high": 59.0619,
+        "values": [
+          56.0,
+          59.0,
+          57.0
+        ]
+      },
+      "generation_miss": {
+        "mean": 29.0,
+        "std": 1.0,
+        "ci_95_low": 27.8684,
+        "ci_95_high": 30.1316,
+        "values": [
+          30.0,
+          28.0,
+          29.0
+        ]
+      },
+      "retrieval_miss": {
+        "mean": 36.6667,
+        "std": 0.5774,
+        "ci_95_low": 36.0133,
+        "ci_95_high": 37.32,
+        "values": [
+          37.0,
+          36.0,
+          37.0
+        ]
+      },
+      "hallucinated": {
+        "mean": 4.0,
+        "std": 0.0,
+        "ci_95_low": 4.0,
+        "ci_95_high": 4.0,
+        "values": [
+          4.0,
+          4.0,
+          4.0
+        ]
+      }
+    }
+  },
+  "per_question": [
+    {
+      "question_id": "golden_002",
+      "question": "My landlord stopped paying the electric bill, and I'm worried about losing service. What can I do according to Massachusetts law?",
+      "topic": "repairs_habitability",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "It is an unfair practice for a landlord to fail to provide required gas or electric services.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The landlord must pay gas or electric bills when due to prevent service loss.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Tenants are protected from losing services due to landlord's failure to pay utility bills.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_006",
+      "question": "Can my landlord in Boston legally require me to pay for the cost of repairing normal wear and tear when I move out?",
+      "topic": "security_deposits",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.3333,
+          "std": 0.0,
+          "ci_95_low": 0.3333,
+          "ci_95_high": 0.3333,
+          "values": [
+            0.3333,
+            0.3333,
+            0.3333
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.5706,
+          "std": 0.0,
+          "ci_95_low": 0.5706,
+          "ci_95_high": 0.5706,
+          "values": [
+            0.5706,
+            0.5706,
+            0.5706
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A landlord cannot charge tenants for normal wear and tear repairs.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Deductions are only allowed for unpaid rent, unpaid increase in real estate taxes, and damages beyond normal wear and tear.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "This is specified in M.G.L. c. 186, § 15B.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_007",
+      "question": "Can my landlord in Boston legally turn off my heat during the winter if I'm late on rent?",
+      "topic": "retaliation",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts law requires landlords to provide essential services like heat.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Willfully failing to provide heat is a violation of MGL c.186 s.14.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Violations can lead to fines or imprisonment for the landlord.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_009",
+      "question": "Can my landlord evict me because I reported a health violation to the city?",
+      "topic": "retaliation",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under MGL c.239 s.2A, it is a defense to eviction that the action was taken in reprisal for the tenant reporting code violations or exercising legal rights.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "A landlord cannot evict a tenant by physically removing them or changing the locks; they must go through the court process.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_011",
+      "question": "What steps should I take to prepare for an eviction court hearing in Boston?",
+      "topic": "evictions",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.4443,
+        "std": 0.1928,
+        "ci_95_low": 0.2261,
+        "ci_95_high": 0.6625,
+        "values": [
+          0.333,
+          0.667,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A landlord must file a case in court and obtain a summary process judgment to evict a tenant.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Tenants have the right to respond to an eviction case, present defenses and counterclaims, and bring documents and witnesses to trial.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "If a tenant does not file an answer or appear, the court may enter a default judgment against them.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "covered",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_012",
+      "question": "Can I withhold rent if my apartment in Boston has serious code violations?",
+      "topic": "evictions",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts law allows tenants to withhold rent when there are housing code violations that endanger health or safety.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Under MGL c.239 s.8A, a tenant can claim the difference between the agreed rent and the fair value of the premises with defects.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "The landlord must have knowledge of the conditions and fail to take reasonable steps to correct them.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_016",
+      "question": "Can my landlord increase my rent during a market emergency in Boston?",
+      "topic": "rent_increases",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "940 CMR 3.17 makes it an unfair or deceptive practice for a landlord to rent a unit with conditions that violate law or endanger health and safety.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Landlords are prohibited from failing to maintain dwelling units in compliance with the sanitary code.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "The regulation covers conditions at the inception of tenancy and ongoing maintenance obligations.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_021",
+      "question": "My landlord mentioned my building might have asbestos. What are they required to do about it?",
+      "topic": "repairs_habitability",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.1429,
+          "std": 0.0,
+          "ci_95_low": 0.1429,
+          "ci_95_high": 0.1429,
+          "values": [
+            0.1429,
+            0.1429,
+            0.1429
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.389,
+          "std": 0.0,
+          "ci_95_low": 0.389,
+          "ci_95_high": 0.389,
+          "values": [
+            0.389,
+            0.389,
+            0.389
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under 105 CMR 410.250, the owner shall maintain all asbestos-containing materials in intact condition.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The sanitary code defines asbestos-containing material and requires owners to ensure it does not release fibers.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Occupants must maintain appliances and facilities in sanitary condition and report hazardous conditions to the owner.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_022",
+      "question": "My landlord in Boston is trying to keep my entire security deposit after I accidentally damaged a wall. Is this allowed?",
+      "topic": "security_deposits",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A landlord can only deduct from a security deposit for damage beyond normal wear and tear.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The landlord must provide an itemized list of damages with cost estimates within 30 days after the tenancy ends.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "If the landlord improperly withholds the deposit, the tenant may be entitled to triple damages under MGL c.186 s.15B.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_023",
+      "question": "Can my landlord charge me an exorbitant fee for emergency repairs during a declared state of emergency in Massachusetts?",
+      "topic": "rent_increases",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "940 CMR 3.18 prohibits charging unconscionably high prices during a declared state of emergency.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "A price is unconscionable if there is a gross disparity with pre-emergency prices or other businesses' prices.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "The disparity must not be substantially attributable to increased supplier prices or abnormal market disruptions.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_024",
+      "question": "Can my landlord enter my apartment without my permission in Boston?",
+      "topic": "tenant_rights_general",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.889,
+        "std": 0.1923,
+        "ci_95_low": 0.6714,
+        "ci_95_high": 1.1066,
+        "values": [
+          0.667,
+          1.0,
+          1.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.6131,
+          "std": 0.0,
+          "ci_95_low": 0.6131,
+          "ci_95_high": 0.6131,
+          "values": [
+            0.6131,
+            0.6131,
+            0.6131
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "The landlord should provide at least one day's notice (24 hours) before entering a tenant's apartment.",
+          "majority_vote": "hallucinated",
+          "votes": [
+            "retrieval_miss",
+            "hallucinated",
+            "hallucinated"
+          ]
+        },
+        {
+          "fact": "A landlord may enter to inspect the premises, make repairs, or show the unit to prospective tenants or purchasers.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Unless there is an emergency, the landlord should never enter without advance notice and the tenant's permission.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_027",
+      "question": "Can my landlord shut off my water if I am behind on rent?",
+      "topic": "utilities_heat",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under MGL c.186 s.14, it is unlawful for a landlord to willfully shut off or fail to provide water service.",
+          "majority_vote": "hallucinated",
+          "votes": [
+            "hallucinated",
+            "hallucinated",
+            "hallucinated"
+          ]
+        },
+        {
+          "fact": "Interference with utilities constitutes a violation of the tenant's right to quiet enjoyment.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Tenants can seek damages including three months' rent or actual damages, whichever is greater.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_029",
+      "question": "Can my landlord in Boston deny me housing because of my religion?",
+      "topic": "discrimination",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.889,
+        "std": 0.1923,
+        "ci_95_low": 0.6714,
+        "ci_95_high": 1.1066,
+        "values": [
+          0.667,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "MGL c.151B s.4 prohibits refusing to rent or lease housing because of a person's religious creed.",
+          "majority_vote": "covered",
+          "votes": [
+            "hallucinated",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Unlawful discrimination in housing includes factors such as race, color, religious creed, national origin, sex, and other protected classes.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Violations can be reported to the Massachusetts Commission Against Discrimination (MCAD).",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_031",
+      "question": "Is my landlord required to post any notices about tenant rights in the building?",
+      "topic": "discrimination",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts fair housing law prohibits discrimination in housing based on multiple protected classes.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Landlords of covered housing must comply with fair housing requirements including posting notices.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "The Boston Fair Housing Commission and MCAD enforce anti-discrimination laws in housing.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_033",
+      "question": "I heard Boston has some new rules about affordable housing requirements for developers. Can someone explain what these are?",
+      "topic": "affordable_housing",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Boston's Inclusionary Zoning requires market-rate developments with seven or more units to create income-restricted housing at 15 to 17 percent of units.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Large rental projects must additionally provide 3 percent of units for voucher holders.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Developers may contribute to the Inclusionary Development Policy Fund in lieu of building income-restricted units on site.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_034",
+      "question": "I'm a renter in Boston and my landlord wants to switch my lease to a month-to-month agreement. What are the pros and cons of this change?",
+      "topic": "lease_terms",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A tenancy-at-will agreement offers more flexibility, but a lease offers more security.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "You can offer a tenant a lease, which typically runs for one year, or a verbal or written tenancy-at-will agreement, which runs from month to month.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_036",
+      "question": "I heard my apartment building is being foreclosed. I have a lease with a rental subsidy. What happens to my lease after foreclosure?",
+      "topic": "lease_terms",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.6309,
+          "std": 0.0,
+          "ci_95_low": 0.6309,
+          "ci_95_high": 0.6309,
+          "values": [
+            0.6309,
+            0.6309,
+            0.6309
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "MGL c.186 s.13A states that foreclosure does not affect the tenancy agreement of a tenant whose rental payment is subsidized under state or federal law.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The foreclosing entity must assume the lease and rental subsidy contract.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Your tenancy will be considered as a tenant at will upon foreclosure.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_037",
+      "question": "I'm renting an apartment in Boston with lead paint, and I'm concerned about safety for my child. How can I get help to address this issue?",
+      "topic": "lead_paint",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "The Lead Safe Boston program offers financial help for lead removal in homes.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "The program includes a lead inspection to assess needed work and costs.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Assistance is provided to find a contractor and set up a project timeline.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_039",
+      "question": "I'm renting an apartment in Boston with peeling paint, and I suspect it has lead. How can I address this issue?",
+      "topic": "lead_paint",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "The Lead Safe Boston program helps cover costs for lead removal.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "A lead inspection will determine the extent of work needed.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The program assists in finding a contractor to handle the lead removal project.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_041",
+      "question": "I'm renting an apartment in Boston and my landlord wants me to pay for heat and hot water. Is this allowed?",
+      "topic": "utilities_heat",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.4443,
+        "std": 0.1928,
+        "ci_95_low": 0.2261,
+        "ci_95_high": 0.6625,
+        "values": [
+          0.667,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A tenant can only be required to pay for utilities if there are separate meters for each service charged.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "covered",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "The landlord must pay for heat and hot water unless the tenant has signed a written agreement to pay.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Landlords who pay for heat must provide it between September 15 and May 31.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_043",
+      "question": "Can I ask for a modification to my lease terms due to my disability if I'm struggling to meet certain requirements?",
+      "topic": "public_housing",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.0,
+        "std": 0.0,
+        "ci_95_low": 0.0,
+        "ci_95_high": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "An 'otherwise qualified' individual with a disability can meet program eligibility and requirements with or without a reasonable accommodation.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Clients may request BHA to consider their disability and work with them if they're struggling with program obligations due to their disability.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_045",
+      "question": "I requested a specific accommodation for my disability from the Boston Housing Authority, but they offered me a different one. Can they do that?",
+      "topic": "public_housing",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.6309,
+          "std": 0.0,
+          "ci_95_low": 0.6309,
+          "ci_95_high": 0.6309,
+          "values": [
+            0.6309,
+            0.6309,
+            0.6309
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "If your request is not reasonable, the BHA will propose an accommodation that tries to meet your needs as effectively as possible.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "If your request is reasonable, but there is a less burdensome but equally effective accommodation available, the BHA may offer you that accommodation instead.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_049",
+      "question": "Do I need to have renters insurance as a tenant in Boston?",
+      "topic": "tenant_rights_general",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.778,
+        "std": 0.1923,
+        "ci_95_low": 0.5604,
+        "ci_95_high": 0.9956,
+        "values": [
+          0.667,
+          1.0,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.6309,
+          "std": 0.0,
+          "ci_95_low": 0.6309,
+          "ci_95_high": 0.6309,
+          "values": [
+            0.6309,
+            0.6309,
+            0.6309
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Renters insurance is not legally required in Massachusetts.",
+          "majority_vote": "hallucinated",
+          "votes": [
+            "hallucinated",
+            "hallucinated",
+            "hallucinated"
+          ]
+        },
+        {
+          "fact": "The City of Boston recommends renters insurance to cover damages or losses from fire or other disasters.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "covered",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "The landlord is generally not responsible for fire damage to tenant's belongings absent negligence.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_051",
+      "question": "My landlord never put my $2,000 security deposit in a separate bank account, and now that I've moved out 45 days ago, they still haven't returned it. What legal steps can I take and what damages can I recover?",
+      "topic": "security_deposits",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.9443,
+        "std": 0.0964,
+        "ci_95_low": 0.8352,
+        "ci_95_high": 1.0534,
+        "values": [
+          1.0,
+          1.0,
+          0.833
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.5585,
+          "std": 0.0,
+          "ci_95_low": 0.5585,
+          "ci_95_high": 0.5585,
+          "values": [
+            0.5585,
+            0.5585,
+            0.5585
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Landlord must place security deposit in a separate interest-bearing bank account protected from creditors.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Landlord must return security deposit within 30 days after tenancy ends.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant should send a demand letter first via certified mail, return receipt requested.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "If landlord fails to properly deposit or return, court must award 3 times the security deposit amount.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant can also recover interest, court costs, and attorney's fees.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Can file in Small Claims court for up to $7,000; 3x statutory damages may exceed $7,000.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_052",
+      "question": "I have a 4-year-old child and discovered peeling paint in our pre-1978 apartment. I reported it to my landlord and the Board of Health. Now my landlord served me with an eviction notice. Is this legal, and what can I do?",
+      "topic": "lead_paint",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.8,
+        "std": 0.0,
+        "ci_95_low": 0.8,
+        "ci_95_high": 0.8,
+        "values": [
+          0.8,
+          0.8,
+          0.8
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.7333,
+        "std": 0.1155,
+        "ci_95_low": 0.6027,
+        "ci_95_high": 0.864,
+        "values": [
+          0.6,
+          0.8,
+          0.8
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.3591,
+          "std": 0.0,
+          "ci_95_low": 0.3591,
+          "ci_95_high": 0.3591,
+          "values": [
+            0.3591,
+            0.3591,
+            0.3591
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Massachusetts Lead Law requires landlords to remove or cover lead paint hazards in pre-1978 homes where a child under 6 lives.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Landlord cannot refuse to rent to or evict a tenant because they have children or because of lead paint.",
+          "majority_vote": "covered",
+          "votes": [
+            "generation_miss",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "It is illegal for a landlord to retaliate for reporting a lead paint violation to the Board of Health under M.G.L. c. 186 § 18.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant can raise retaliation as both a defense and counterclaim in eviction proceedings.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "If court finds retaliation, landlord may be ordered to pay 1-3 months' rent in damages.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_053",
+      "question": "My apartment has had no heat since December even though my landlord is responsible for it, and I've told them multiple times in writing. I started withholding rent and now they're trying to evict me for nonpayment. What are my legal rights?",
+      "topic": "repairs_habitability",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.2223,
+        "std": 0.0958,
+        "ci_95_low": 0.1139,
+        "ci_95_high": 0.3308,
+        "values": [
+          0.167,
+          0.167,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.25,
+          "std": 0.0,
+          "ci_95_low": 0.25,
+          "ci_95_high": 0.25,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.2463,
+          "std": 0.0,
+          "ci_95_low": 0.2463,
+          "ci_95_high": 0.2463,
+          "values": [
+            0.2463,
+            0.2463,
+            0.2463
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Landlord must maintain minimum heat of 68°F (7am-11pm) and 64°F (11pm-7am) during heating season (Sept 15 - June 15).",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Failure to maintain habitable conditions after notice is an unfair/deceptive practice under 940 CMR 3.17.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Tenant may withhold rent for serious code violations but should put withheld rent in a separate bank account.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Bad conditions are a defense to nonpayment eviction if conditions violate Sanitary Code and landlord had knowledge.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "A judge can determine fair rental value of the apartment in its defective condition and calculate how much rent is actually owed.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Tenant may also have a counterclaim for damages based on the decreased value of the apartment.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_054",
+      "question": "My landlord is responsible for gas service per our lease, but they stopped paying the bill. The gas company sent a shutoff notice. What are my rights, and can I deduct utility payments from my rent?",
+      "topic": "utilities",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.4,
+        "std": 0.0,
+        "ci_95_low": 0.4,
+        "ci_95_high": 0.4,
+        "values": [
+          0.4,
+          0.4,
+          0.4
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.1333,
+        "std": 0.1155,
+        "ci_95_low": 0.0027,
+        "ci_95_high": 0.264,
+        "values": [
+          0.0,
+          0.2,
+          0.2
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under 940 CMR 3.17, it is an unfair practice for a landlord obligated to provide gas/electric to fail to provide service or expose tenants to risk of loss by failing to pay bills.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Utility company must give tenants at least 30 days' notice before shutting off service when landlord fails to pay.",
+          "majority_vote": "covered",
+          "votes": [
+            "generation_miss",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenants can band together to pay a projected bill to avoid shutoff and deduct those payments from rent.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Tenants are protected from retaliation for withholding rent for utility payments.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Failure to provide utilities violates quiet enjoyment — tenants can win up to 3 months' rent and attorney's fees.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_055",
+      "question": "I came home and found my landlord changed the locks on my apartment. My belongings are still inside. What are my legal options and what damages can I recover?",
+      "topic": "evictions",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.6,
+        "std": 0.0,
+        "ci_95_low": 0.6,
+        "ci_95_high": 0.6,
+        "values": [
+          0.6,
+          0.6,
+          0.6
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.4,
+        "std": 0.0,
+        "ci_95_low": 0.4,
+        "ci_95_high": 0.4,
+        "values": [
+          0.4,
+          0.4,
+          0.4
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "A landlord cannot lock out a tenant or remove belongings without a court order.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Under M.G.L. c. 186 § 15F, tenant can recover 3 months' rent or 3 times actual damages, plus attorney's fees.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Any lease provision waiving the tenant's right to claim constructive eviction is void as against public policy.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Lockout is a violation of quiet enjoyment and can be raised as a defense/counterclaim in eviction.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Willful violation of M.G.L. c. 186 § 14 is an unfair practice under 940 CMR 3.17.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_056",
+      "question": "I'm being evicted for nonpayment of rent. My landlord never gave me a statement of condition when I moved in, never paid me interest on my security deposit, and I never got a receipt. Can I use any of this in court to fight the eviction?",
+      "topic": "security_deposits",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.8,
+        "std": 0.0,
+        "ci_95_low": 0.8,
+        "ci_95_high": 0.8,
+        "values": [
+          0.8,
+          0.8,
+          0.8
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5333,
+        "std": 0.1155,
+        "ci_95_low": 0.4027,
+        "ci_95_high": 0.664,
+        "values": [
+          0.4,
+          0.6,
+          0.6
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.5856,
+          "std": 0.0,
+          "ci_95_low": 0.5856,
+          "ci_95_high": 0.5856,
+          "values": [
+            0.5856,
+            0.5856,
+            0.5856
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "If landlord failed to provide receipt, statement of condition, separate bank account, or yearly interest, tenant has a defense to eviction.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Security deposit violations can be raised as both a defense and a counterclaim in nonpayment evictions.",
+          "majority_vote": "covered",
+          "votes": [
+            "generation_miss",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "As a counterclaim, tenant may be entitled to 3 times the security deposit and interest owed.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "If tenant wins counterclaim but still owes rent, court gives 7 days to pay the difference to keep the apartment.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Landlord cannot claim tenant caused damage if they didn't provide an itemized list within 30 days.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_057",
+      "question": "My building was just foreclosed on by the bank. The new owner says I need to leave within 30 days. I've lived here for 5 years with a lease. What are my rights?",
+      "topic": "evictions",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5,
+        "std": 0.0,
+        "ci_95_low": 0.5,
+        "ci_95_high": 0.5,
+        "values": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under M.G.L. c. 186A, a foreclosing owner can only evict a tenant with just cause (nonpayment, material violation, nuisance, illegal activity, refusal of access).",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "A bona fide lease must be honored — tenant cannot be evicted simply because of foreclosure.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant can request a stay of eviction for up to 6 months (or 12 months if elderly/disabled) if tenancy terminated without fault.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "To get a stay, tenant must show they cannot find suitable alternative housing and have made reasonable effort.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_058",
+      "question": "My landlord told me he doesn't want to rent to families with children and is now trying to evict me after I had a baby. Where can I file a complaint and can I fight the eviction?",
+      "topic": "discrimination",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.75,
+        "std": 0.0,
+        "ci_95_low": 0.75,
+        "ci_95_high": 0.75,
+        "values": [
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.75,
+        "std": 0.0,
+        "ci_95_low": 0.75,
+        "ci_95_high": 0.75,
+        "values": [
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.1667,
+          "std": 0.0,
+          "ci_95_low": 0.1667,
+          "ci_95_high": 0.1667,
+          "values": [
+            0.1667,
+            0.1667,
+            0.1667
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.25,
+          "std": 0.0,
+          "ci_95_low": 0.25,
+          "ci_95_high": 0.25,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.1391,
+          "std": 0.0,
+          "ci_95_low": 0.1391,
+          "ci_95_high": 0.1391,
+          "values": [
+            0.1391,
+            0.1391,
+            0.1391
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "In Boston, it is illegal to discriminate in housing based on family status.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant can file a complaint with Boston Fair Housing and Equity at 617-635-2500 or via online intake form.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Discrimination is a defense and counterclaim in nonpayment, fault, and no-fault eviction proceedings.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Refusing to rent to or evicting someone because they have children is illegal under state and federal fair housing law.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "golden_059",
+      "question": "My landlord has refused to fix a leaking roof and mold problem for 6 months despite my written requests. I've called the Board of Health and they issued a repair order, but my landlord still hasn't fixed it. What court actions can I take?",
+      "topic": "repairs_habitability",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 0.6,
+        "std": 0.0,
+        "ci_95_low": 0.6,
+        "ci_95_high": 0.6,
+        "values": [
+          0.6,
+          0.6,
+          0.6
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.5333,
+        "std": 0.1155,
+        "ci_95_low": 0.4027,
+        "ci_95_high": 0.664,
+        "values": [
+          0.6,
+          0.4,
+          0.6
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Tenant can file a Tenant Petition asking a judge to order landlord to repair Sanitary Code violations.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "A judge can order repairs, appoint a receiver (temporary landlord) to make repairs, or lower rent to fair rental value.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "generation_miss",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Tenant can file a civil complaint seeking money damages for harm suffered from bad conditions.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Failure to repair after notice is an unfair/deceptive practice under 940 CMR 3.17.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Under M.G.L. c. 93A, tenant can recover double or treble damages plus attorney's fees for unfair practices.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "golden_060",
+      "question": "My landlord just told me he's converting our building to condominiums and is raising my rent by 50%. He also said the new condo owner won't be responsible for my security deposit. Is any of this legal?",
+      "topic": "rent_increases",
+      "difficulty": "hard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.6,
+        "std": 0.0,
+        "ci_95_low": 0.6,
+        "ci_95_high": 0.6,
+        "values": [
+          0.6,
+          0.6,
+          0.6
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.3333,
+          "std": 0.0,
+          "ci_95_low": 0.3333,
+          "ci_95_high": 0.3333,
+          "values": [
+            0.3333,
+            0.3333,
+            0.3333
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.4693,
+          "std": 0.0,
+          "ci_95_low": 0.4693,
+          "ci_95_high": 0.4693,
+          "values": [
+            0.4693,
+            0.4693,
+            0.4693
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under condo conversion law, rent cannot increase by more than 10% per year or above the CPI increase, whichever is less.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "If tenant has a lease, landlord cannot change rent until the lease ends (except through a tax escalator clause).",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "When ownership changes, the new owner becomes responsible for last month's rent and security deposit paid to the former landlord.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "This is true even if the former landlord did not transfer the deposit to the new owner.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The owner must have only an 'intent to convert' for tenant protections to apply.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "reddit_q008",
+      "question": "Can I withhold rent if my landlord won't make repairs in Massachusetts?",
+      "topic": "",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.125,
+          "std": 0.0,
+          "ci_95_low": 0.125,
+          "ci_95_high": 0.125,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.25,
+          "std": 0.0,
+          "ci_95_low": 0.25,
+          "ci_95_high": 0.25,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.1232,
+          "std": 0.0,
+          "ci_95_low": 0.1232,
+          "ci_95_high": 0.1232,
+          "values": [
+            0.1232,
+            0.1232,
+            0.1232
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Tenants may withhold rent if the landlord fails to make necessary repairs (Source 1).",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "Consulting a lawyer or legal services is recommended before withholding rent (Source 1).",
+          "majority_vote": "hallucinated",
+          "votes": [
+            "hallucinated",
+            "hallucinated",
+            "hallucinated"
+          ]
+        },
+        {
+          "fact": "Landlords must maintain a habitable living condition, including heating, as per the State Sanitary Code (Source 3).",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "reddit_q014",
+      "question": "What is the eviction process in Massachusetts? How long does it take?",
+      "topic": "",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.3333,
+        "std": 0.3335,
+        "ci_95_low": -0.0441,
+        "ci_95_high": 0.7107,
+        "values": [
+          0.667,
+          0.333,
+          0.0
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.25,
+          "std": 0.0,
+          "ci_95_low": 0.25,
+          "ci_95_high": 0.25,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.3904,
+          "std": 0.0,
+          "ci_95_low": 0.3904,
+          "ci_95_high": 0.3904,
+          "values": [
+            0.3904,
+            0.3904,
+            0.3904
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "The eviction process starts with a notice to quit for non-payment of rent.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "covered",
+            "generation_miss",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "The landlord can file a summary process action in court under MGL c. 239.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "After a court decision, the landlord must wait at least 10 days to obtain an execution for possession.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        }
+      ],
+      "unstable": true
+    },
+    {
+      "question_id": "reddit_q015",
+      "question": "My landlord shut off my hot water to try to get me to move out. What can I do? (MA)",
+      "topic": "",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 0.667,
+        "std": 0.0,
+        "ci_95_low": 0.667,
+        "ci_95_high": 0.667,
+        "values": [
+          0.667,
+          0.667,
+          0.667
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.333,
+        "std": 0.0,
+        "ci_95_low": 0.333,
+        "ci_95_high": 0.333,
+        "values": [
+          0.333,
+          0.333,
+          0.333
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "hit_rate": {
+          "mean": 0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0,
+            0,
+            0
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci_95_low": 0.0,
+          "ci_95_high": 0.0,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "Under MGL c.186 s.14, a landlord cannot willfully shut off or fail to furnish hot water or other required utilities.",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "A tenant can only be required to pay for utilities if there are separate meters for each service.",
+          "majority_vote": "retrieval_miss",
+          "votes": [
+            "retrieval_miss",
+            "retrieval_miss",
+            "retrieval_miss"
+          ]
+        },
+        {
+          "fact": "Landlords who violate the quiet enjoyment statute may be liable for three months' rent or actual damages, whichever is greater.",
+          "majority_vote": "generation_miss",
+          "votes": [
+            "generation_miss",
+            "generation_miss",
+            "generation_miss"
+          ]
+        }
+      ],
+      "unstable": false
+    },
+    {
+      "question_id": "reddit_q019",
+      "question": "My landlord never gave me a statement of condition for my security deposit. Does this matter? (MA)",
+      "topic": "",
+      "difficulty": "standard",
+      "retrieval_coverage": {
+        "mean": 1.0,
+        "std": 0.0,
+        "ci_95_low": 1.0,
+        "ci_95_high": 1.0,
+        "values": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "generation_correctness": {
+        "mean": 0.889,
+        "std": 0.1923,
+        "ci_95_low": 0.6714,
+        "ci_95_high": 1.1066,
+        "values": [
+          1.0,
+          1.0,
+          0.667
+        ]
+      },
+      "chunk_metrics": {
+        "mrr": {
+          "mean": 0.3333,
+          "std": 0.0,
+          "ci_95_low": 0.3333,
+          "ci_95_high": 0.3333,
+          "values": [
+            0.3333,
+            0.3333,
+            0.3333
+          ]
+        },
+        "hit_rate": {
+          "mean": 1,
+          "std": 0.0,
+          "ci_95_low": 1.0,
+          "ci_95_high": 1.0,
+          "values": [
+            1,
+            1,
+            1
+          ]
+        },
+        "recall_at_k": {
+          "mean": 0.5,
+          "std": 0.0,
+          "ci_95_low": 0.5,
+          "ci_95_high": 0.5,
+          "values": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ndcg_at_k": {
+          "mean": 0.308,
+          "std": 0.0,
+          "ci_95_low": 0.308,
+          "ci_95_high": 0.308,
+          "values": [
+            0.308,
+            0.308,
+            0.308
+          ]
+        }
+      },
+      "per_fact_attribution": [
+        {
+          "fact": "The landlord must provide a statement of condition within 10 days of the tenancy start or receipt of the security deposit (Source 1, Source 2).",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        },
+        {
+          "fact": "The statement of condition describes the apartment's condition and any existing damage (Source 1, Source 2).",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "generation_miss"
+          ]
+        },
+        {
+          "fact": "Failure to provide this document could affect claims on the security deposit (Source 1, Source 2).",
+          "majority_vote": "covered",
+          "votes": [
+            "covered",
+            "covered",
+            "covered"
+          ]
+        }
+      ],
+      "unstable": true
+    }
+  ],
+  "n_runs": 3
+}

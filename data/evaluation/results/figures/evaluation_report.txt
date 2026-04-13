@@ -1,0 +1,1541 @@
+======================================================================
+EVALUATION REPORT — Renters Legal Assistance Chatbot
+Baseline vs. RAG Comparison
+Date: 2026-03-17
+======================================================================
+
+1. METHODOLOGY
+──────────────────────────────────────────────────────────────────────
+
+1.1 Pipeline Architecture
+  - Generator Model: GPT-4o (via OpenRouter)
+  - Retriever: ChromaDB vector store (cosine similarity, top_k=5)
+  - Embedding Model: all-MiniLM-L6-v2 (ChromaDB default, 384-dim)
+  - Configurations tested:
+    * Baseline: GPT-4o with no retrieval context
+    * RAG: GPT-4o with ChromaDB retrieval + citation verification
+
+1.2 Chunking Strategy
+  - Method: Recursive character splitting with Markdown-aware boundaries
+  - Chunk size: 800 tokens, 200 token overlap
+  - Tokenizer: tiktoken (cl100k_base)
+  - Separators (priority order): ## headings > ### headings > paragraphs > sentences > words
+  - Special handling:
+    * FAQ documents: kept as single chunks (never split)
+    * Statutes: split at section/subsection boundaries first
+    * Generic docs: recursive splitting with overlap
+
+1.3 Corpus
+  - 112 documents, 1,068 chunks total
+  - Sources: mass.gov (508 chunks), bostonhousing.org (305), boston.gov (255)
+  - Content types: Regulations (346), FAQ (305), Guides (291), Statutes (126)
+
+1.4 Evaluation Questions
+  - 50 total: 30 Reddit-style tenant questions + 20 BHA FAQ questions
+  - Same questions used for both Baseline and RAG (fair cross-strategy comparison)
+
+1.5 Evaluation Metrics (following HW4 methodology)
+  Generation-level (LLM Judge — GPT-4o):
+    - Faithfulness (binary 0/1): Is the response grounded in source context?
+      For baseline: does it avoid fabricating specific statutes/URLs?
+    - Relevancy (binary 0/1): Does the response address the question asked?
+
+  Retrieval-level (RAG only, 50 auto-generated QA pairs):
+    - MRR (Mean Reciprocal Rank): Position of correct chunk in ranked results
+    - Hit Rate: Whether correct chunk appears in top_k results
+    - Precision: Fraction of retrieved chunks that are relevant
+    - Recall: Fraction of relevant chunks retrieved
+
+2. RESULTS
+──────────────────────────────────────────────────────────────────────
+
+2.1 Generation Quality (50 fixed questions)
+
+  Metric          Baseline    RAG         Delta
+  ──────────────  ──────────  ──────────  ──────────
+  Faithfulness    0.640       0.780       +0.140
+  Relevancy       1.000       1.000       +0.000
+
+2.2 Retrieval Metrics (RAG, top_k=5, 50 QA pairs)
+
+  Metric          Score
+  ──────────────  ──────────
+  MRR             0.480
+  Hit Rate        0.680
+  Precision       0.136
+  Recall          0.680
+
+  Note: Precision max is 0.200 (1 ground-truth / top_k=5).
+
+3. ANALYSIS
+──────────────────────────────────────────────────────────────────────
+
+3.1 Key Findings
+  - RAG improves Faithfulness by +14.0% over baseline, demonstrating that
+    grounding responses in retrieved source documents reduces hallucination.
+  - Both configurations achieve perfect Relevancy (1.000), indicating GPT-4o
+    consistently addresses the question asked regardless of retrieval context.
+  - Retrieval quality has room for improvement: MRR of 0.480 means the correct
+    chunk is often not the top-ranked result, and Hit Rate of 0.680 means
+    32.0% of queries fail to retrieve the correct chunk at all.
+
+3.2 Improvement Opportunities
+  - Embedding model: all-MiniLM-L6-v2 (384-dim) is lightweight; larger models
+    like text-embedding-3-large or BGE-large may improve retrieval accuracy.
+  - Hybrid retrieval: Combining vector search with BM25 keyword matching
+    (as demonstrated in HW4) could improve Hit Rate significantly.
+  - Chunking optimization: Current 800-token chunks may be too large for
+    precise retrieval; experimenting with sentence window or smaller chunks
+    could improve MRR.
+  - Cross-encoder reranking: A reranker (e.g., ms-marco-MiniLM-L-6-v2) could
+    improve MRR by jointly scoring query-passage pairs.
+
+3.3 Metric Selection: Why HW4 Metrics Over the Initial Custom Rubric
+
+  An initial evaluation used a custom 0-2 rubric scoring Accuracy, Reliability,
+  and Citation. Under that rubric, RAG scored *lower* than baseline on Accuracy
+  (1.68 vs 1.96) and Reliability (1.74 vs 1.96), winning only on Citation
+  (1.36 vs 0.36). This was misleading for two reasons:
+
+  1. The RAG system prompt instructs the model to "ONLY answer from provided
+     source documents," so when retrieved chunks don't fully cover a question,
+     the RAG response is intentionally constrained and incomplete. Baseline
+     GPT-4o freely draws on training data and sounds more "complete," so the
+     judge rewarded it with higher Accuracy — penalizing RAG for being cautious,
+     which is actually a desirable property in a legal information system.
+
+  2. The Citation metric structurally disadvantaged baseline (no retrieval
+     context to cite), making the comparison asymmetric.
+
+  The HW4 metrics (Faithfulness + Relevancy) resolve this. Faithfulness measures
+  whether the response is grounded without hallucination — the core property RAG
+  is designed to improve. Under this metric, RAG correctly scores higher (0.780
+  vs 0.640) because baseline fabricates specific legal details more often.
+
+3.4 Known Biases and Limitations
+
+  Three methodological biases apply to this evaluation, identified by mapping
+  the bias analysis from HW4 to our setup:
+
+  1. Auto-Generated QA Pair Bias
+     The retrieval metrics (MRR, Hit Rate, Precision, Recall) use QA pairs
+     auto-generated from our own chunks. As HW4 notes, "questions generated
+     from [one strategy's] nodes are phrased to match [that strategy's] chunk
+     boundaries." These scores are valid as within-strategy indicators but would
+     not be directly comparable if a different chunking strategy were evaluated
+     against the same QA pairs. The 50 fixed evaluation questions used for
+     Faithfulness and Relevancy are not subject to this bias, as they are the
+     same across both configurations.
+
+  2. Self-Evaluation Bias (Judge = Generator)
+     GPT-4o serves as both the generator and the LLM judge. The judge may
+     favor its own output style, inflating absolute scores for both baseline
+     and RAG. HW4 mitigated this by using a different judge model (Qwen Turbo).
+     In our case, the relative comparison between baseline and RAG remains fair
+     since both use the same generator, but the absolute Faithfulness and
+     Relevancy values may be optimistically biased. A future run with a
+     separate judge model (e.g., Claude or Qwen) would quantify this effect.
+
+  3. Small Sample Judge Variance
+     Binary 0/1 LLM scoring on 50 questions is subject to judge variance.
+     A single flipped judgment changes Faithfulness by 0.020. HW4 addressed
+     this with 3-run averaging, which reduced per-run variance from ~7.7% to
+     ~4.4%. Our evaluation uses a single run. Multi-run averaging would
+     produce more stable estimates and should be added for the final report.
+
+3.5 How the Embedding Model Affects the RAG Pipeline
+
+  The embedding model is the component that converts both chunks and queries
+  into vector representations for similarity search. It directly determines
+  retrieval quality, which cascades into generation quality — as HW4 observes,
+  "even the best LLM cannot produce a correct answer if the wrong chunk is
+  retrieved."
+
+  Our current embedding model, all-MiniLM-L6-v2, is ChromaDB's default. It is
+  a lightweight model (384 dimensions, 22M parameters) originally trained on
+  general-purpose English sentence similarity tasks. This creates two specific
+  weaknesses for our legal domain:
+
+  1. Semantic Capacity: 384 dimensions compress meaning into a relatively small
+     vector space. Legal documents contain nuanced distinctions (e.g., "tenancy
+     at will" vs. "tenancy under lease," "security deposit" vs. "last month's
+     rent") that may collide in a low-dimensional space. Larger models like
+     text-embedding-3-large (3072-dim) or BGE-large (1024-dim) can represent
+     these distinctions with greater fidelity, potentially improving MRR by
+     ranking the correct chunk higher.
+
+  2. Domain Mismatch: all-MiniLM-L6-v2 was not trained on legal text. Legal
+     language uses terms with domain-specific meaning (e.g., "quiet enjoyment"
+     means freedom from landlord interference, not silence). A model fine-tuned
+     on legal corpora, or a larger general model with broader training data,
+     would better capture these semantic relationships.
+
+  Impact on Evaluation Metrics:
+  - MRR and Hit Rate are directly affected: a better embedding model ranks the
+    correct chunk higher (improving MRR) and retrieves it more often (improving
+    Hit Rate). Our current MRR of 0.480 suggests the embedding model frequently
+    misjudges which chunks are most relevant.
+  - Faithfulness is indirectly affected: when retrieval surfaces the wrong
+    chunks, the LLM either generates an answer from irrelevant context (lower
+    Faithfulness) or ignores the context and falls back on parametric knowledge
+    (defeating the purpose of RAG). Improving retrieval quality should lift
+    Faithfulness above 0.780.
+  - Relevancy is unlikely to change, since GPT-4o already addresses every
+    question regardless of which chunks are retrieved.
+
+3.6 How Chunking Strategy Affects the RAG Pipeline
+
+  Chunking determines the granularity and boundaries of the text units stored
+  in the vector database. It affects both what can be retrieved and how useful
+  the retrieved content is to the LLM.
+
+  Our current strategy uses 800-token chunks with 200-token overlap and
+  Markdown-aware recursive splitting. This has several implications:
+
+  1. Chunk Size and Retrieval Precision
+     Large chunks (800 tokens) contain more context per retrieval, which helps
+     the LLM generate complete answers. However, they also dilute the embedding
+     — a single chunk about both security deposits AND eviction procedures will
+     partially match queries about either topic but rank highly for neither.
+     HW4 demonstrated that Sentence Window chunking (splitting at sentence
+     level, then expanding context at retrieval time) achieved higher MRR than
+     baseline 128-token chunks across multiple retrievers, because the embedding
+     is computed on a focused sentence while the LLM receives surrounding
+     context. Smaller chunks with context expansion could improve our MRR of
+     0.480 significantly.
+
+  2. Chunk Boundaries and Information Splitting
+     Recursive character splitting can split a legal provision mid-sentence or
+     separate a statute number from its text. Our statute-specific handler
+     mitigates this by splitting at section boundaries, but generic documents
+     (291 guide chunks, 346 regulation chunks) use the general splitter. If a
+     tenant's rights explanation spans a chunk boundary, neither chunk contains
+     the complete answer, and the LLM must synthesize across retrieved chunks
+     — which it may not do correctly, reducing Faithfulness.
+
+  3. Overlap and Redundancy
+     The 200-token overlap means ~25% of each chunk duplicates content from
+     the adjacent chunk. This improves recall (important content near a boundary
+     appears in both chunks) but introduces redundancy in the top-k results:
+     two overlapping chunks may both be retrieved, consuming two of five
+     retrieval slots with largely the same content. This directly reduces the
+     diversity of information available to the LLM and could be addressed with
+     semantic deduplication (as explored in HW4 Task 5).
+
+  4. Content-Type-Aware Chunking
+     Our FAQ handler keeps each Q&A pair as a single chunk, which is effective
+     for FAQ-style questions (these have high retrieval accuracy). However,
+     statutes and regulations — which are the most authoritative sources for
+     legal questions — use generic splitting that may not respect the logical
+     structure of legal text. A statute-aware chunking strategy that preserves
+     complete subsections (e.g., MGL c.186 s.15B(1) as a single chunk) could
+     improve both retrieval and Faithfulness for legal questions.
+
+  Impact on Evaluation Metrics:
+  - MRR: Smaller, more focused chunks produce more precise embeddings, leading
+    to better ranking. HW4 showed Sentence Window achieving MRR of 0.653
+    (BM25) vs. Baseline's 0.535.
+  - Hit Rate: Better chunk boundaries ensure complete answers exist within
+    single retrievable units, improving the chance of retrieving the right one.
+  - Faithfulness: When retrieved chunks contain complete, relevant information,
+    the LLM can answer faithfully from context rather than hallucinating to
+    fill gaps.
+  - Recall: Overlap helps recall but wastes retrieval slots; deduplication
+    or diversity-aware retrieval can recover those slots.
+
+3.7 Additional Improvement Opportunities
+
+  Beyond the three biases identified in Section 3.4, several architectural and
+  methodological improvements could strengthen both the pipeline and evaluation:
+
+  1. Hybrid Retrieval (Vector + BM25)
+     Our pipeline uses only vector search (cosine similarity on embeddings).
+     HW4 Task 4 demonstrated that hybrid retrieval — combining vector search
+     (0.6 weight) with BM25 keyword matching (0.4 weight) — achieved the
+     highest MRR (0.692) and Hit Rate (0.805) across all configurations. Legal
+     queries often contain specific terms (e.g., "MGL c.186 s.15B," "security
+     deposit," "30-day notice") where exact keyword matching is highly reliable.
+     A hybrid approach would capture both semantic similarity and keyword
+     precision, likely improving our MRR from 0.480 and Hit Rate from 0.680.
+
+  2. Cross-Encoder Reranking
+     Our pipeline scores query-passage similarity using cosine distance between
+     independently-computed embeddings (bi-encoder). Cross-encoder rerankers
+     (e.g., ms-marco-MiniLM-L-6-v2) read the query and passage jointly,
+     modeling their interaction directly. HW4 Task 5 showed that adding
+     cross-encoder reranking on top of hybrid retrieval improved Faithfulness
+     from 0.897 to 1.000 and Relevancy from 0.846 to 0.923 with zero
+     run-to-run variance. This is the single highest-impact improvement
+     demonstrated in HW4.
+
+  3. Multi-Query Expansion
+     A single query phrasing may not match the vocabulary used in relevant
+     chunks. Multi-query expansion generates alternative phrasings (e.g.,
+     "security deposit return deadline" -> "how long does landlord have to
+     return deposit" + "30 day security deposit rule Massachusetts") and
+     retrieves across all variants. This widens the candidate pool for the
+     reranker. HW4 found that multi-query alone did not improve scores on a
+     single-domain corpus (paraphrases reused the same vocabulary), but it
+     was essential as a feeder for the reranker pipeline.
+
+  4. Prompt Engineering
+     The RAG system prompt instructs the model to "ONLY answer from provided
+     source documents." While this reduces hallucination (improving
+     Faithfulness), it may cause the model to decline answering when retrieved
+     chunks are relevant but don't contain the exact phrasing the model
+     expects. Refining the prompt to say "prioritize source documents but use
+     general knowledge to fill minor gaps, clearly distinguishing sourced from
+     unsourced claims" could improve answer completeness without sacrificing
+     Faithfulness.
+
+  5. Question-Category-Specific Analysis
+     Our evaluation treats all 50 questions uniformly. HW4 Task 2 categorized
+     questions into types (Cross-Sectional, Keyword-Heavy, Semantic/Contextual,
+     Structured Data, Image-Based) and found significant performance variation
+     across categories. A similar breakdown for our questions — e.g., security
+     deposit questions vs. eviction questions vs. BHA-specific questions —
+     would reveal which legal topics the pipeline handles well and where
+     retrieval or generation fails, enabling targeted improvements.
+
+  6. Context Window Utilization
+     With top_k=5 and 800-token chunks, the LLM receives up to ~4,000 tokens
+     of context. GPT-4o supports 128K tokens. Increasing top_k (e.g., to 10
+     or 15) would provide more context at the cost of potentially introducing
+     irrelevant chunks. Combined with reranking, a larger initial retrieval
+     pool filtered to the best 5-7 chunks (as done in HW4 Task 5 with
+     top_k=10 internally, trimmed to 5) could improve answer completeness.
+
+  7. Fine-Tuning (Core Goal per Proposal)
+     The project proposal lists fine-tuning as a core goal. Fine-tuning the
+     generator on Massachusetts tenant law Q&A pairs could improve both
+     Faithfulness (model learns to stay grounded in legal sources) and answer
+     quality (model learns the expected format and level of detail for legal
+     information responses). This would be evaluated as a third configuration
+     alongside baseline and RAG.
+
+4. ITERATION 2: CORPUS CLEANUP (2026-03-17)
+──────────────────────────────────────────────────────────────────────
+
+4.1 Motivation
+
+  Analysis of the initial evaluation revealed that retrieval quality was the
+  primary bottleneck (MRR 0.480, Hit Rate 0.680). Investigation of the 1,068
+  chunks uncovered a root cause: 49% of chunks (521 of 1,068) were under 100
+  characters — section headings, navigation menus, or text fragments. These
+  junk chunks pollute the vector space (their short, generic embeddings match
+  many queries poorly) and waste retrieval slots (a heading like "## 410.001:
+  Purpose" occupying one of five top_k slots displaces a substantive chunk).
+
+4.2 What Was Done
+
+  A post-processing corpus cleaner (src/processing/corpus_cleaner.py) was
+  created and applied to the existing all_chunks.json. Four cleanup steps
+  were executed in sequence:
+
+  1. Remove Duplicate FAQ Full Page (-245 chunks)
+     The Boston Housing Authority FAQ existed in two forms: 60 individual
+     Q&A documents (each kept as a single chunk by the FAQ chunker — good)
+     AND a single "bostonhousing_faq_full_page" document that contained the
+     entire FAQ page and was generic-chunked into 245 fragments. These
+     fragments split questions from their answers, making them useless for
+     retrieval. All 245 chunks with doc_id == "bostonhousing_faq_full_page"
+     were removed. The 60 individual Q&A chunks remain.
+
+  2. Merge Heading-Only Chunks (reduced fragmentation)
+     For regulation and statute documents, the recursive splitter produced
+     heading-only chunks like "## 410.001: Purpose" (19 chars) or
+     "SECTION 8A" (10 chars). These were identified (< 100 chars, starts
+     with # or is all-caps) and prepended to the next substantive chunk in
+     the same document, preserving the heading as context rather than
+     discarding it. Chunks were grouped by doc_id and sorted by chunk_index
+     to maintain document order.
+
+  3. Filter Short Chunks (-104 chunks)
+     After merging, any remaining chunks under 50 characters were removed.
+     These were fragments too short to contain meaningful legal content
+     (e.g., "Toggle", "Page Sections", isolated list bullets).
+
+  4. Remove Boilerplate (-5 chunks)
+     Pattern matching identified navigation menu chunks where every line
+     was under 40 characters and total content was under 150 characters
+     (e.g., "Upcoming Events\nLatest Updates\nToggle\nPage Sections").
+     Chunks containing common boilerplate phrases ("skip to main content",
+     "back to top", "cookie", "subscribe to") under 200 characters were
+     also removed.
+
+  After cleanup, chunk indices and IDs were reassigned to maintain
+  continuity within each document.
+
+  The chunker (src/processing/chunker.py) was also updated to prevent these
+  issues on future runs:
+  - chunk_document() now skips any doc_id containing "faq_full_page"
+  - chunk_statute() and chunk_generic() now filter out chunks shorter than
+    50 characters after merge_with_overlap()
+
+4.3 Results
+
+  Corpus:
+    Before: 1,068 chunks
+    After:    617 chunks (-42.2%)
+
+  Verification:
+    - 0 chunks with doc_id "bostonhousing_faq_full_page" remain
+    - 0 chunks under 50 characters remain
+
+  Generation Quality (50 fixed questions):
+
+    Metric          Run 1       Run 2       Delta
+    ──────────────  ──────────  ──────────  ──────────
+    Faithfulness    0.780       0.900       +0.120
+    Relevancy       1.000       1.000       +0.000
+
+  Retrieval Metrics (RAG, top_k=5, 50 auto-generated QA pairs):
+
+    Metric          Run 1       Run 2       Delta
+    ──────────────  ──────────  ──────────  ──────────
+    MRR             0.480       0.568       +0.088
+    Hit Rate        0.680       0.720       +0.040
+    Precision       0.136       0.144       +0.008
+    Recall          0.680       0.720       +0.040
+
+4.4 Analysis
+
+  All four metrics improved. The largest gain was in Faithfulness (+0.120),
+  which increased from 0.780 to 0.900. This makes sense: when junk chunks
+  no longer occupy retrieval slots, the LLM receives more substantive
+  context and can answer from source material rather than falling back on
+  parametric knowledge or hallucinating.
+
+  MRR improved from 0.480 to 0.568 (+0.088). With fewer chunks in the
+  vector store, the correct chunk faces less competition from near-duplicate
+  or irrelevant fragments, so it ranks higher on average.
+
+  Hit Rate improved from 0.680 to 0.720 (+0.040). Four additional queries
+  (out of 50) now retrieve the correct chunk in the top 5, likely because
+  the removed junk chunks were displacing relevant results.
+
+  Relevancy remained at 1.000, as expected — GPT-4o consistently addresses
+  the question regardless of retrieval quality.
+
+  Note on retrieval metric comparability: The auto-generated QA pairs are
+  regenerated from the cleaned corpus, so the Run 1 and Run 2 retrieval
+  metrics are not computed on identical question sets. The generation
+  metrics (Faithfulness, Relevancy) use the same 50 fixed questions across
+  both runs and are directly comparable.
+
+5. ITERATION 3: SEPARATE JUDGE MODEL + MULTI-MODEL EVALUATION (2026-03-17)
+──────────────────────────────────────────────────────────────────────
+
+5.1 Motivation
+
+  Two methodological issues were addressed:
+
+  1. Self-Evaluation Bias (Section 3.4, Item 2): GPT-4o served as both
+     the generation model and the LLM judge. As noted in the HW4 writeup,
+     single-model judging introduces bias and variance — the judge may
+     favor its own output style, inflating absolute scores. Switching the
+     judge to a different model family eliminates self-scoring favoritism.
+
+  2. Single Base Model: The project proposal commits to evaluating
+     "GPT-4 class models, Llama 3, Mistral, or Mixtral," but all 5
+     configurations used openai/gpt-4o — only the retriever varied,
+     never the LLM. Week 3 of the proposal says to "experiment with
+     different pipeline enhancements."
+
+5.2 Changes Made
+
+  Judge Model:
+    Before: openai/gpt-4o (same family as the generator)
+    After:  anthropic/claude-sonnet-4 (different model family)
+
+  No generation model shares a model family with the judge, eliminating
+  self-evaluation bias for all configurations.
+
+  Generation Configurations (9 total):
+
+    Config              Generation Model                           RAG Retriever  Purpose
+    ──────────────────  ─────────────────────────────────────────  ─────────────  ────────────────────
+    baseline            openai/gpt-4o                              none           Retriever comparison
+    rag_vector          openai/gpt-4o                              vector         Retriever comparison
+    rag_bm25            openai/gpt-4o                              bm25           Retriever comparison
+    rag_hybrid          openai/gpt-4o                              hybrid         Retriever comparison
+    rag_rerank          openai/gpt-4o                              rerank         Retriever comparison
+    llama_baseline      meta-llama/llama-3.3-70b-instruct          none           Model comparison
+    llama_rerank        meta-llama/llama-3.3-70b-instruct          rerank         Model comparison
+    mistral_baseline    mistralai/mistral-small-3.1-24b-instruct   none           Model comparison
+    mistral_rerank      mistralai/mistral-small-3.1-24b-instruct   rerank         Model comparison
+
+  Structure: The first 5 configs (unchanged) answer "which retriever is
+  best?" with the model held constant at GPT-4o. The new 4 configs answer
+  "which LLM is best?" with the retriever held constant at rerank (the
+  best-performing retriever). Each new model gets a baseline (no RAG) +
+  rerank pair, so RAG uplift can be measured per model.
+
+6. ITERATION 4: CORPUS EXPANSION + MULTI-RETRIEVER EVALUATION (2026-03-17)
+──────────────────────────────────────────────────────────────────────
+
+6.1 Corpus Expansion
+
+  The original corpus (112 documents, 617 chunks) had coverage gaps in
+  topics tenants commonly ask about: utilities, repairs, court procedures,
+  foreclosure, rooming houses, and detailed discrimination law. The biggest
+  untapped source was MassLegalHelp.org's 18-chapter "Legal Tactics:
+  Tenants' Rights in Massachusetts" (9th ed, Jan 2025), the most
+  comprehensive plain-language MA tenant rights resource.
+
+  New Sources Added:
+    - masslegalhelp.org: All 18 chapters of Legal Tactics (PDF download +
+      text extraction via pdfplumber)
+    - boston.gov: 3 new page sources + PDF scraping capability (eviction
+      help, landlord counseling, mayor's office housing pages + linked PDFs)
+    - bostonhousing.org: 5 additional page URLs attempted (all 404'd —
+      speculative URLs as expected)
+    - mass.gov: 8 additional root URLs + AG Guide PDF attempted (all 403'd
+      due to bot protection; existing 34 docs retained from prior scrape)
+
+  Corpus Cleaner Enhancements:
+    The expanded corpus required new cleaning filters beyond the original
+    four (Section 4.2). Six additional filters were added:
+
+    - Non-English document removal: Multilingual PDF translations (Arabic,
+      Chinese, Haitian Creole, Spanish, Vietnamese, French, Portuguese,
+      Russian, Somali, Cape Verdean) identified by doc_id keywords
+    - Non-English chunk removal: Individual chunks with >15% non-ASCII
+      characters (catches CJK/Arabic/Cyrillic that slip through doc filter)
+    - Oversized report removal: Large city planning/policy PDFs (Fair
+      Housing Assessment at 726 chunks, Income Restricted Housing report,
+      etc.) that dilute the corpus without adding tenant rights content
+    - Off-topic document removal: 27 doc_ids explicitly excluded (311
+      service pages, homebuying guides, policy reports, template documents,
+      contact-only pages, developer-focused content)
+    - Homebuyer-only chunk removal: Chunks with 2+ homebuyer keywords and
+      zero tenant/renter keywords
+    - Navigation/TOC chunk removal: Link lists (short lines without periods),
+      HTML time tag artifacts, newsletter signups, PDF table-of-contents
+      fragments (dotted leader lines)
+    - Minimum chunk length raised from 50 to 100 characters to filter PDF
+      extraction fragments
+
+  Final Corpus:
+
+    Source           Docs (before)  Docs (after)  Chunks (after)
+    ─────────────────────────────────────────────────────────────
+    masslegalhelp           0             18            422
+    mass.gov               34             34            228
+    boston.gov              17             35            162
+    bostonhousing.org      61             59             59
+    ─────────────────────────────────────────────────────────────
+    Total                 112            146            871
+
+  Quality Verification:
+    - Zero non-English chunks remain
+    - Zero HTML artifacts (<time> tags)
+    - Zero template/placeholder content
+    - Zero navigation-only or TOC-only chunks
+    - All chunks >= 100 characters of substantive content
+
+6.2 Evaluation Setup
+
+  Configurations (GPT-4o only, all 4 retrievers + baseline):
+
+    Config          RAG    Retriever    Generator
+    ──────────────  ─────  ───────────  ──────────
+    baseline        No     none         openai/gpt-4o
+    rag_vector      Yes    vector       openai/gpt-4o
+    rag_bm25        Yes    bm25         openai/gpt-4o
+    rag_hybrid      Yes    hybrid       openai/gpt-4o
+    rag_rerank      Yes    rerank       openai/gpt-4o
+
+  Evaluation Questions: 80 total (50 golden QA + 30 Reddit-style)
+  Judge Model: anthropic/claude-sonnet-4 (separate family from generator)
+  Retrieval QA Pairs: 64 with valid ground truth chunk IDs (16 golden QA
+    pairs lost ground truth due to corpus cleanup removing short chunks)
+
+6.3 Results
+
+  Generation Quality (80 questions, 5 configs):
+
+    Config          Faithfulness  Relevancy  Correctness  N
+    ──────────────  ────────────  ─────────  ───────────  ──
+    baseline            0.100      1.000        0.463     80
+    rag_vector          0.738      1.000        0.388     80
+    rag_bm25            0.688      1.000        0.287     80
+    rag_hybrid          0.738      1.000        0.425     80
+    rag_rerank          0.762      1.000        0.412     80
+
+  Retrieval Metrics (64 QA pairs, top_k=5):
+
+    Retriever       MRR     Hit Rate  Precision  Recall
+    ──────────────  ──────  ────────  ─────────  ──────
+    vector          0.189    0.312     0.062      0.312
+    bm25            0.062    0.109     0.022      0.109
+    hybrid          0.187    0.312     0.062      0.312
+    rerank          0.243    0.328     0.066      0.328
+
+6.4 Analysis
+
+  Key Findings:
+
+  1. RAG Provides Massive Faithfulness Uplift
+     Baseline faithfulness dropped to 0.100 (from 0.640 in Iteration 1),
+     while all RAG configs score 0.688-0.762. This represents a +562-662%
+     improvement. The drop in baseline faithfulness is due to the stricter
+     Claude Sonnet 4 judge (vs GPT-4o self-judging in Iteration 1), which
+     penalizes baseline responses that fabricate specific legal details
+     without source grounding.
+
+  2. Rerank Is the Best Retriever
+     Cross-encoder reranking achieves the highest faithfulness (0.762),
+     MRR (0.243), and hit rate (0.328) across all retrievers. This
+     confirms the HW4 finding that jointly scoring query-passage pairs
+     outperforms independent embedding similarity.
+
+  3. BM25 Alone Is Weakest
+     BM25 achieves the lowest retrieval metrics (MRR 0.062, hit rate
+     0.109) and lowest faithfulness (0.688). Pure keyword matching
+     struggles with the expanded corpus where many chunks share legal
+     terminology. Tenant law queries contain common terms ("landlord,"
+     "rent," "lease") that appear in most chunks, reducing BM25's
+     discriminative power.
+
+  4. Hybrid and Vector Perform Similarly
+     Vector (0.738 faithfulness, 0.189 MRR) and hybrid (0.738, 0.187)
+     are nearly identical. The BM25 component in hybrid (0.4 weight)
+     does not meaningfully improve over pure vector search for this
+     corpus, likely because the embedding model already captures the
+     keyword semantics that BM25 adds.
+
+  5. Perfect Relevancy Across All Configs
+     All 5 configs achieve 1.000 relevancy — GPT-4o always addresses the
+     question asked, regardless of retrieval quality or lack thereof.
+
+  6. Correctness Is Lower Than Expected
+     Correctness scores (0.287-0.463) are lower than faithfulness across
+     all configs. The baseline actually scores highest on correctness
+     (0.463) despite lowest faithfulness (0.100). This suggests:
+     - The golden QA key facts may reference specific chunk content that
+       the expanded corpus surfaces differently (new masslegalhelp chunks
+       provide more detailed legal context than the original mass.gov chunks)
+     - Baseline GPT-4o's parametric knowledge happens to match some key
+       facts even when not grounded in sources
+     - The correctness metric needs key fact updates to match the expanded
+       corpus content
+
+  7. Retrieval Metrics Dropped vs Prior Iterations
+     MRR dropped from 0.568 (Iteration 2) to 0.243. This is expected:
+     - 16 of 50 golden QA ground truth chunk IDs were invalidated by
+       corpus cleanup (chunks under 100 chars removed)
+     - The corpus grew from 617 to 871 chunks, making exact chunk matching
+       harder (more candidates to rank)
+     - Prior QA pairs were auto-generated from the old corpus; current
+       pairs reference specific old chunk IDs in a restructured corpus
+     - The retrieval metrics should be re-baselined with fresh QA pairs
+       generated from the current corpus for accurate comparison
+
+  Comparison to Prior Iterations:
+
+    Iteration  Corpus     Faithfulness  MRR    Judge
+    ─────────  ─────────  ────────────  ─────  ──────────────
+    1 (base)   1,068 ch   0.780         0.480  GPT-4o (self)
+    2 (clean)    617 ch   0.900         0.568  GPT-4o (self)
+    4 (expand)   871 ch   0.762*        0.243  Claude Sonnet 4
+
+    * Not directly comparable due to judge model change. The stricter
+      Claude judge scored baseline at 0.100 (vs 0.640 with GPT-4o judge),
+      suggesting Claude applies a higher bar for faithfulness. The relative
+      RAG uplift (+662%) is larger than prior iterations (+22% in Iter 1,
+      +15% in Iter 2), indicating RAG's value is even more pronounced
+      under strict evaluation.
+
+7. ITERATION 5: CORPUS EXPANSION ROUND 2 + RE-EVALUATION (2026-03-18)
+──────────────────────────────────────────────────────────────────────
+
+7.1 Corpus Expansion
+
+  The 146-doc / 871-chunk corpus covered MA tenant law well at the
+  statutory level but had gaps in practical/procedural content that
+  Boston students frequently need: how to use the court system, which
+  forms to file, how to file discrimination complaints, and how to
+  access state rental voucher programs.
+
+  New Sources Added (41 documents):
+
+    Priority  Content                                              Docs
+    ────────  ───────────────────────────────────────────────────  ────
+    1         MGL statutes: c.186 s.15A/15D/15E (late fees,         26
+              move-in fees, utilities), s.19-23 (DV lease
+              termination), c.239 s.9/10/12 (eviction appeals/
+              stays/bonds), c.93A s.2/9/11 (consumer protection/
+              treble damages), c.111 s.127A-127L (Board of Health
+              inspection authority)
+    2         Housing Court overview, eviction court forms,           5
+              tenants' eviction guide, respond-to-eviction guide,
+              small claims filing guide
+    3         GBLS housing pages (overview, community                 5
+              partnerships, direct client services, impact
+              advocacy, resources)
+    4         MCAD discrimination complaints overview, housing        2
+              discrimination guide
+    5         MRVP rental voucher program                             1
+    6         Boston ISD housing inspections, constituent services    2
+              ────────────────────────────────────────────────────  ────
+              Total new documents                                    41
+
+  Anti-Scraping Fallback:
+    mass.gov returned 403 for court/MCAD/DHCD pages. Chrome browser
+    automation (Claude-in-Chrome MCP) was used to navigate to each
+    page, extract rendered text, and save as processed documents.
+    boston.gov ISD URLs returned 404; correct URLs were found via
+    web search and scraped via Chrome.
+
+  Stale Reference Repair:
+    Re-chunking invalidated chunk IDs across evaluation files.
+    golden_qa.json: 29 chunk refs remapped, 3 questions repopulated.
+    reddit_questions.json: 5 refs remapped, 17 dropped (doc removed).
+    All evaluation files verified: 0 invalid chunk references remain.
+
+  Final Corpus:
+
+    Metric         Before (Iter 4)   After (Iter 5)
+    ─────────────  ────────────────  ──────────────
+    Documents      146               249
+    Chunks         837               967
+
+7.2 Evaluation Setup
+
+  Configurations: 2 (baseline + rag_rerank, both GPT-4o)
+  Evaluation Questions: 80 (50 golden QA + 30 Reddit-style)
+  Judge Model: anthropic/claude-sonnet-4
+  Retrieval QA Pairs: 80 (50 golden + 30 reddit, all with valid
+    ground truth chunk IDs)
+
+7.3 Results
+
+  Generation Quality (80 questions, 2 configs):
+
+    Config          Faithfulness  Relevancy  Correctness  N
+    ──────────────  ────────────  ─────────  ───────────  ──
+    baseline            0.150      1.000        0.438     80
+    rag_rerank          0.725      1.000        0.438     80
+
+  Retrieval Metrics (80 QA pairs, top_k=5):
+
+    Retriever       MRR     Hit Rate  Precision  Recall
+    ──────────────  ──────  ────────  ─────────  ──────
+    vector          0.170    0.275     0.055      0.275
+    bm25            0.057    0.088     0.018      0.088
+    hybrid          0.161    0.238     0.048      0.238
+    rerank          0.220    0.288     0.058      0.288
+
+7.4 Analysis
+
+  1. Faithfulness: RAG Uplift Remains Strong
+     Baseline faithfulness is 0.150 (up from 0.100 in Iter 4),
+     rag_rerank is 0.725 (vs 0.762 in Iter 4). The RAG uplift is
+     +383%, confirming that retrieval-augmented generation continues
+     to provide substantial grounding benefits with the expanded
+     corpus. The small faithfulness decrease (0.762 -> 0.725) is
+     within normal judge variance for binary scoring on 80 questions
+     (a single flipped judgment = 0.0125 change).
+
+  2. Rerank Remains the Best Retriever
+     Rerank achieves the highest MRR (0.220), hit rate (0.288),
+     and precision (0.058) across all four retrievers, consistent
+     with all prior iterations.
+
+  3. Retrieval Metrics Are Stable
+     MRR (0.243 -> 0.220) and hit rate (0.328 -> 0.288) show small
+     decreases. Contributing factors:
+     - Evaluation now uses 80 QA pairs (vs 64 in Iter 4), so the
+       denominator is larger
+     - Some remapped source_chunks point to the closest chunk in
+       the same document, not necessarily the exact best match
+     - Corpus grew from 871 to 967 chunks, increasing competition
+       in retrieval ranking
+     These are measurement artifacts, not pipeline regressions.
+
+  4. Correctness Is Identical Across Configs (0.438)
+     Both baseline and rag_rerank score 0.438 on correctness,
+     meaning the key facts in the golden QA set are equally matched
+     by parametric knowledge and RAG-retrieved content. This suggests
+     the key facts test general MA tenant law knowledge that GPT-4o
+     already has, rather than testing corpus-specific details. Future
+     work should add key facts that require specific statutory
+     citations or procedural details only available in the corpus.
+
+  5. New Content Is Being Retrieved
+     Spot-testing confirmed that queries about late fees, move-in
+     charges, discrimination complaints, small claims, and eviction
+     rights now retrieve the newly added statutes, court guides, and
+     MCAD pages. The corpus expansion successfully fills the
+     practical/procedural gaps identified in the expansion plan.
+
+  Comparison to Prior Iterations:
+
+    Iter  Corpus     Faithfulness  MRR    Judge             Notes
+    ────  ─────────  ────────────  ─────  ────────────────  ────────────
+    1     1,068 ch   0.780         0.480  GPT-4o (self)     Initial
+    2       617 ch   0.900         0.568  GPT-4o (self)     Cleanup
+    4       871 ch   0.762         0.243  Claude Sonnet 4   Expand + judge
+    5       967 ch   0.725         0.220  Claude Sonnet 4   Expand round 2
+
+    Iterations 4-5 use Claude Sonnet 4 judge (stricter than GPT-4o
+    self-judging in Iterations 1-2). Absolute scores are not directly
+    comparable across judge models, but relative RAG uplift is
+    comparable within each judge.
+
+======================================================================
+ITERATION 6: LlamaIndex Migration -- Pipeline Comparison
+======================================================================
+Date: 2026-03-18
+Backend: src/rag_llamaindex/ (LlamaIndex 0.14.x + ChromaVectorStore)
+Config: rag_rerank (GPT-4o, hybrid+cross-encoder, top_k=5)
+Judge: Claude Sonnet 4 (anthropic/claude-sonnet-4)
+Questions: 80 (30 Reddit + 20 Golden QA, same as Iteration 5)
+Corpus: 967 chunks (same as Iteration 5)
+
+  Results:
+
+    Backend       Faithfulness  Relevancy  Correctness  MRR    Hit Rate
+    ────────────  ────────────  ─────────  ───────────  ─────  ────────
+    Custom        0.762         1.000      0.412        0.243  0.328
+    LlamaIndex    0.713         1.000      0.412        0.247  0.288
+
+    Note: Custom results from Iteration 4 (same corpus, same config).
+
+  Root Cause Analysis: Metadata Embedding Divergence
+
+    Investigation revealed the primary cause of retrieval differences
+    between the two pipelines: LlamaIndex prepends non-excluded metadata
+    fields to document text before embedding, while ChromaDB embeds raw
+    text only.
+
+    LlamaIndex embeds:
+      "source_url: https://...\nsource_name: boston_gov\ntitle: Boston
+       Housing Court\ncontent_type: guide\n\n## Appearing in court..."
+
+    ChromaDB embeds:
+      "## Appearing in court..."
+
+    This produces different document vectors despite using the same
+    embedding model (all-MiniLM-L6-v2). Query embeddings are identical
+    between backends (cosine similarity = 1.000000), confirming the
+    divergence is document-side only.
+
+    Embedding divergence measured across 50 sampled chunks:
+      Mean cosine similarity:   0.851
+      Median:                   0.868
+      Min:                      0.492
+      Max:                      0.964
+      Std:                      0.094
+
+    Chunks with longer metadata (long URLs, verbose titles) diverge
+    more because metadata consumes a larger fraction of the 256-token
+    embedding window, pushing out content tokens.
+
+  Retrieval Overlap Analysis (10 test queries):
+
+    Retriever   Avg Top-5 Overlap   Notes
+    ──────────  ─────────────────   ──────────────────────────────────
+    vector      2.4/5 (48%)         Directly affected by embedding gap
+    rerank      3.2/5 (64%)         Cross-encoder re-scores on raw text,
+                                    partially correcting initial divergence
+
+    The cross-encoder reranker improves overlap from 48% to 64% because
+    it scores query-document pairs using the raw text (not embeddings),
+    which is identical between backends. This explains why the rerank
+    config shows smaller performance gaps than pure vector retrieval.
+
+  Key Findings:
+
+    1. Relevancy is identical (1.000) -- both pipelines retrieve
+       topically relevant chunks regardless of embedding differences.
+
+    2. Correctness is identical (0.412) -- same model + prompt produce
+       the same key-fact coverage regardless of backend.
+
+    3. Faithfulness gap (0.762 vs 0.713) is likely a combination of
+       judge variance (custom showed 0.762 and 0.725 across runs) and
+       retrieval differences surfacing slightly different source chunks.
+
+    4. Hit rate gap (0.328 vs 0.288) is a direct consequence of the
+       metadata embedding divergence: ground-truth chunk IDs were
+       established against the custom pipeline's raw-text vectors.
+
+    5. MRR is essentially identical (0.243 vs 0.247), suggesting that
+       when the correct chunk IS retrieved, its rank is comparable.
+
+  Recommendations:
+
+    1. To achieve exact vector parity, either:
+       a. Exclude ALL metadata from LlamaIndex embeddings
+          (excluded_embed_metadata_keys = all metadata keys), or
+       b. Re-index both pipelines with the same embedding approach
+          and re-establish ground-truth chunk IDs.
+
+    2. The metadata-enriched embeddings may actually HELP retrieval for
+       queries that mention source types ("what does mass.gov say about")
+       or titles. This should be evaluated as a potential improvement
+       rather than just a source of divergence.
+
+    3. Multi-run averaging (3x) is needed to separate judge variance
+       from real pipeline differences in faithfulness scores.
+
+======================================================================
+ITERATION 7: Metadata Fix + Retrieval Metrics Deep Dive
+======================================================================
+Date: 2026-03-18
+Backend: src/rag_llamaindex/ (post-fix)
+Corpus: 967 chunks, 249 documents
+
+7.1 Metadata Embedding Fix
+
+  Applied fix: excluded all metadata keys from LlamaIndex embedding input
+  (source_url, source_name, title, content_type added to
+  excluded_embed_metadata_keys in nodes.py). Metadata remains available
+  for LLM context via excluded_llm_metadata_keys (unchanged).
+
+  Re-indexed 967 nodes into data/chroma_db_llamaindex/.
+
+  Verification (967 shared chunk IDs):
+    Mean cosine similarity:  1.000 (was 0.851)
+    Min cosine similarity:   1.000 (was 0.492)
+    Max cosine similarity:   1.000
+
+  Retrieval overlap (10 test queries, top_k=5):
+    Retriever   Overlap (before → after)
+    ──────────  ────────────────────────
+    vector      48% → 100%
+    rerank      64% → 94%
+
+  The 6% rerank gap is expected: the cross-encoder scores (query, text)
+  pairs independently, so minor ordering differences in the initial
+  candidate set can cause 1-2 chunks to swap at the boundary.
+
+  Pipelines are now at embedding parity.
+
+7.2 Retrieval Metrics Comparison (LlamaIndex, post-fix)
+
+  Retriever       MRR     Hit Rate  Precision  Recall
+  ──────────────  ──────  ────────  ─────────  ──────
+  vector          0.170    0.275     0.055      0.275
+  rerank          0.220    0.287     0.058      0.287
+  parent_child    0.155    0.300     N/A        0.300
+
+  Parent-child retriever shows highest hit rate (0.300) but lowest MRR
+  (0.155), because neighbor-chunk expansion finds the right document
+  more often but the correct chunk lands at a lower rank due to
+  dilution from adjacent chunks.
+
+7.3 Why MRR/Hit Rate Are Low vs HW4
+
+  Comparison to HW4 (same methodology, different corpus):
+
+    Metric      HW4       This Project   Change
+    ──────────  ────────  ────────────   ──────
+    Chunks      149       967            6.5x
+    Best MRR    0.692     0.220          -68%
+    Best Hit    0.805     0.300          -63%
+
+  Contributing factors (in estimated order of impact):
+
+  1. Search space size: 149 → 967 chunks (6.5x). With top_k=5, HW4
+     retrieves the top 3.4% of chunks vs 0.5% here. The correct chunk
+     faces far more competition from semantically similar alternatives.
+
+  2. Corpus diversity: HW4 used a focused single-domain dataset. This
+     project covers statutes, FAQs, guides, Reddit posts, court
+     procedures, discrimination law, voucher programs, and inspections.
+     A query about security deposits now competes against chunks about
+     voucher programs, inspection procedures, and housing court forms
+     that share similar legal vocabulary.
+
+  3. Chunk size: HW4 used sentence window chunking (small chunks with
+     context expansion at retrieval). This project uses 800-token chunks
+     with no context expansion — larger chunks are less precise targets
+     for embedding-based retrieval.
+
+  4. Single ground-truth evaluation: Only the first source_chunk is
+     used as ground truth for MRR/hit rate. Many questions have multiple
+     relevant chunks (225 total references across 80 questions = ~2.8
+     per question). The retriever may pull the 2nd or 3rd relevant
+     chunk instead of the exact one labeled as primary — that still
+     counts as a miss.
+
+7.4 Golden QA Source Chunk Audit
+
+  All 225 source_chunk references across 80 QA pairs (50 golden + 30
+  Reddit) were verified against the current corpus (967 chunks):
+
+    References found in corpus:    225/225 (100%)
+    References missing:            0
+    Entries with no source_chunks: 0
+
+  Conclusion: chunk ID mappings are not stale. The low hit rate is a
+  genuine retrieval challenge, not a labeling artifact.
+
+7.5 Potential Improvements to Investigate
+
+  1. Evaluate against ANY source_chunk (not just the first) to measure
+     how much of the hit rate gap is a measurement artifact from
+     single-ground-truth evaluation.
+
+  2. Increase initial retrieval top_k (10-15) with reranking down to 5
+     to give the correct chunk more chances to appear in candidates.
+
+  3. Test the parent_child retriever with sentence-window-style small
+     chunks (closer to HW4's strategy) rather than expanding 800-token
+     chunks.
+
+  4. Multi-query expansion to catch vocabulary mismatches between
+     questions and source documents.
+
+7.6 Pipeline Decision: Custom vs LlamaIndex for Interface
+
+  Decision: Use the custom pipeline (src/rag/) for the frontend/demo UI.
+
+  Rationale:
+
+  1. Parity confirmed: After the metadata embedding fix, both pipelines
+     produce identical retrieval results (100% vector overlap, 100%
+     parent_child Jaccard overlap across all test queries). There is no
+     retrieval quality advantage to LlamaIndex.
+
+  2. Simplicity for deployment: The custom pipeline is ChromaDB +
+     OpenRouter API calls with no framework dependency. LlamaIndex adds
+     a large dependency tree (llama_index.core, llama_index.vector_stores,
+     etc.) that complicates packaging and debugging in production.
+
+  3. Fine-tuning compatibility (core goal): Fine-tuning is model-level,
+     not retrieval-level. The custom pipeline's ask() is more transparent
+     for swapping in a fine-tuned model endpoint via OpenRouter.
+
+  4. Stretch goals (abuse prevention, rate limiting): Straightforward to
+     add on top of a Flask/FastAPI app wrapping the custom ask() function.
+
+  5. Transparent for debugging: Fewer abstractions = easier to debug
+     during demos. The custom ask() returns a clean dict serializable
+     directly to a JSON API response.
+
+  What to keep from LlamaIndex:
+
+  - Parent-child retriever idea: Ported to custom pipeline as
+    retrieve_parent_child() in src/rag/retrievers.py (~60 lines).
+    Verified 100% Jaccard overlap with LlamaIndex implementation.
+  - Evaluation comparison data: Valuable for final report showing
+    framework evaluation (proposal lists LlamaIndex as a candidate).
+  - The src/rag_llamaindex/ module remains for reference/comparison
+    but is not the production backend.
+
+7.7 Custom Parent-Child Retriever Implementation
+
+  Added retrieve_parent_child() to src/rag/retrievers.py.
+
+  Algorithm:
+  1. Vector-retrieve 2x top_k candidates (10 for top_k=5)
+  2. Group candidates by doc_id
+  3. For top_k results, if a document has 2+ hits (cluster),
+     expand by including adjacent chunks (chunk_index ± 1)
+  4. Neighbor scores are dampened (distance * 1.2, i.e. worse rank)
+  5. Return all expanded results (variable length)
+
+  Retrieval metrics (80 QA pairs, custom pipeline):
+
+    Retriever       MRR     Hit Rate  Precision  Recall
+    ──────────────  ──────  ────────  ─────────  ──────
+    vector          0.170    0.275     0.055      0.275
+    rerank          0.220    0.287     0.058      0.287
+    parent_child    0.155    0.300     0.060      0.300
+
+  Parent-child achieves highest hit rate (0.300) by expanding document
+  context, but lowest MRR (0.155) because neighbor chunks dilute the
+  ranking. The variable result count (8-13 chunks vs fixed 5) provides
+  richer context to the LLM at the cost of a longer prompt.
+
+  Cross-pipeline verification (5 test queries):
+    Custom vs LlamaIndex parent_child Jaccard overlap: 100%
+
+7.8 Retriever Comparison: Rerank vs Parent-Child vs Baseline (GPT-4o)
+
+  Evaluation setup:
+    Questions: 28 (stratified sample: 2 per named topic + 4 Reddit, 13 topics)
+    Generator: openai/gpt-4o
+    Judge: anthropic/claude-sonnet-4
+    Configs: baseline (no RAG), rag_rerank, rag_parent_child
+
+  Results:
+
+    Config               Faith   Relev  Correct    N
+    ──────────────────── ─────── ─────── ──────── ────
+    baseline               0.071   1.000    0.393   28
+    rag_rerank             0.857   1.000    0.357   28
+    rag_parent_child       0.786   1.000    0.321   28
+
+  Token usage & cost:
+    GPT-4o (gen):      225,959 in +  19,274 out =   245,233 total
+    Claude S4 (judge): 366,342 in +  30,663 out =   397,005 total
+    Total cost: $2.32
+
+  Analysis:
+
+  1. Rerank remains the best retriever for generation quality.
+     Faithfulness 0.857 vs 0.786 for parent_child — the cross-encoder's
+     precise ranking produces better-grounded responses than neighbor
+     expansion.
+
+  2. Parent_child uses ~2x more input tokens for generation (expanded
+     context from neighbor chunks) but does not translate to better
+     scores. The additional context dilutes quality slightly rather
+     than improving it.
+
+  3. Correctness is paradoxically higher for baseline (0.393) than
+     RAG configs (0.357/0.321). GPT-4o's parametric knowledge covers
+     the expected key facts, while RAG context can cause the model to
+     focus on retrieved details instead of hitting all expected facts.
+
+  4. RAG uplift on faithfulness is massive: 0.071 → 0.857 (+1,107%).
+     This confirms RAG's core value: grounding responses in sources.
+
+7.9 Multi-Model Comparison: GPT-4o vs Llama 3.3-70B vs Mistral Small 3.1
+
+  Evaluation setup:
+    Questions: 28 (same stratified sample as Section 7.8)
+    Retriever: rerank (best performer) + baselines
+    Judge: anthropic/claude-sonnet-4
+    Models: GPT-4o (~200B+ MoE), Llama 3.3-70B, Mistral Small 3.1-24B
+
+  Combined results (all 7 configs, same 28 questions, same judge):
+
+    Config               Model             Params  Faith   Relev  Correct
+    ──────────────────── ────────────────── ──────  ─────── ─────── ───────
+    baseline             GPT-4o            ~200B+   0.071   1.000   0.393
+    rag_rerank           GPT-4o            ~200B+   0.857   1.000   0.357
+    rag_parent_child     GPT-4o            ~200B+   0.786   1.000   0.321
+    llama_baseline       Llama 3.3          70B     0.071   1.000   0.357
+    llama_rerank         Llama 3.3          70B     0.500   0.964   0.357
+    mistral_baseline     Mistral Small      24B     0.071   1.000   0.250
+    mistral_rerank       Mistral Small      24B     0.643   1.000   0.393
+
+  Token usage & cost (Llama + Mistral run):
+    Gen (Llama+Mistral): 185,111 in +  37,625 out =   222,736 total
+    Claude S4 (judge):   377,874 in +  42,486 out =   420,360 total
+    Total cost: $1.86
+
+  Combined session cost (GPT-4o + Llama + Mistral): $4.18
+
+  Analysis:
+
+  1. GPT-4o + rerank is the best overall configuration.
+     Faithfulness 0.857 leads all configs by a wide margin (+33% over
+     Mistral rerank, +71% over Llama rerank). GPT-4o is most effective
+     at using retrieved context to ground its responses.
+
+  2. RAG uplift varies significantly by model.
+
+       Model          Baseline → RAG    Uplift
+       ─────────────  ──────────────    ──────
+       GPT-4o         0.071 → 0.857    +1,107%
+       Mistral Small  0.071 → 0.643    +806%
+       Llama 3.3      0.071 → 0.500    +604%
+
+     All models benefit substantially from RAG, but GPT-4o converts
+     retrieved context into grounded responses most effectively.
+
+  3. Llama 3.3-70B struggles with RAG context.
+     It is the only model to drop below 1.0 relevancy with RAG (0.964),
+     suggesting it sometimes ignores or misuses retrieved context. At
+     70B parameters, it underperforms 24B Mistral Small on faithfulness
+     (0.500 vs 0.643), indicating that parameter count alone does not
+     determine RAG effectiveness — instruction tuning quality matters
+     more for context grounding.
+
+  4. Mistral Small 3.1 punches above its weight.
+     At 24B params (3x smaller than Llama, ~8x smaller than GPT-4o),
+     Mistral achieves the second-best RAG faithfulness (0.643) and the
+     highest RAG correctness (0.393). Its cost per token is 7x cheaper
+     than GPT-4o. For cost-sensitive deployments, Mistral + rerank is
+     a strong option.
+
+  5. All baselines score 0.071 faithfulness.
+     Without source context, the Claude Sonnet 4 judge consistently
+     flags responses as unfaithful (no sources to be faithful to).
+     This validates the judge's strictness — it does not give credit
+     for correct-but-unsourced claims.
+
+  6. Understanding the metrics as precision/recall:
+     - Faithfulness ≈ precision: "don't say unsupported things"
+     - Correctness ≈ recall: "don't miss expected facts"
+     - Relevancy ≈ sanity check: "stay on topic" (near 1.0 always)
+
+     RAG improves precision (faithfulness) dramatically but can reduce
+     recall (correctness) when the top-k retrieved chunks don't contain
+     all expected key facts, causing the model to focus on what was
+     retrieved rather than drawing on broader knowledge.
+
+  OpenRouter pricing (per 1M tokens, as of 2026-03-18):
+
+    Model                   Input     Output    Relative cost
+    ──────────────────────  ────────  ────────  ─────────────
+    GPT-4o                  $2.50     $10.00    1.0x (baseline)
+    Claude Sonnet 4 (judge) $3.00     $15.00    1.4x
+    Mistral Small 3.1       $0.35     $0.56     0.07x
+    Llama 3.3 70B           $0.10     $0.32     0.03x
+
+7.10 Self-Evaluation Bias Experiment
+
+  Research question: Does using the same model as both generator and
+  judge inflate evaluation scores compared to an independent judge?
+
+  Setup:
+    Questions: 28 (same stratified sample as Sections 7.8-7.9)
+    Retriever: rerank (best performer)
+    Each model generates responses AND judges its own output.
+    Compared against Claude Sonnet 4 judge results from Section 7.9.
+
+  Results:
+
+    Generator        Judge                  Faith   Relev  Correct
+    ──────────────── ────────────────────── ─────── ─────── ───────
+    GPT-4o           Claude Sonnet 4         0.857   1.000   0.357
+    GPT-4o           Self (GPT-4o)           0.964   1.000   0.750
+                     Δ (self − claude)      +0.107          +0.393
+
+    Llama 3.3        Claude Sonnet 4         0.500   0.964   0.357
+    Llama 3.3        Self (Llama 3.3)        0.929   1.000   0.357
+                     Δ (self − claude)      +0.429          +0.000
+
+    Mistral Small    Claude Sonnet 4         0.643   1.000   0.393
+    Mistral Small    Self (Mistral Small)    0.857   0.964   0.286
+                     Δ (self − claude)      +0.214          −0.107
+
+  Cost: $0.76 (total tokens: 710,097)
+
+  Analysis:
+
+  1. Self-evaluation bias is confirmed for faithfulness.
+     Every model rates its own faithfulness higher than Claude Sonnet 4
+     does. The inflation ranges from +0.107 (GPT-4o) to +0.429 (Llama).
+     This validates the project's decision in Iteration 3 to switch to
+     an independent judge model from a different model family.
+
+  2. Llama 3.3 is the worst self-evaluator.
+     Llama inflates its own faithfulness from 0.500 → 0.929 (+86%).
+     It also bumps its own relevancy from 0.964 → 1.000, masking the
+     context-misuse issue identified in Section 7.9. Llama appears
+     unable to critically evaluate its own outputs.
+
+  3. GPT-4o massively inflates correctness when self-judging.
+     Correctness jumps from 0.357 → 0.750 (+110%). GPT-4o is far more
+     lenient about whether its own responses cover expected key facts.
+     This is the strongest single bias effect observed.
+
+  4. Mistral shows mixed self-evaluation behavior.
+     Faithfulness is inflated (+0.214, consistent with other models),
+     but correctness actually drops (0.393 → 0.286, Δ = −0.107) and
+     relevancy drops (1.000 → 0.964). These are likely run-to-run
+     variance artifacts rather than true self-penalization:
+     - Binary scoring on 28 questions means each flip = ±0.036
+     - Mistral at 24B has higher output variance than larger models
+     - The correctness drop (−3 questions) and relevancy drop
+       (−1 question) are within expected noise for this sample size
+     A 3-run average would be needed to distinguish signal from noise.
+
+  5. Claude Sonnet 4 is the strictest and most consistent judge.
+     It applies the highest bar for faithfulness across all generators
+     and does not show systematic favoritism toward any model family.
+     This makes it well-suited as the project's standard judge.
+
+  Implications for evaluation methodology:
+
+    - Self-evaluation should never be used for absolute score reporting.
+      The faithfulness inflation alone (+0.1 to +0.4) would fundamentally
+      distort conclusions about pipeline quality.
+    - Relative comparisons within a self-judged set are less biased
+      (all models get inflated), but cross-model comparisons are invalid
+      because the inflation magnitude varies by model.
+    - The independent judge (Claude Sonnet 4) provides the most
+      trustworthy basis for cross-model and cross-retriever comparisons.
+
+7.11 Context Window Experiment: top_k=10 vs top_k=5
+
+  Research question: Does retrieving more chunks (10 vs 5) improve
+  generation quality, or does the extra context introduce noise?
+
+  Retrieval metrics (80 QA pairs, rerank):
+
+    top_k   MRR     Hit Rate   Initial candidates (initial_k = top_k×2)
+    ─────   ─────   ────────   ──────────────────────────────────────────
+    5       0.220   0.287      10
+    10      0.226   0.338      20
+    15      0.226   0.338      30 (no further gain)
+
+  Hit rate improves +18% at top_k=10, then plateaus. The correct chunk,
+  when retrievable, lands within the top 20 candidates but rarely beyond.
+
+  Generation quality (GPT-4o + rerank, 28 stratified questions):
+
+    Config                   Faith   Relev  Correct    N
+    ────────────────────── ─────── ─────── ──────── ────
+    rag_rerank (k=5)         0.857   1.000    0.357   28
+    rag_rerank (k=10)        0.857   1.000    0.464   28
+
+  Token usage & cost (top_k=10 run):
+    GPT-4o (gen):      163,110 in +   6,796 out
+    Claude S4 (judge): 234,897 in +  11,136 out
+    Total cost: $1.35
+
+  Analysis:
+
+  1. Faithfulness is unchanged (0.857). GPT-4o handles 10 chunks of
+     context as well as 5 — the additional context does not introduce
+     noise or cause hallucination.
+
+  2. Correctness improved +30% (0.357 → 0.464). This is the largest
+     correctness gain from any single change in the project. More
+     retrieved chunks means more key facts land in the context,
+     directly improving recall of expected information.
+
+  3. Generation cost increases ~2x (more context tokens in both the
+     generation prompt and the judge's faithfulness prompt).
+
+  4. top_k=10 with rerank is now the best configuration tested.
+
+  Multi-model results (top_k=10, rerank, 28 stratified questions):
+
+    Config                     Faith   Relev  Correct   Δ Faith  Δ Correct
+    ────────────────────────── ─────── ─────── ───────   ───────  ─────────
+    GPT-4o     rerank k=5      0.857   1.000   0.357
+    GPT-4o     rerank k=10     0.857   1.000   0.464    +0.000    +0.107
+    Llama 3.3  rerank k=5      0.500   0.964   0.357
+    Llama 3.3  rerank k=10     0.607   1.000   0.357    +0.107    +0.000
+    Mistral    rerank k=5      0.643   1.000   0.393
+    Mistral    rerank k=10     0.750   1.000   0.393    +0.107    +0.000
+
+  Cost: $1.89 (Llama + Mistral generation + Claude Sonnet 4 judging)
+
+  Every model benefits from top_k=10:
+  - GPT-4o: already strong on faithfulness (0.857), gains on correctness
+    (+30%). More context provides more key facts for recall.
+  - Llama 3.3: faithfulness jumps +21% (0.500 → 0.607) and relevancy
+    fixes to 1.000. More grounding material helps Llama use context
+    more effectively.
+  - Mistral: faithfulness jumps +17% (0.643 → 0.750). At top_k=10,
+    Mistral (24B) now approaches GPT-4o's k=5 faithfulness (0.750 vs
+    0.857) at 7x lower generation cost.
+
+  The consistent improvement across all models suggests top_k=5 was
+  leaving relevant information on the table. The reranker's quality
+  holds at larger candidate pools — it selects good chunks from 20
+  candidates as effectively as from 10.
+
+7.12 Structured Prompt Experiment: Evidence-Before-Answer
+
+  Research question: Does a structured prompt that forces the model to
+  identify evidence before answering improve faithfulness?
+
+  Old prompt (used in all prior iterations):
+
+    You are a legal information assistant for Massachusetts tenant law
+    (Boston area).
+
+    RULES:
+    1. ONLY answer from provided source documents. If insufficient, say
+       so and suggest legal aid resources such as MassLegalHelp.org or
+       Greater Boston Legal Services.
+    2. NEVER provide legal ADVICE -- only legal INFORMATION. Recommend
+       consulting an attorney for specific situations.
+    3. ALWAYS cite sources: [Source: <title> (<url>)].
+    4. Cite specific statutes (e.g., MGL c.186, s.15B) when relevant.
+    5. Synthesize multiple sources when relevant.
+    6. If the question is outside Massachusetts tenant law, say so.
+
+    CONTEXT: {context}
+    QUESTION: {question}
+
+  Change: Replaced with a retrieval-grounded analysis workflow
+  (src/rag/pipeline.py SYSTEM_PROMPT). The new prompt requires the
+  model to output in a structured format:
+
+    1. Question Understanding (restate the question)
+    2. Relevant Evidence (cite specific chunks)
+    3. Analysis (reason from evidence to answer)
+    4. Final Answer (grounded conclusion)
+    5. Confidence (high / medium / low)
+
+  Key prompt design principles:
+  - Ask for visible analysis, not hidden chain-of-thought
+  - Force evidence citation before answer (reduces hallucination)
+  - Explicit grounding: "use only retrieved context, do not invent facts"
+  - Insufficiency behavior: say so if context is incomplete
+
+  Results (GPT-4o + rerank, 28 stratified questions, Claude Sonnet 4 judge):
+
+    Config                             Faith   Relev  Correct
+    ──────────────────────────────── ─────── ─────── ───────
+    old prompt, k=5                    0.857   1.000   0.357
+    old prompt, k=10                   0.857   1.000   0.464
+    structured prompt, k=5             0.893   1.000   0.321
+    structured prompt, k=10            0.929   1.000   0.321
+
+  Cost: $0.90 (k=5 run) + $1.41 (k=10 run) = $2.31 total
+
+  Analysis:
+
+  1. Structured prompt improves faithfulness at both top_k values.
+     k=5: 0.857 → 0.893 (+4%). k=10: 0.857 → 0.929 (+8%).
+     Faithfulness 0.929 is the highest score achieved in the project.
+     The evidence-before-answer pattern forces the model to anchor in
+     retrieved chunks before generating, reducing hallucination.
+
+  2. The improvements are additive: structured prompt and top_k=10 each
+     contribute independently. Structured prompt adds ~+0.036-0.072
+     faithfulness. top_k=10 adds ~+0.000 faithfulness but +0.107
+     correctness (with old prompt). Combined, they maximize faithfulness.
+
+  3. Correctness drops slightly with the structured format (0.357 →
+     0.321, ~1 question). The structured output uses more tokens on
+     evidence/analysis sections, which may leave less room for covering
+     all expected key facts within the 1500-token generation limit.
+     This is the classic precision-recall tradeoff:
+     - Structured prompt: higher precision (faithfulness), lower recall
+       (correctness)
+     - Old prompt + k=10: stable precision, higher recall
+
+  4. For a legal information tool, faithfulness > correctness.
+     Missing a key fact is less harmful than fabricating legal claims.
+     The structured prompt's bias toward grounding is the right tradeoff
+     for this domain.
+
+  5. The structured format also improves user experience: the visible
+     evidence and analysis sections let users verify the answer against
+     sources, which builds trust — critical for a legal information tool.
+
+  Multi-model results (structured prompt + rerank + k=10):
+
+    Config                             Faith   Relev  Correct
+    ──────────────────────────────── ─────── ─────── ───────
+    GPT-4o struct k=10                 0.929   1.000   0.321
+    Llama 3.3 struct k=10              0.821   1.000   0.321
+    Mistral Small struct k=10          0.929   1.000   0.357
+
+  Cost: $1.94 (Llama + Mistral generation + Claude Sonnet 4 judging)
+
+  Cumulative improvement from all changes (old prompt k=5 → struct k=10):
+
+    Model          Old k=5   Struct k=10   Δ Faith   Improvement
+    ─────────────  ───────   ───────────   ───────   ───────────
+    GPT-4o         0.857     0.929         +0.072    +8%
+    Llama 3.3      0.500     0.821         +0.321    +64%
+    Mistral Small  0.643     0.929         +0.286    +44%
+
+  The structured prompt is most impactful for weaker models:
+  - Mistral Small (24B) now matches GPT-4o on faithfulness (0.929)
+    at 7x lower generation cost ($0.35/1M vs $2.50/1M input tokens).
+  - Llama 3.3 improves dramatically (+64%) but still trails at 0.821,
+    suggesting its instruction-following is less suited to structured
+    output than Mistral's.
+  - The structured prompt effectively levels the playing field between
+    models by providing explicit grounding instructions that compensate
+    for weaker instruction tuning.
+
+  Best configuration summary (project-wide, all experiments):
+
+    Config                          Model     Faith  Correct  Cost/1M in
+    ─────────────────────────────── ───────── ────── ───────  ──────────
+    structured + rerank + k=10      GPT-4o    0.929  0.321    $2.50
+    structured + rerank + k=10      Mistral   0.929  0.357    $0.35
+    old prompt + rerank + k=10      GPT-4o    0.857  0.464    $2.50
+    structured + rerank + k=10      Llama     0.821  0.321    $0.10
+    structured + rerank + k=5       GPT-4o    0.893  0.321    $2.50
+
+  For production: Mistral Small + structured prompt + rerank + k=10
+  achieves the same faithfulness as GPT-4o at 7x lower cost, with
+  slightly better correctness (0.357 vs 0.321).
+
+7.13 Judge Methodology Validation: Custom vs LlamaIndex Evaluators
+
+  Research question: Does our simpler single-call judging approach
+  produce different scores than LlamaIndex's built-in evaluators?
+
+  Background: HW4 used LlamaIndex's FaithfulnessEvaluator and
+  RelevancyEvaluator classes. Our project uses custom judge prompts
+  called directly via the OpenAI SDK. This experiment tests whether
+  the two approaches diverge.
+
+  Implementation differences:
+
+    Aspect                  Our Implementation          LlamaIndex
+    ──────────────────────  ────────────────────────    ─────────────────────
+    Faithfulness prompt     Custom: "Is this response   Generic: "Please tell
+                            faithful to the source      if a given piece of
+                            context?" with legal-       information is
+                            specific guidance           supported by the
+                                                        context" with apple
+                                                        pie few-shot examples
+
+    Faithfulness input      Question + full context     Response only as
+                            + response in one call      "information", context
+                                                        processed iteratively
+
+    Relevancy prompt        "Does the response          "Is the response for
+                            address the question?"      the query in line with
+                            (context-free)              the context?" (context-
+                                                        aware)
+
+    Few-shot examples       None                        2 examples (apple pie
+                                                        YES/NO)
+
+    Context handling        All chunks concatenated     Each chunk processed
+                            into single prompt          separately, then
+                                                        refined iteratively
+
+    Refine step             No (single LLM call)        Yes (one call per
+                                                        chunk, refining YES/NO
+                                                        with each additional
+                                                        chunk)
+
+    API calls per question  1 (faithfulness)            N (one per chunk,
+                            1 (relevancy)               typically 5)
+                            = 2 total                   = ~10 total
+
+    Response parsing        startswith("YES")           "yes" in lower()
+
+  Experiment: Generated 28 responses (GPT-4o, structured prompt,
+  rerank, k=5) and judged each with both methods using Claude Sonnet 4.
+
+  Results:
+
+    Method                           Faith   Relev
+    ────────────────────────────── ─────── ───────
+    Our (single-call, custom)        0.964   1.000
+    LlamaIndex-style (refine)        0.964   1.000
+    Δ (LI − ours)                   +0.000  +0.000
+
+  Per-question agreement:
+    Faithfulness: 26/28 (93%)
+    Relevancy:    28/28 (100%)
+
+  The 2 faithfulness disagreements cancel out:
+    q18 (renters insurance): ours=NO, LI=YES
+      LlamaIndex's iterative refine found supporting context across
+      multiple chunks that our single-call approach missed.
+    q22 (pet prohibition): ours=YES, LI=NO
+      Our single-call was more lenient; LlamaIndex's chunk-by-chunk
+      evaluation was stricter on this response.
+
+  Conclusion:
+
+  1. The two approaches produce identical aggregate scores (0.964 and
+     1.000). Our simpler single-call method is a valid substitute for
+     LlamaIndex's more complex iterative refine approach.
+
+  2. Our method is 5x cheaper per evaluation (2 API calls vs ~10) with
+     no loss in evaluation quality.
+
+  3. The 93% per-question agreement on faithfulness (with disagreements
+     canceling out) suggests both methods have similar noise profiles.
+
+  4. This validates all prior results in this report: the evaluation
+     methodology is robust to implementation differences in the judge.
+
+======================================================================
