@@ -146,7 +146,7 @@ Additionally, we evaluated three advanced strategies: multi-query expansion (LLM
 \subsection{Evaluation Framework}
 \label{sec:eval_framework}
 
-\textbf{Test set.} 89 evaluation questions: 59 golden QA pairs with hand-curated key facts and source chunk references, plus 30 Reddit-style tenant questions sourced from r/legaladvice, r/renting, and r/bostonhousing. A stratified subset of 37 questions (27 standard + 10 hard multi-step) was used for targeted experiments.
+\textbf{Test set.} 89 evaluation questions: 59 golden QA pairs with hand-curated key facts and source chunk references, plus 30 Reddit-style tenant questions sourced from r/legaladvice, r/renting, and r/bostonhousing. All entries underwent a systematic QA data audit: an automated script flagged low-relevance chunk references, low-grounding key facts, and duplicates, followed by manual semantic review that applied 61 fixes---replacing wrong chunk references, rewriting unsupported key facts, correcting topic labels, and removing a duplicate entry. A stratified subset of 37 questions (27 standard + 10 hard multi-step) was used for targeted experiments.
 
 \textbf{LLM judge.} All evaluation uses \texttt{anthropic/claude-sonnet-4} as an independent judge---a different model family from all generators, eliminating self-evaluation bias (Section~\ref{sec:self_eval_bias}).
 
@@ -282,21 +282,23 @@ Table~\ref{tab:models} compares five model families using the rerank retriever o
 To validate our use of an independent judge, we compared self-judging (generator = judge) against cross-judging (Claude Sonnet 4 judge). Table~\ref{tab:self_eval} shows that self-judging inflates faithfulness for all models.
 
 \begin{table}[t]
-  \caption{Self-evaluation bias: self-judging inflates faithfulness scores for all models, with Llama showing the largest bias (+0.429). Using an independent judge family (Claude Sonnet 4) eliminates this artifact.}
+  \caption{Self-evaluation bias: self-judging inflates scores across models. Llama shows the largest faithfulness inflation (+0.429); GPT-4o shows the largest correctness inflation (+0.393, a 110\% increase). Using an independent judge family (Claude Sonnet 4) eliminates these artifacts.}
   \label{tab:self_eval}
   \centering
-  \begin{tabular}{lccc}
+  \begin{tabular}{lcccc}
     \toprule
-    Generator & Self-Judge Faith. & Cross-Judge Faith. & Inflation \\
+    Generator & \multicolumn{2}{c}{Faithfulness} & \multicolumn{2}{c}{Correctness} \\
+    \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+     & Self & Cross & Self & Cross \\
     \midrule
-    Llama 3.3 70B & 0.929 & 0.500 & +0.429 \\
-    Mistral Small 24B & 0.857 & 0.643 & +0.214 \\
-    GPT-4o & 0.964 & 0.857 & +0.107 \\
+    GPT-4o & 0.964 & 0.857 & 0.750 & 0.357 \\
+    Llama 3.3 70B & 0.929 & 0.500 & 0.357 & 0.357 \\
+    Mistral Small 24B & 0.857 & 0.643 & 0.286 & 0.393 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-The bias is largest for Llama (+0.429), suggesting it is most susceptible to favoring its own output style. These results validate our decision to use Claude Sonnet 4 as an independent judge family for all evaluations.
+The bias is largest for Llama on faithfulness (+0.429), suggesting it is most susceptible to favoring its own output style. GPT-4o shows the most striking correctness inflation: self-judging more than doubles its correctness score (0.357 $\rightarrow$ 0.750, +110\%), the single largest bias effect observed. This means GPT-4o as a judge is far more lenient in accepting its own key-fact coverage than an independent judge. These results validate our decision to use Claude Sonnet 4 as an independent judge family for all evaluations.
 
 \subsection{Structured Prompting and Top-$k$ Tuning}
 \label{sec:structured_prompt}
@@ -316,26 +318,34 @@ Despite this setback, the Qwen3 4B \emph{base} model with RAG achieved the highe
 
 \subsection{Multi-Run Variance Analysis}
 
-To quantify LLM judge variance, we ran the full evaluation 3 times in parallel (GPT-4o + rerank, top\_k=10, 89 questions, Claude Sonnet 4 judge). Table~\ref{tab:multirun} shows the results.
+To quantify LLM judge variance, we ran the full evaluation 3 times in parallel for GPT-4o and Mistral Small 24B---the two most competitive generators---using identical conditions (rerank retriever, top\_k=10, 89 questions, Claude Sonnet 4 judge). Llama 3.3 70B was excluded due to API budget constraints. Table~\ref{tab:multirun} shows the results.
 
 \begin{table}[t]
-  \caption{Multi-run averaging results (3 runs, GPT-4o + rerank, top\_k=10, 89 questions). Retrieval is fully deterministic; generation variance comes from LLM non-determinism. The 95\% CI is tight enough to distinguish model performance.}
+  \caption{Multi-run averaging results (3 runs each, rerank + top\_k=10, 89 questions). GPT-4o leads by 0.048 on faithfulness with non-overlapping 95\% CIs. Mistral is perfectly deterministic on faithfulness (std = 0.000) but hallucinates 3$\times$ more frequently.}
   \label{tab:multirun}
   \centering
-  \begin{tabular}{lccc}
+  \small
+  \begin{tabular}{lcccccc}
     \toprule
-    Metric & Mean & Std & 95\% CI \\
+    & \multicolumn{3}{c}{GPT-4o} & \multicolumn{3}{c}{Mistral Small 24B} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+    Metric & Mean & Std & 95\% CI & Mean & Std & 95\% CI \\
     \midrule
-    Faithfulness & 0.891 & 0.024 & [0.865, 0.918] \\
-    Relevancy & 1.000 & 0.000 & [1.000, 1.000] \\
-    Retrieval coverage & 0.746 & 0.004 & [0.742, 0.750] \\
-    Generation coverage & 0.503 & 0.013 & [0.489, 0.518] \\
-    Gen$|$Ret coverage & 0.647 & 0.015 & [0.630, 0.664] \\
+    Faithfulness & 0.891 & 0.024 & [0.865, 0.918] & 0.843 & 0.000 & [0.843, 0.843] \\
+    Relevancy & 1.000 & 0.000 & [1.000, 1.000] & 1.000 & 0.000 & [1.000, 1.000] \\
+    Ret.\ coverage & 0.746 & 0.004 & [0.742, 0.750] & 0.744 & 0.006 & [0.738, 0.750] \\
+    Gen.\ coverage & 0.503 & 0.013 & [0.489, 0.518] & 0.484 & 0.008 & [0.475, 0.493] \\
+    Gen$|$Ret cov.\ & 0.647 & 0.015 & [0.630, 0.664] & 0.620 & 0.006 & [0.613, 0.627] \\
+    Halluc.\ facts/run & 2\textsuperscript{*} & --- & --- & 6.3 & 0.6 & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Retrieval is fully deterministic (std 0.004, from rounding only). Of the 89 questions, 22 (24.7\%) showed unstable generation correctness (std $>$ 0.1), all with near-zero retrieval variance---confirming that generation non-determinism, not retrieval instability, drives score variance. The 95\% CI [0.865, 0.918] is tight enough to distinguish GPT-4o from Mistral (0.798) and Llama (0.730) with statistical confidence.
+\noindent\textsuperscript{*}GPT-4o per-run hallucination counts were not recorded in the multi-run output; the value of 2 is from the single-run fact decomposition (Section~\ref{sec:failure_taxonomy}).
+
+Retrieval is fully deterministic for both models (std $\leq$ 0.006), confirming that all performance differences originate in the generation stage. GPT-4o's faithfulness advantage (0.048) is statistically significant: the 95\% CIs do not overlap ([0.865, 0.918] vs.\ [0.843, 0.843]). Mistral's faithfulness is perfectly deterministic across all 3 runs (std = 0.000), suggesting more reproducible temperature=0 behavior than GPT-4o.
+
+However, Mistral hallucinates 3$\times$ more frequently (6.3 vs.\ $\sim$2 fabricated facts per run)---a critical difference for a legal information tool, where each hallucination represents a fabricated legal claim. Despite this, Mistral achieves 95\% of GPT-4o's faithfulness at 21$\times$ lower cost (\$0.14 vs.\ \$3.00/1M tokens), making it viable for cost-sensitive deployments with human review.
 
 \subsection{Failure Taxonomy for Legal RAG}
 \label{sec:failure_taxonomy}
@@ -397,6 +407,8 @@ Overall, 59 of 127 facts (46\%) were successfully retrieved and generated. Of th
 
 \textbf{Hard multi-step questions.} We created 10 hard questions requiring synthesis across 2--4 legal domains (e.g., security deposit violations as eviction defense, lead paint retaliation). Contrary to our hypothesis, hard question retrieval coverage (0.700) was slightly \emph{higher} than standard (0.675), and generation coverage given retrieval was also higher (0.714 vs.\ 0.654). The real bottleneck for hard questions is \textbf{fact volume}: with 5--6 key facts vs.\ 2--3 for standard questions, the LLM's tendency to omit secondary details (F1, F2) becomes more damaging.
 
+\textbf{Confounding factors.} Three factors may inflate the observed failure rates. First, some generation ``failures'' (F1, F2) may reflect overly specific key-fact definitions rather than genuine LLM shortcomings---e.g., a key fact expecting the exact citation ``MGL c.186 s.15B'' scores as a miss even when the LLM correctly explains the rule without citing the statute number. The QA data audit (Section~\ref{sec:eval_framework}, 61 fixes applied) mitigated but did not eliminate this issue. Second, retrieval failures F4 (Program/Term Mismatch) and F5 (Statute Retrieval Miss) are primarily caused by the general-purpose embedding model (\texttt{all-MiniLM-L6-v2}), which was not trained on legal text and struggles to bridge vocabulary gaps between casual tenant queries and formal legal terminology. Third, F7 (Cross-Encoder Domain Mismatch) is an upstream artifact: the \texttt{ms-marco} reranker was trained on web search data and sometimes ranks conversational FAQ content above authoritative statute chunks. These confounds suggest that targeted component upgrades (legal-domain embeddings, legal cross-encoder) would reduce failure rates beyond what pipeline-level changes can achieve.
+
 \subsection{Advanced Retriever Strategies}
 \label{sec:advanced_retrievers}
 
@@ -411,7 +423,7 @@ Four additional retrieval strategies were evaluated on 27 stratified questions:
 
 \subsection{Embedding Model Comparison}
 
-We compared BGE-large-en-v1.5 (1024-dim) against the default all-MiniLM-L6-v2 (384-dim) on all 89 questions. Contrary to expectations from the literature \citep{wiratunga2024cbrrag}, the larger model performed slightly worse on all metrics (MRR $-$0.021, Recall@K $-$0.023, NDCG@K $-$0.028). We attribute this to training domain mismatch: neither model was trained on legal text, and the larger embedding space may not confer advantages without domain-specific fine-tuning.
+We compared BGE-large-en-v1.5 (1024-dim) against the default all-MiniLM-L6-v2 (384-dim) on all 89 questions. The larger model performed slightly worse on all retrieval metrics (MRR $-$0.021, Recall@K $-$0.023, NDCG@K $-$0.028). This result is consistent with \citet{wiratunga2024cbrrag}, who found that \emph{domain-specific} embeddings (e.g., LegalBERT) outperform general-purpose ones for legal retrieval---but did not find that larger general-purpose models outperform smaller ones. Our comparison swapped one general-purpose model for another; neither was trained on legal text, so the larger embedding space (1024 vs.\ 384 dimensions) does not capture legal semantic distinctions like ``quiet enjoyment'' or ``tenancy at will.'' Additionally, the entire pipeline (chunking parameters, retrieval thresholds, top\_k tuning) was developed and optimized with MiniLM embeddings; swapping to BGE-large changes the similarity score distribution without re-tuning these parameters. For a 967-chunk corpus, 384 dimensions is already sufficient to distinguish chunks---the bottleneck is semantic understanding of legal terms, not vector space capacity.
 
 \subsection{Challenges and Limitations}
 
@@ -434,7 +446,7 @@ Future work should pursue: (1) retraining the Qwen3 fine-tuned model with correc
 %----------------------------------------------------------------------
 
 \begin{ack}
-This work was completed as part of CS6180: Generative AI at Northeastern University, Spring 2026, taught by Prof.\ Karl Ni. We thank the course staff for feedback on the evaluation methodology. All data was scraped from publicly available government and legal aid websites. This system provides legal \emph{information}, not legal \emph{advice}.
+This work was completed as part of CS6180: Generative AI at Northeastern University, Spring 2026, taught by Prof.\ Ryan Rad. We thank the course staff for feedback on the evaluation methodology. All API costs for evaluation experiments were individually funded by the team members, En-Ping Su and Maxwell Berry. All data was scraped from publicly available government and legal aid websites. This system provides legal \emph{information}, not legal \emph{advice}.
 \end{ack}
 
 {\small
@@ -443,15 +455,25 @@ This work was completed as part of CS6180: Generative AI at Northeastern Univers
 
 \begin{thebibliography}{10}
 
+\bibitem[Ajay~Mukund and Easwarakumar(2025)]{symmetry2025legal}
+Ajay~Mukund~S and K.~S.~Easwarakumar.
+\newblock Optimizing legal text summarization through dynamic retrieval-augmented generation and domain-specific adaptation.
+\newblock \emph{Symmetry}, 17(5):633, 2025.
+
 \bibitem[Es et~al.(2024)]{es2024ragas}
 Shahul Es, Jithin James, Luis Espinosa-Anke, and Steven Schockaert.
 \newblock {RAGAS}: Automated evaluation of retrieval augmented generation.
 \newblock In \emph{Proceedings of EACL 2024 (System Demonstrations)}, 2024.
 
-\bibitem[Gupta et~al.(2024)]{gao2024ragsurvey}
-Shailja Gupta, Rajesh Ranjan, and Surya~Narayan Singh.
-\newblock A comprehensive survey of retrieval-augmented generation ({RAG}): Evolution, current landscape and future directions.
-\newblock \emph{arXiv preprint arXiv:2410.12837}, 2024.
+\bibitem[Gao et~al.(2024)]{gao2024ragsurvey}
+Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, Meng Wang, and Haofen Wang.
+\newblock Retrieval-augmented generation for large language models: A survey.
+\newblock \emph{arXiv preprint arXiv:2312.10997}, 2024.
+
+\bibitem[Hindi et~al.(2025)]{rag_legal_survey_2025}
+Mahd Hindi, Linda Mohammed, Ommama Maaz, and Abdulmalik Alwaraly.
+\newblock Enhancing the precision and interpretability of retrieval-augmented generation ({RAG}) in legal technology: A survey.
+\newblock \emph{IEEE Access}, 2025.
 
 \bibitem[Kalra et~al.(2024)]{kalra2024hyparag}
 Rishi Kalra, Zekun Wu, Ayesha Gulley, Airlie Hilliard, Xin Guan, Adriano Koshiyama, and Philip Treleaven.
@@ -468,28 +490,18 @@ Varun Magesh, Faiz Surani, Matthew Dahl, Mirac Suzgun, Christopher~D. Manning, a
 \newblock Hallucination-free? {Assessing} the reliability of leading {AI} legal research tools.
 \newblock \emph{Journal of Empirical Legal Studies}, 22:216--242, 2025.
 
-\bibitem[Reuter et~al.(2025)]{nllp2025reliable}
-Markus Reuter, Tobias Lingenberg, R\={u}ta Liepi\c{n}a, Francesca Lagioia, Marco Lippi, Giovanni Sartor, Andrea Passerini, and Burcu Sayin.
-\newblock Towards reliable retrieval in {RAG} systems for large legal datasets.
-\newblock In \emph{Natural Legal Language Processing Workshop 2025 (EMNLP)}, 2025.
-
 \bibitem[Pipitone and Alami(2024)]{legalbenchrag2024}
 Nicholas Pipitone and Ghita~Houir Alami.
 \newblock {LegalBench-RAG}: A benchmark for retrieval-augmented generation in the legal domain.
 \newblock \emph{arXiv preprint arXiv:2408.10343}, 2024.
 
-\bibitem[Ajay~Mukund and Easwarakumar(2025)]{rag_legal_survey_2025}
-Ajay~Mukund~S and K.~S.~Easwarakumar.
-\newblock Enhancing the precision and interpretability of retrieval-augmented generation ({RAG}) in legal technology: A survey.
-\newblock \emph{ResearchGate}, 2025.
-
-\bibitem[Ajay~Mukund and Easwarakumar(2025b)]{symmetry2025legal}
-Ajay~Mukund~S and K.~S.~Easwarakumar.
-\newblock Optimizing legal text summarization through dynamic retrieval-augmented generation and domain-specific adaptation.
-\newblock \emph{Symmetry}, 17(5):633, 2025.
+\bibitem[Reuter et~al.(2025)]{nllp2025reliable}
+Markus Reuter, Tobias Lingenberg, R\={u}ta Liepi\c{n}a, Francesca Lagioia, Marco Lippi, Giovanni Sartor, Andrea Passerini, and Burcu Sayin.
+\newblock Towards reliable retrieval in {RAG} systems for large legal datasets.
+\newblock In \emph{Natural Legal Language Processing Workshop 2025 (EMNLP)}, 2025.
 
 \bibitem[Wiratunga et~al.(2024)]{wiratunga2024cbrrag}
-Nirmalie Wiratunga, Ramitha Abeyratne, Lasal Jayawardena, Kyle Martin, and Stewart Massie.
+Nirmalie Wiratunga, Ramitha Abeyratne, Lasal Jayawardena, Kyle Martin, Stewart Massie, Ikechukwu Nkisi-Orji, Ruvan Weerasinghe, Anne Liret, and Bruno Fleisch.
 \newblock {CBR-RAG}: Case-based reasoning for retrieval augmented generation in {LLMs} for legal question answering.
 \newblock In \emph{ICCBR 2024}, 2024.
 
