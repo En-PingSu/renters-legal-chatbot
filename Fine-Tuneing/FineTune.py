@@ -10,7 +10,7 @@ Usage:
 import shutil
 from unsloth import FastLanguageModel
 from trl import SFTTrainer
-from transformers import TrainingArguments, EarlyStoppingCallback
+from transformers import TrainingArguments
 from datasets import Dataset
 from pathlib import Path
 import torch
@@ -19,16 +19,15 @@ import torch
 PROJECT_ROOT  = Path(__file__).parent.parent
 MODEL_PATH    = str(PROJECT_ROOT / "Fine-Tuneing" / "Qwen3")
 TRAIN_DATA    = PROJECT_ROOT / "Fine-Tuneing" / "train.txt"
-VAL_DATA      = PROJECT_ROOT / "Fine-Tuneing" / "val.txt"
 OUTPUT_DIR    = str(PROJECT_ROOT / "Fine-Tuneing" / "lora-Qwen3")
 MERGED_DIR    = str(PROJECT_ROOT / "Fine-Tuneing" / "finetuned-Qwen3")
 
 MAX_SEQ_LEN   = 2048
-LORA_RANK     = 16
+LORA_RANK     = 8
 BATCH_SIZE    = 2
 GRAD_ACC      = 4
-EPOCHS        = 4     # epoch 3 sweet spot; load_best_model_at_end saves best val checkpoint
-LR            = 2e-4
+EPOCHS        = 3
+LR            = 1e-4
 
 # ── Clean output dirs ─────────────────────────────────────────────────────────
 for d in [OUTPUT_DIR, MERGED_DIR]:
@@ -51,7 +50,7 @@ model = FastLanguageModel.get_peft_model(
     r                          = LORA_RANK,
     target_modules             = ["q_proj", "k_proj", "v_proj", "o_proj",
                                   "gate_proj", "up_proj", "down_proj"],
-    lora_alpha                 = 32,
+    lora_alpha                 = 16,   # alpha=2x rank is standard
     lora_dropout               = 0,
     bias                       = "none",
     use_gradient_checkpointing = "unsloth",
@@ -63,20 +62,16 @@ model.print_trainable_parameters()
 # ── Load training data ────────────────────────────────────────────────────────
 print(f"\nLoading training data from {TRAIN_DATA} ...")
 with open(TRAIN_DATA, "r", encoding="utf-8") as f:
-    raw_train = f.read()
+    raw = f.read()
 
-train_samples = [s.strip() for s in raw_train.split("\n\n") if s.strip()]
-print(f"Loaded {len(train_samples)} training samples")
-
-print(f"Loading validation data from {VAL_DATA} ...")
-with open(VAL_DATA, "r", encoding="utf-8") as f:
-    raw_val = f.read()
-
-val_samples = [s.strip() for s in raw_val.split("\n\n") if s.strip()]
-print(f"Loaded {len(val_samples)} validation samples")
+# Split on sentinel written by prepare_finetune_data.py.
+# Cannot use \n\n — RAG samples contain paragraph breaks inside the system message.
+SENTINEL = "\n<<<BOUNDARY>>>\n"
+samples = [s.strip() for s in raw.split(SENTINEL) if s.strip()]
+print(f"Loaded {len(samples)} training samples")
 
 # Verify Qwen3 ChatML format
-first = train_samples[0] if train_samples else ""
+first = samples[0] if samples else ""
 if "<|im_start|>" not in first:
     raise ValueError(
         "Training data is not in Qwen3 ChatML format!\n"
@@ -84,19 +79,16 @@ if "<|im_start|>" not in first:
     )
 print("Format check passed: Qwen3 ChatML tokens found.")
 
-train_dataset = Dataset.from_dict({"text": train_samples})
-val_dataset   = Dataset.from_dict({"text": val_samples})
+dataset = Dataset.from_dict({"text": samples})
 
 # ── Train ─────────────────────────────────────────────────────────────────────
 print("\nStarting training ...")
 trainer = SFTTrainer(
     model              = model,
     tokenizer          = tokenizer,
-    train_dataset      = train_dataset,
-    eval_dataset       = val_dataset,
+    train_dataset      = dataset,
     dataset_text_field = "text",
     max_seq_length     = MAX_SEQ_LEN,
-    callbacks          = [EarlyStoppingCallback(early_stopping_patience=2)],
     args = TrainingArguments(
         per_device_train_batch_size = BATCH_SIZE,
         gradient_accumulation_steps = GRAD_ACC,
@@ -108,13 +100,7 @@ trainer = SFTTrainer(
         logging_steps               = 10,
         output_dir                  = OUTPUT_DIR,
         optim                       = "adamw_8bit",
-        # Evaluate at end of each epoch, save best checkpoint by val loss
-        eval_strategy               = "epoch",
-        save_strategy               = "epoch",
-        load_best_model_at_end      = True,
-        metric_for_best_model       = "eval_loss",
-        greater_is_better           = False,
-        save_total_limit            = 2,      # keep only 2 checkpoints on disk
+        save_strategy               = "no",
         report_to                   = "none",
     ),
 )
@@ -124,7 +110,7 @@ print(f"\nTraining complete!")
 print(f"  Runtime: {trainer_stats.metrics['train_runtime']:.1f}s")
 print(f"  Final loss: {trainer_stats.metrics['train_loss']:.4f}")
 
-# ── Save LoRA adapter (best checkpoint weights) ───────────────────────────────
+# ── Save LoRA adapter ─────────────────────────────────────────────────────────
 print(f"\nSaving LoRA adapter to {OUTPUT_DIR} ...")
 model.save_pretrained(OUTPUT_DIR)
 tokenizer.save_pretrained(OUTPUT_DIR)
@@ -134,12 +120,15 @@ print(f"\nMerging LoRA into base weights ...")
 model = model.merge_and_unload()
 
 print(f"Saving merged model to {MERGED_DIR} ...")
-model.save_pretrained(MERGED_DIR)
+model.save_pretrained(MERGED_DIR, safe_serialization=True, max_shard_size="99GB")
 tokenizer.save_pretrained(MERGED_DIR)
 
-# Copy any missing config files from base model
+# Copy only non-weight config files from base model
 print("Copying config files from base model ...")
+SKIP_FILES = {"model.safetensors.index.json", "model.safetensors"}
 for f in Path(MODEL_PATH).glob("*.json"):
+    if f.name in SKIP_FILES:
+        continue
     dest = Path(MERGED_DIR) / f.name
     if not dest.exists():
         shutil.copy(f, dest)
@@ -152,7 +141,5 @@ for f in Path(MODEL_PATH).glob("*.jinja"):
         print(f"  Copied {f.name}")
 
 print(f"\nDone! Merged model saved to {MERGED_DIR}")
-print(f"\nNow convert to GGUF:")
-print(f"  python llama.cpp\\convert_hf_to_gguf.py {MERGED_DIR} --outfile Fine-Tuneing\\finetuned-qwen3-f16.gguf --outtype f16")
-print(f"\nThen serve:")
-print(f"  llama.cpp\\build\\bin\\Release\\llama-server.exe -m Fine-Tuneing\\finetuned-qwen3-f16.gguf -ngl 999 --port 8080 --ctx-size 8192 --repeat-penalty 1.3 --temp 0.7")
+print(f"\nServe with:")
+print(f"  python Fine-Tuneing/local_server.py --model finetuned --port 8080")
