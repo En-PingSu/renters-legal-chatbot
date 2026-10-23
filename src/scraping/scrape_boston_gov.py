@@ -111,7 +111,7 @@ def get_main_content(soup):
 
 def scrape_page(url: str, depth: int, label: str, parent_url: str | None = None) -> tuple[dict | None, list[str]]:
     """Scrape a single boston.gov page."""
-    resp = fetch_page(url)
+    resp = fetch_page(url, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         return None, []
 
@@ -151,7 +151,7 @@ def scrape_page(url: str, depth: int, label: str, parent_url: str | None = None)
 
 def scrape_page_pdfs(url: str, soup, visited_pdfs: set) -> list[dict]:
     """Find and download relevant PDF links from a boston.gov page."""
-    pdf_links = extract_pdf_links(soup, url)
+    pdf_links = extract_pdf_links(soup, url, allowed_domains=ALLOWED_DOMAINS)
     # Filter to housing/tenant-relevant PDFs
     relevant_keywords = [
         "eviction", "tenant", "landlord", "rent", "housing", "lease",
@@ -170,7 +170,7 @@ def scrape_page_pdfs(url: str, soup, visited_pdfs: set) -> list[dict]:
         if not filename.endswith(".pdf"):
             filename += ".pdf"
         save_path = RAW_DIR / SOURCE_NAME / filename
-        result = fetch_pdf(pdf_url, save_path)
+        result = fetch_pdf(pdf_url, save_path, allowed_domains=ALLOWED_DOMAINS)
         if not result:
             continue
         full_text = []
