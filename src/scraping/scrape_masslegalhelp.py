@@ -25,6 +25,7 @@ from .utils import (
 
 SOURCE_NAME = "masslegalhelp"
 INDEX_URL = "https://www.masslegalhelp.org/housing-apartments-shelter/tenants-rights/chapter-pdfs-legal-tactics"
+ALLOWED_DOMAINS = ["masslegalhelp.org"]
 
 # Chapter titles for metadata (ordered 1-18)
 CHAPTER_TITLES = [
@@ -54,7 +55,7 @@ def scrape_chapter_pdf(pdf_url: str, chapter_num: int, chapter_title: str) -> di
     filename = f"chapter_{chapter_num:02d}_{re.sub(r'[^a-z0-9]+', '_', chapter_title.lower()).strip('_')}.pdf"
     save_path = RAW_DIR / SOURCE_NAME / filename
 
-    result = fetch_pdf(pdf_url, save_path)
+    result = fetch_pdf(pdf_url, save_path, allowed_domains=ALLOWED_DOMAINS)
     if not result:
         return None
 
@@ -92,7 +93,7 @@ def scrape_chapter_pdf(pdf_url: str, chapter_num: int, chapter_title: str) -> di
 
 def scrape_chapter_html(html_url: str, chapter_num: int, chapter_title: str) -> dict | None:
     """Fallback: scrape the HTML version of a chapter."""
-    resp = fetch_page(html_url)
+    resp = fetch_page(html_url, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         return None
 
@@ -155,14 +156,14 @@ def run():
 
     # Step 1: Fetch the chapter index page to find PDF links
     print(f"\nFetching chapter index: {INDEX_URL}")
-    resp = fetch_page(INDEX_URL)
+    resp = fetch_page(INDEX_URL, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         print("[ERROR] Could not fetch chapter index page")
         return []
 
     save_raw_html(resp.text, SOURCE_NAME, "chapter_index.html")
     soup = parse_html(resp.text)
-    pdf_links = extract_pdf_links(soup, INDEX_URL)
+    pdf_links = extract_pdf_links(soup, INDEX_URL, allowed_domains=ALLOWED_DOMAINS)
     print(f"  Found {len(pdf_links)} PDF links on index page")
 
     # Step 2: Match PDFs to chapters and download
@@ -184,7 +185,7 @@ def run():
         print(f"\n--- Attempting HTML fallback for {len(missing_chapters)} chapters ---")
         # Try to find HTML chapter links from the index page
         from .utils import extract_links
-        html_links = extract_links(soup, INDEX_URL, allowed_domains=["masslegalhelp.org"])
+        html_links = extract_links(soup, INDEX_URL, allowed_domains=ALLOWED_DOMAINS)
 
         for chapter_num in sorted(missing_chapters):
             chapter_title = CHAPTER_TITLES[chapter_num - 1]
