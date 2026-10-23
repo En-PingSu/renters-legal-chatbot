@@ -77,7 +77,7 @@ def get_main_content(soup):
 
 def scrape_page(url: str, depth: int, parent_url: str | None = None) -> tuple[dict | None, list[str]]:
     """Scrape a single GBLS page."""
-    resp = fetch_page(url)
+    resp = fetch_page(url, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         return None, []
 
@@ -117,7 +117,7 @@ def scrape_page(url: str, depth: int, parent_url: str | None = None) -> tuple[di
 
 def scrape_pdfs_from_page(url: str, soup, visited_pdfs: set) -> list[dict]:
     """Find and download relevant PDF links from a GBLS page."""
-    pdf_links = extract_pdf_links(soup, url)
+    pdf_links = extract_pdf_links(soup, url, allowed_domains=ALLOWED_DOMAINS)
     docs = []
     for pdf_url in pdf_links:
         if pdf_url in visited_pdfs:
@@ -128,7 +128,7 @@ def scrape_pdfs_from_page(url: str, soup, visited_pdfs: set) -> list[dict]:
         if not filename.endswith(".pdf"):
             filename += ".pdf"
         save_path = RAW_DIR / SOURCE_NAME / filename
-        result = fetch_pdf(pdf_url, save_path)
+        result = fetch_pdf(pdf_url, save_path, allowed_domains=ALLOWED_DOMAINS)
         if not result:
             continue
         full_text = []

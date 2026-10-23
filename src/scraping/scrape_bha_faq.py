@@ -20,6 +20,7 @@ from .utils import (
 )
 
 ROOT_URL = "https://www.bostonhousing.org/en/FAQ.aspx"
+ALLOWED_DOMAINS = ["bostonhousing.org"]
 SOURCE_NAME = "bostonhousing"
 
 # Additional pages beyond the FAQ
@@ -104,7 +105,7 @@ def parse_faq_pairs(soup) -> list[dict]:
 
 def scrape_additional_page(url: str, label: str) -> dict | None:
     """Scrape a non-FAQ BHA page as a full guide document."""
-    resp = fetch_page(url)
+    resp = fetch_page(url, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         print(f"  [SKIP] Could not fetch {url}")
         return None
@@ -145,7 +146,7 @@ def run():
     print("Scraping BHA FAQ - bostonhousing.org")
     print("=" * 60)
 
-    resp = fetch_page(ROOT_URL)
+    resp = fetch_page(ROOT_URL, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         print("[ERROR] Could not fetch BHA FAQ page")
         return []

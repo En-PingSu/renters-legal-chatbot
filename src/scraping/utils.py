@@ -36,26 +36,59 @@ CITATION_PATTERNS = [
 ]
 
 
-def fetch_page(url: str, delay: float = REQUEST_DELAY) -> requests.Response | None:
-    """Fetch a page with polite delay and error handling."""
+def host_allowed(url: str, allowed_domains: list[str]) -> bool:
+    """True if url is http(s) and its host is an allowed domain or a subdomain of one.
+
+    Compares the parsed hostname (no userinfo or port) exactly, so look-alikes
+    such as xgbls.org or gbls.org@attacker.example don't pass for gbls.org.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        return False
+    host = (parsed.hostname or "").rstrip(".")
+    return any(host == d or host.endswith("." + d) for d in (d.lower() for d in allowed_domains))
+
+
+def fetch_page(
+    url: str, delay: float = REQUEST_DELAY, allowed_domains: list[str] | None = None
+) -> requests.Response | None:
+    """Fetch a page with polite delay and error handling.
+
+    With allowed_domains, a response that redirected off those hosts is discarded.
+    """
     time.sleep(delay)
     headers = {"User-Agent": USER_AGENT}
     try:
         resp = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
+        if allowed_domains and not host_allowed(resp.url, allowed_domains):
+            print(f"  [SKIP] {url} redirected off the allowlist to {resp.url}")
+            return None
         return resp
     except requests.RequestException as e:
         print(f"  [ERROR] Failed to fetch {url}: {e}")
         return None
 
 
-def fetch_pdf(url: str, save_path: Path, delay: float = REQUEST_DELAY) -> Path | None:
-    """Download a PDF file to save_path."""
+def fetch_pdf(
+    url: str, save_path: Path, delay: float = REQUEST_DELAY, allowed_domains: list[str] | None = None
+) -> Path | None:
+    """Download a PDF file to save_path.
+
+    With allowed_domains, both the requested URL and the final (post-redirect)
+    URL must be on those hosts, or nothing is written.
+    """
+    if allowed_domains and not host_allowed(url, allowed_domains):
+        print(f"  [SKIP] PDF not on the allowlist: {url}")
+        return None
     time.sleep(delay)
     headers = {"User-Agent": USER_AGENT}
     try:
         resp = requests.get(url, headers=headers, timeout=60, stream=True)
         resp.raise_for_status()
+        if allowed_domains and not host_allowed(resp.url, allowed_domains):
+            print(f"  [SKIP] PDF {url} redirected off the allowlist to {resp.url}")
+            return None
         save_path.parent.mkdir(parents=True, exist_ok=True)
         with open(save_path, "wb") as f:
             for chunk in resp.iter_content(chunk_size=8192):
@@ -200,23 +233,26 @@ def extract_links(soup: BeautifulSoup, base_url: str, allowed_domains: list[str]
         # Remove fragments
         full_url = full_url.split("#")[0]
         # Filter by domain if specified
-        if allowed_domains:
-            domain = urlparse(full_url).netloc
-            if not any(d in domain for d in allowed_domains):
-                continue
+        if allowed_domains and not host_allowed(full_url, allowed_domains):
+            continue
         # Only HTTP(S) links
         if full_url.startswith("http"):
             links.add(full_url)
     return sorted(links)
 
 
-def extract_pdf_links(soup: BeautifulSoup, base_url: str) -> list[str]:
-    """Extract PDF download links from a page (hrefs ending in .pdf or /download)."""
+def extract_pdf_links(
+    soup: BeautifulSoup, base_url: str, allowed_domains: list[str] | None = None
+) -> list[str]:
+    """Extract PDF download links from a page (hrefs ending in .pdf or /download),
+    optionally filtering by domain."""
     pdf_links = set()
     for a in soup.find_all("a", href=True):
         href = a["href"]
         full_url = urljoin(base_url, href)
         full_url = full_url.split("#")[0]
+        if allowed_domains and not host_allowed(full_url, allowed_domains):
+            continue
         if full_url.lower().endswith(".pdf") or "/download" in full_url.lower():
             if full_url.startswith("http"):
                 pdf_links.add(full_url)
