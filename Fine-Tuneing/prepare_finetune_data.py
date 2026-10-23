@@ -24,6 +24,8 @@ import random
 import re
 from pathlib import Path
 
+from finetune_format import SAMPLE_SENTINEL
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
 PROJECT_ROOT   = Path(__file__).parent.parent
 GOLDEN_QA      = PROJECT_ROOT / "data" / "evaluation" / "golden_qa.json"
@@ -510,11 +512,9 @@ def write_splits(samples: list[str]):
     train_samples = samples[:n_train]
     val_samples   = samples[n_train:]
 
-    # Use a sentinel separator that cannot appear inside samples.
-    # \n\n breaks when RAG samples contain multi-paragraph retrieved context.
-    SENTINEL = "\n<<<SAMPLE_BOUNDARY>>>\n"
-    TRAIN_OUT.write_text(SENTINEL.join(train_samples), encoding="utf-8")
-    VAL_OUT.write_text(  SENTINEL.join(val_samples),   encoding="utf-8")
+    # Sentinel shared with FineTune.py (see finetune_format.py)
+    TRAIN_OUT.write_text(SAMPLE_SENTINEL.join(train_samples), encoding="utf-8")
+    VAL_OUT.write_text(  SAMPLE_SENTINEL.join(val_samples),   encoding="utf-8")
 
     print(f"\nWrote training data:")
     print(f"  Train: {len(train_samples)} samples -> {TRAIN_OUT}")
