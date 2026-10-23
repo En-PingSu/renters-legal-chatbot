@@ -151,7 +151,7 @@ def get_main_content(soup):
 
 def scrape_page(url: str, depth: int, parent_url: str | None = None) -> tuple[dict | None, list[str]]:
     """Scrape a single page. Returns (document_dict, child_links)."""
-    resp = fetch_page(url)
+    resp = fetch_page(url, allowed_domains=ALLOWED_DOMAINS)
     if not resp:
         return None, []
 
@@ -201,7 +201,7 @@ def scrape_page(url: str, depth: int, parent_url: str | None = None) -> tuple[di
 def scrape_pdf(url: str, filename: str, title: str | None = None) -> dict | None:
     """Download and extract text from a PDF."""
     save_path = RAW_DIR / SOURCE_NAME / filename
-    result = fetch_pdf(url, save_path)
+    result = fetch_pdf(url, save_path, allowed_domains=ALLOWED_DOMAINS)
     if not result:
         return None
 

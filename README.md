@@ -126,6 +126,15 @@ cp .env.example .env
 # Edit .env and add your OPENROUTER_API_KEY
 ```
 
+### Running Tests
+
+```bash
+python -m unittest discover -s tests                              # scraper host allowlist (no network)
+(cd Fine-Tuneing && python -m unittest test_finetune_format)      # fine-tuning data format
+```
+
+Each scraper only follows links, PDFs and redirects whose host is one of its `ALLOWED_DOMAINS` (or a subdomain). To scrape a new site, add its domain there.
+
 ### Building the Vector Store
 
 The processed documents and chunks are included in the repo. To build the ChromaDB index:
