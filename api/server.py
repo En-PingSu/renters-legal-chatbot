@@ -9,9 +9,9 @@ import json
 import os
 import sys
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 # Ensure project root is on sys.path so src.rag imports work
@@ -45,6 +45,8 @@ MODELS = [
 DEFAULT_MODEL = "mistralai/mistral-small-3.1-24b-instruct"
 DEFAULT_RETRIEVER = "rerank"
 DEFAULT_TOP_K = 5
+MAX_TOP_K = 15  # matches the frontend slider
+MAX_QUESTION_CHARS = 2000
 
 SCORE_TYPE_MAP = {
     "vector": "cosine_distance",
@@ -60,10 +62,10 @@ SCORE_TYPE_MAP = {
 
 
 class ChatRequest(BaseModel):
-    question: str
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_CHARS)
     model: str = DEFAULT_MODEL
     retriever: str = DEFAULT_RETRIEVER
-    top_k: int = DEFAULT_TOP_K
+    top_k: int = Field(DEFAULT_TOP_K, ge=1, le=MAX_TOP_K)
     use_rag: bool = True
 
 
@@ -100,6 +102,13 @@ def config():
 
 @app.post("/api/chat")
 async def chat(req: ChatRequest):
+    # The request is billed to the server's OpenRouter key, so only accept the
+    # models and retrievers the UI offers rather than any caller-supplied id.
+    if req.model not in {m["id"] for m in MODELS}:
+        raise HTTPException(status_code=422, detail="unsupported model")
+    if req.retriever not in RETRIEVER_REGISTRY:
+        raise HTTPException(status_code=422, detail="unsupported retriever")
+
     async def event_generator():
         # 1. Retrieve chunks
         chunks: list[dict] = []
