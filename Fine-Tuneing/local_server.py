@@ -81,14 +81,20 @@ def health():
 
 @app.route("/v1/chat/completions", methods=["POST"])
 def chat_completions():
-    body     = request.get_json(force=True)
-    messages = body.get("messages", [])
+    # No force=True: a cross-site page can only send a "simple" (non-JSON)
+    # content type without a CORS preflight, so requiring JSON blocks those.
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict) or not isinstance(body.get("messages"), list):
+        return jsonify({"error": "expected a JSON body with a 'messages' list"}), 400
+    messages = body["messages"]
 
     with model_lock:  # serialize GPU access
         try:
             content = generate(messages)
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
+        except Exception:
+            # Keep exception details (paths, CUDA errors) in the server log only.
+            app.logger.exception("generation failed")
+            return jsonify({"error": "generation failed"}), 500
 
     response = {
         "id":      f"chatcmpl-local-{int(time.time())}",
@@ -120,4 +126,5 @@ if __name__ == "__main__":
     print(f"  Health:   GET  /health")
 
     # threaded=True lets Flask handle concurrent requests without blocking
-    app.run(host="0.0.0.0", port=args.port, threaded=True)
+    # Loopback only: this server has no authentication.
+    app.run(host="127.0.0.1", port=args.port, threaded=True)

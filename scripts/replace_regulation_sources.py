@@ -24,15 +24,10 @@ from src.scraping.utils import (
     PROCESSED_DIR,
 )
 
-# PDF paths (already downloaded)
-PDF_940_CMR = Path(
-    "/Users/eps/.claude/projects/-Users-eps-Desktop-Work-NEU-Spring-2026-CS6180-Final-Project/"
-    "5807c4a0-8bd3-4bfc-9056-9216ce965866/tool-results/webfetch-1773717651082-ht8853.pdf"
-)
-PDF_105_CMR = Path(
-    "/Users/eps/.claude/projects/-Users-eps-Desktop-Work-NEU-Spring-2026-CS6180-Final-Project/"
-    "5807c4a0-8bd3-4bfc-9056-9216ce965866/tool-results/webfetch-1773717741120-jv8g82.pdf"
-)
+# PDF paths (download the official mass.gov PDFs first). Override with the
+# PDF_940_CMR / PDF_105_CMR environment variables.
+PDF_940_CMR = Path(os.environ.get("PDF_940_CMR", PROJECT_ROOT / "data" / "raw" / "940cmr3.pdf"))
+PDF_105_CMR = Path(os.environ.get("PDF_105_CMR", PROJECT_ROOT / "data" / "raw" / "105cmr410.pdf"))
 
 # Old Cornell-sourced files to delete
 OLD_940 = PROCESSED_DIR / "mass_gov_www_law_cornell_edu_regulations_massachusetts_940_3_17.json"
