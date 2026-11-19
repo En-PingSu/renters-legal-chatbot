@@ -22,7 +22,7 @@ praw>=7.7.0
 
 # Web API
 fastapi>=0.115.0
-sse-starlette>=2.0.0
+sse-starlette>=3.7.0
 uvicorn>=0.30.0
 
 # Utilities
